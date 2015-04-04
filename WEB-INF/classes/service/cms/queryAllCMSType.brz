@@ -1,0 +1,1 @@
+{"serviceName":"queryAllCMSType","com.weiguang.framework.template.DBOperateItem.sqlResultName":"data","com.weiguang.framework.template.DBOperateItem.sqlConfig":["select * from cmsmetadata"],"com.weiguang.service.authority.temmplate.AuthItem.rolePath":"_S.user.role","com.weiguang.service.authority.temmplate.AuthItem.defaultRole":"customer","flowName":"CommQuery"}

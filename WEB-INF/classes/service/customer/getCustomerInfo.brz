@@ -1,0 +1,1 @@
+{"serviceName":"getCustomerInfo","com.weiguang.framework.template.CopyContextItem.sourcePath":"_S.user","com.weiguang.framework.template.CopyContextItem.destPath":"data","com.weiguang.framework.template.CopyContextItem.notExistErrCode":"22","flowName":"copyFlow"}
