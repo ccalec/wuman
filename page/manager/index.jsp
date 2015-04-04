@@ -76,7 +76,7 @@
     </div>
 
     <div class="page-content clearfix">
-      <iframe name="myframe" id="ifr" src="CMSMgr.jsp?alias=administrator&norole=true" width="100%" height="400" scrolling-y="yes" frameborder="0"></iframe>
+      <iframe name="myframe" id="ifr" src="channelMgr.jsp?norole=true" width="100%" height="500" scrolling-y="yes" frameborder="0"></iframe>
     </div>
   </div>
   <!-- ====================== -->

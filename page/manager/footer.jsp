@@ -43,6 +43,7 @@
 <!-- 菜单高亮展开 -->
 <script type="text/javascript">
 	$(function(){
+
 		//判断是否有菜单操作权限，显示该用户拥有权限的菜单
 		$("[actionName]").each(function(){
 		 	//获取页面权限的severname
