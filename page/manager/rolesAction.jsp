@@ -33,7 +33,7 @@
 					<div class="page-header position-relative">
 						<h1>
 							<div class="pull-right">
-								<a class="btn btn-primary btn-small" href="class.jsp?alias=roles"><i class="icon-undo"></i> 返回角色列表 </a>
+								<a class="btn btn-primary btn-small" href="CMSMgr.jsp?alias=roles&norole=true"><i class="icon-undo"></i> 返回角色列表 </a>
 							</div>
 							<span id="rolesName">${_}{data.rolesName}</span>
 							<small>

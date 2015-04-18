@@ -31,7 +31,7 @@
       <!--/.brand-->
       <ul class="nav ace-nav pull-right">
         <li class="light-blue">
-          <a href="../adminUserPage/logout.jsp"> <i class="icon-exclamation-sign"></i>
+          <a href="../adminUserPage/logout.jsp" target="_top"> <i class="icon-exclamation-sign"></i>
             ${logout}
           </a>
         </li>
