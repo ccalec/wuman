@@ -59,7 +59,7 @@
 						<div class="btn-toolbar">
 							<a onClick="FW.trigerEvent('trigerContentAdd')" class="btn btn-success btn-small">
 								<i class="icon-plus"></i>
-								添加会员
+								添加管理员
 							</a>
 						</div>
 					</div>

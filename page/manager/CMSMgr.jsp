@@ -7,7 +7,6 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>${title}</title>
-	<meta name="description" content="User login page" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!-- cssAssets -->
 	<jsp:include page="cssAssets.jsp"/>
@@ -135,6 +134,33 @@
 						<form id="formClassEdit" class="form-horizontal clearfix">
 						</form>
 					</div>
+					<!-- 修改密码视图 -->
+					<div id="viewModPassword">
+						<form id="formModPassword" class="form-horizontal clearfix">
+							<div class="form-wrap pull-left clearfix">
+								<input id="userid" type="hidden" name="userid" value="${_}{data.cid}">
+								<div class="control-group c_Text">
+									<label for="account" class="control-label">原来密码：</label>
+									<div class="controls">
+										<input id="oldpassword" class="inp_text w250" readonly="true" type="text" name="oldpassword" value="${_}{data.password}">
+									</div>
+								</div>
+								<div class="control-group c_Text">
+									<label for="password" class="control-label">重设密码：</label>
+									<div class="controls">
+										<input id="password" class="inp_text w250" type="password" name="password" value="">
+									</div>
+								</div>
+								<div class="control-group c_Text">
+									<label for="repassword" class="control-label">确认密码：</label>
+									<div class="controls">
+										<input id="repassword" class="inp_text w250" type="password" name="repassword" value="">
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+
 				</div>
 				<div id="submitBtn" style="padding:20px 0 0 180px; border-top:1px solid #E2E2E2; display:none;">
 					<a href="javascript:void(0)" onclick="FW.trigerEvent('trigerSubmit')" class="btn btn-info">

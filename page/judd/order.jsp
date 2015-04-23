@@ -180,11 +180,7 @@
         </div>
       </div>
     </div>
-
   </div>
-  <!-- ====================== -->
-  <!--PAGE CONTENT ENDS HERE-->
-
 </div>
 <!--/.main-container-->
 

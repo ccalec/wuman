@@ -1715,8 +1715,11 @@ define(function(require, exports, module) {
 							alert("栏目添加成功！");
 							FW.trigerEvent('trigerReShowNodeTree',_this.MY.alias);
 							_this.API.private("privateShowConList");
-
 						});
+					}
+					//其他
+					else{
+						_this.API.private('privateSubmit_'+_this.MY.action);
 					}
 				},
 				/**
