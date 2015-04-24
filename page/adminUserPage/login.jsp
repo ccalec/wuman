@@ -33,10 +33,8 @@
 	<link rel="stylesheet" href="${B}/page/manager/assets/css/ace-ie.min.css" />
 	<![endif]-->
 
-	<link rel="stylesheet" href="${B}/page/judd/css.css" />
-
 </head>
-<body class="login-layout bg-1">
+<body class="login-layout">
 	<div class="caption">
 		<div  id="appDivId">
 			<div id="viewDataMain">
@@ -44,13 +42,14 @@
 					<div class="main-content">
 						<div class="row-fluid">
 							<div class="span12">
+                <div class="login-container">
+                <div class="row-fluid">
 								<div class="center">
-									<h3 style="color:#f72862">
-										<i class="icon-leaf"></i>
-										<span >${loginTitle}</span>
-										<span class="white">${cop}</span>
-									</h3>
-								</div>
+                <h3 style="margin-top:30px;">
+                  <i class="icon-leaf green"></i>
+                  <span class="red">${loginTitle}</span>
+                  <span class="white">${cop}</span>
+                </h3>
 								<div class="login-container">
 									<div class="row-fluid">
 										<div class="position-relative">
@@ -106,6 +105,8 @@
 										</div><!--/position-relative-->
 									</div>
 								</div>
+							</div>
+						</div>
 							</div><!--/.span-->
 						</div><!--/.row-fluid-->
 					</div>

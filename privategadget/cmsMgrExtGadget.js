@@ -22,7 +22,27 @@ define(function(require, exports, module) {
 					administrator:[{
 						title:"设置密码",
 						class:"btn btn-mini btn-pink",
-						html:" <i class='icon-key bigger-120'> 修改密码</i>",
+						html:" <i class='icon-key bigger-120'> 设置密码</i>",
+						onclick:"privateModPassword"
+					},{
+						title:"编辑",
+						authority:"modifyContent",
+						class:"btn btn-mini btn-info",
+						style:"display:none",
+						html:" <i class='icon-edit bigger-120'> 编辑</i>",
+						onclick:"privateBtnConEdit"
+					},{
+						title:"删除",
+						authority:"deleteContent",
+						class:"btn btn-mini btn-danger",
+						style:"display:none",
+						html:" <i class='icon-trash bigger-120'> 删除</i>",
+						onclick:"privateBtnConDel"
+					}],
+					user:[{
+						title:"设置密码",
+						class:"btn btn-mini btn-pink",
+						html:" <i class='icon-key bigger-120'> 设置密码</i>",
 						onclick:"privateModPassword"
 					},{
 						title:"编辑",

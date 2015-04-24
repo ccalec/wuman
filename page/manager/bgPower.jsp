@@ -4,11 +4,11 @@
 
   <%
   if(session.getAttribute("user")==null){
-    out.println("<script>alert('请登录!');location.href='"+this.getServletContext().getContextPath()+"/page/adminUserPage/login.jsp'</script>");
+    out.println("<script>top.location.href='"+this.getServletContext().getContextPath()+"/page/adminUserPage/login.jsp'</script>");
   }else{
     BreezeContext nuser = (BreezeContext)session.getAttribute("user");
     if(nuser.getContext("role") == null){
-      out.println("<script>alert('请登录!');location.href='"+this.getServletContext().getContextPath()+"/page/adminUserPage/login.jsp'</script>");
+      out.println("<script>top.location.href='"+this.getServletContext().getContextPath()+"/page/adminUserPage/login.jsp'</script>");
     }
   }
   %>
