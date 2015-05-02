@@ -79,7 +79,8 @@
 				<!--@cmsMgrNodeTreeGadget@
 				{
 					displayName:{
-						"statusaction":"statusName"
+						"statusaction":"statusName",
+						"goods":"cat_name"
 					}
 				}
 				-->

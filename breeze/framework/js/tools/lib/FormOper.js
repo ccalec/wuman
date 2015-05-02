@@ -11,7 +11,7 @@ define(function(require, exports, module) {
         domain : "FormAPI"
     };
     var _api = _result.f = {};
-	
+
 	var API = {
 		JsonAPI:require("./json"),
 		dateTimeAPI:require("./../DateTime"),
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
 			}
 		}
 	};
-	
+
     /**
      * 依据对象描述信息创建窗体,实现原理：
      * 对象描述结构，参见下面。
@@ -125,16 +125,16 @@ define(function(require, exports, module) {
 
     	var htmlParser = API.BreezeTemplate.parserTemplate(formStr,formData,API);	//根据数据解析表单字符串生成最终表单html
     	dom.html(htmlParser);
-		
-		
+
+
 		// 给List类型增加"增加一行"、"删除一行"、"全选"、"删除所选等功能"
 		formAction();
-		
+
 		//整体表单描述对象解析函数
 		function parserObjDesc($obj,$objName){
 			for(var prop in $obj){
 
-				//对数据描述name属性中包含.的情况进行批量替换动作 替换规则："." To "_dot_" 
+				//对数据描述name属性中包含.的情况进行批量替换动作 替换规则："." To "_dot_"
     			var propForName = prop.replace(/\./gi,"_dot_");
 
 				var fTitle = $obj[prop].title?$obj[prop].title:"";
@@ -147,7 +147,7 @@ define(function(require, exports, module) {
 				//==== 不存在参数$objName ========
 				//==== 表示解析一级内容 ===========
 				if(!$objName){
-					var fName = "data." + propForName; 
+					var fName = "data." + propForName;
 					var fValue = "data[\"" + prop + "\"]";
 					formStr+="<div class='control-group c_"+fType+" f_"+propForName+"'>";//每个表单的结构开始 罗光瑜修改：加上表单的类型
 					if (fTitle!=""){//罗光瑜修改：如果没标题不要显示：
@@ -160,7 +160,7 @@ define(function(require, exports, module) {
 					}
 					formStr+="</div></div>";
 				}
-				
+
 				//==== 存在参数$objName=$listTit ======
 				//==== 表示解析子循环title =============
 
@@ -174,10 +174,10 @@ define(function(require, exports, module) {
 						formStr+="<th class='th"+__fClass+" th_"+fType+"'>"+fTitle+"</th>";
 					}
 				}
-				
+
 				//==== 存在参数$objName,且不等于"$listTit"====
 				//==== 表示解析子循环内容 ====================
-				
+
 				else{ //子级循环
 					var fName = $objName + "." + propForName;
 
@@ -191,7 +191,7 @@ define(function(require, exports, module) {
 							newFname += "['"+arrFname[i]+"']";
 						}
 					}
-					
+
 					var fValue = newFname.replace(/_dot_/gi,".") + "[\"" + prop + "\"]";
 					fValue = fValue.replace(/(\$\{)([^\}]*?)(\})/g,function(a,b,c,d){if(a){ return c;}});
 
@@ -199,7 +199,7 @@ define(function(require, exports, module) {
 					if(islist && !fIsList){
 						formStr+="<td class='td"+__fClass+" td_"+fType+"' style='display:none;'>";
 					}else{
-						formStr+="<td class='td"+__fClass+" td_"+fType+"'>";	
+						formStr+="<td class='td"+__fClass+" td_"+fType+"'>";
 					}
 					parserField(fTitle,fType,fValueRange,fDesc,fWidth,fName,fValue,fIsList); //解析表单
 					if(fDesc){
@@ -209,10 +209,10 @@ define(function(require, exports, module) {
 				}
 			}
 		}
-		
+
 		//=====表单内容解析函数=====
 		//=====共n种类型=====
-		function parserField(fTitle,fType,fValueRange,fDesc,fWidth,fName,fValue,fIsList){ 
+		function parserField(fTitle,fType,fValueRange,fDesc,fWidth,fName,fValue,fIsList){
 
 			//定义节点class
 			var fClass = fName.replace(/_dot_/gi,".").replace(/(\[.*?\])|(data)/g,"").replace(/\./g,"_").toLowerCase();//罗光瑜修改：对象间用_
@@ -223,10 +223,12 @@ define(function(require, exports, module) {
 
 			//根据type判断，逐一解析
 			switch(fType){
-				
+
 				//单行文本函数
-				case "Text": 
+				case "Text":
+
 					formStr+="<input id='"+fName+"' class='inp_text "+fClass+"_inp' type='text' name='"+fName+"' ";
+					if(islist) formStr+="readOnly='true' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
@@ -237,16 +239,17 @@ define(function(require, exports, module) {
 					break;
 
 				//hidden隐藏的表单类型
-				case "Hidden": 
-				    formStr+= "<input id='"+fName+"' class='inp_text "+fClass+"_inp' type='hidden' name='"+fName+"' ";		//2013-03-20 Alec修改			
-				    formStr+="<!--$if(valueStatus){-->";
+				case "Hidden":
+				  formStr+= "<input id='"+fName+"' class='inp_text "+fClass+"_inp' type='hidden' name='"+fName+"' ";		//2013-03-20 Alec修改
+				  if(islist) formStr+="readOnly='true' ";
+				  formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
 					formStr+="/>";
 					break;
 
 				//只读文本
-				case "ReadOnly": 
+				case "ReadOnly":
 					formStr+="<input id='"+fName+"' class='inp_text readOnly "+fClass+"_inp' type='text' name='"+fName+"' readOnly='true' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
@@ -258,7 +261,7 @@ define(function(require, exports, module) {
 					break;
 
 				//外联类型
-				case "OuterLink": 
+				case "OuterLink":
 					formStr+="<div class='input-append' style='width:100%;'>";
 					formStr+="<input id='"+fName+"' class='inp_text outerlink "+fClass+"_inp' name='"+fName+"' type='text' ";
 					formStr+="<!--$if(valueStatus){-->";
@@ -268,45 +271,50 @@ define(function(require, exports, module) {
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+="readOnly='true'/>";
-					//增加编辑按钮
-					formStr+="<a style='line-height:28px; height:28px; padding:0 5px; border:1px solid #ccc;' alt='"+fTitle+"' class='btn btn-mini btn-light outerLinkEdit' href='javascript:void(0);'><i class='icon-edit bigger-120'> ";
-					if(!islist){
-						formStr+="选择";
+					if(!islist){ //增加编辑按钮
+						formStr+="<a style='line-height:28px; height:28px; padding:0 5px; border:1px solid #ccc;' alt='"+fTitle+"' class='btn btn-mini btn-light outerLinkEdit' href='javascript:void(0);'><i class='icon-edit bigger-120'> ";
+						if(!islist) formStr+="选择";
+						formStr+="</i></a>";
 					}
-					formStr+="</i></a>";
 					formStr+="</div>";
 					break;
 
 				//日期选择器
-				case "DatePicker": 
+				case "DatePicker":
 					formStr+="<div class='input-append date date-picker'>";
 					formStr+="<input id='"+fName+"' type='text' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if(fWidth){
 						formStr+="style='width:"+fWidth+"' ";
 					}
+					if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
-					formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span></div>";
+					if(!fIsList){
+						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
+					}
+					formStr+="</div>";
 					break;
 
-				//时间选择器	
-				case "TimePicker":											
+				//时间选择器
+				case "TimePicker":
 					formStr+="<div class='input-append date time-picker'>";
 					formStr+="<input id='"+fName+"' type='text' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
-						formStr+="style='width:"+fWidth+"' ";
-					}
+					if(fWidth) formStr+="style='width:"+fWidth+"' ";
+					if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
-					formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span></div>";
+					if(!islist){
+						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
+					}
+					formStr+="</div>";
 					break;
 
 				//日期+时间选择器
-				case "DateTimePicker": 
+				case "DateTimePicker":
 					formStr+="<div class='input-append date date-time-picker'>";
 					formStr+="<input id='"+fName+"' type='text' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
@@ -315,12 +323,16 @@ define(function(require, exports, module) {
 					if (fWidth){
 						formStr+="style='width:"+fWidth+"' ";
 					}
+					if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
-					formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span></div>";
+					if(!islist){
+						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
+					}
+					formStr+="</div>";
 					break;
 
-				//日期间隔选择器	
-				case "DateRangePicker":											
+				//日期间隔选择器
+				case "DateRangePicker":
 					formStr+="<div class='input-prepend'><span class='add-on'><i class='icon-calendar'></i></span>";
 					formStr+="<input id='"+fName+"' class='date-range-picker' type='text' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
@@ -329,12 +341,13 @@ define(function(require, exports, module) {
 					if (fWidth){
 						formStr+="style='width:"+fWidth+"' ";
 					}
+					if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
-					formStr+="</div>";									
+					formStr+="</div>";
 					break;
-				
+
 				//checkbox列表函数
-				case "CheckBox": 
+				case "CheckBox":
 					for (var i=0; i<fValueRange.length; i++){
 						for(var emun in fValueRange[i]){
 							formStr+="<label><input class='ace-checkbox-2' type='checkbox' name='"+fName+"' value='"+fValueRange[i][emun]+"' ";
@@ -350,7 +363,7 @@ define(function(require, exports, module) {
 					break;
 
 				//checkbox列表函数
-				case "Radio": 
+				case "Radio":
 					for (var i=0; i<fValueRange.length; i++){
 						for(var emun in fValueRange[i]){
 							formStr+="<label><input type='radio' name='"+fName+"' value='"+fValueRange[i][emun]+"' ";
@@ -360,7 +373,7 @@ define(function(require, exports, module) {
 							formStr+="<!--$}-->";
 							formStr+="<!--$}else{-->";
 							if(i==0){
-								formStr+="checked='true' ";	
+								formStr+="checked='true' ";
 							}
 							formStr+="<!--$}-->";
 							formStr+="/><span class='lbl'> "+emun+"</span></label>";
@@ -370,11 +383,12 @@ define(function(require, exports, module) {
 
 
 				//下拉菜单函数
-				case "Select": 
+				case "Select":
 					formStr+="<select id='"+fName+"' class='"+fClass+"_sel' ";
 					if (fWidth){
 						formStr+="style='width:"+fWidth+"' ";
 					}
+					if(islist) formStr+="disabled='true' ";
 					formStr+="name='"+fName+"'>";
 					for (var i=0; i<fValueRange.length; i++){
 						for(var emun in fValueRange[i]){
@@ -387,9 +401,9 @@ define(function(require, exports, module) {
 					}
 					formStr+="</select>";
 					break;
-				
+
 				//多选列表函数
-				case "MultSelect": 					
+				case "MultSelect":
 					formStr+="<select id='"+fName+"' class='"+fClass+"_sel' name='"+fName+"' multiple='multiple'>";
 					for (var i=0; i<fValueRange.length; i++){
 						for(var emun in fValueRange[i]){
@@ -405,9 +419,9 @@ define(function(require, exports, module) {
 					}
 					formStr+="</select>";
 					break;
-				
+
 				//附件函数
-				case "Affix":			
+				case "Affix":
 					var onclickStr = "";
 					onclickStr+="this.id = this.id.replace(/\\]/ig,'_');";
 					onclickStr+="this.id = this.id.replace(/[\\[\\.]/ig,'_');";
@@ -422,7 +436,7 @@ define(function(require, exports, module) {
 					onclickStr+="document.getElementById('"+fName+"_hidden').value = data.succUrl; ";
 					onclickStr+="}";
 					onclickStr+="});";
-				
+
 					formStr+="<input id='"+fName+"_hidden' type='text' class='inp_affix_val' style='width:300px; float:left;' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
@@ -449,7 +463,7 @@ define(function(require, exports, module) {
 					onclickStr+="$(document.getElementById('"+fName+"_img_file')).attr('src',Cfg.baseUrl+'/'+data.succUrl);";
 					onclickStr+="}";
 					onclickStr+="});";
-				
+
 					formStr+="<input id='"+fName+"_hidden' type='text' class='inp_file_val' style='width:300px; float:left;' name='"+fName+"' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
@@ -457,12 +471,12 @@ define(function(require, exports, module) {
 					formStr+="/>";
 					formStr+="<button type='button' style='line-height:26px; float:left;' class='btn btn-mini btn-info thumbBtn'><i class='icon-edit bigger-120'> 上传</i></button>";
 					formStr+="<input style='opacity:0; cursor:pointer; filter:alpha(opacity=0); float:left; width:62px; margin-right:-42px; overflow:hidden; position:relative; left:-62px; zindex:10;' id='"+fName+"_file' name='upload' class='inp_file "+fClass+"_file' type='file' onchange=\""+onclickStr+"\"/>";
-					
-					formStr+="<div style='float:left; height:60px; width:90px; margin:0 10px 0 0; background:url(${Cfg.baseUrl}/images/nopic.gif) no-repeat; overflow:hidden;'>";
-					formStr+="<img class='img_file "+fName+"_img_file' id='"+fName+"_img_file' style='height:60px; width:90px;' "; 
+
+					formStr+="<div style='float:left; margin:0 10px 0 0; background:url(${Cfg.baseUrl}/images/nopic.gif) no-repeat; overflow:hidden;'>";
+					formStr+="<img class='img_file "+fName+"_img_file' id='"+fName+"_img_file' style='height:60px; width:90px;' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="src='${Cfg.baseUrl}/${lang:formatQuota("+fValue+")}' />";
-					formStr+="<!--$}else{-->"; 
+					formStr+="<!--$}else{-->";
 					formStr+="src='${Cfg.baseUrl}/images/nopic.gif' />";
 					formStr+="<!--$}-->";
 					formStr+="</div>";
@@ -470,7 +484,7 @@ define(function(require, exports, module) {
 					break;
 
 				//文本域函数
-				case "TextArea": 
+				case "TextArea":
 					formStr+="<div class='row-fluid'><textarea id='"+fName+"' class='span12 "+fClass+"_tex' name='"+fName+"' ";
 					if (fWidth){
 						formStr+="style='width:"+fWidth+"' ";
@@ -483,7 +497,7 @@ define(function(require, exports, module) {
 					break;
 
 				//html编辑器函数
-				case "Html": 
+				case "Html":
 					formStr+="<div class='row-fluid'><textarea id='"+fName+"' class='"+"span12 xheditor "+fClass+"_tex' name='"+fName+"' ";
 					if (fWidth){
 						formStr+="style='width:"+fWidth+"' ";
@@ -496,11 +510,11 @@ define(function(require, exports, module) {
 					break;
 
 				//数据列表——支持 对象类型，字符串类型
-				case "List": 
+				case "List":
 
 					//表格显示列表
 					formStr+="<table style='margin-bottom:10px; width:"+fWidth+"' class='table table-list table"+fClass+" table-striped table-bordered table-hover'>";
-					
+
 					//递归解析 列表title名称;
 					//Alec 判断是否是字符串类型
 
@@ -509,7 +523,7 @@ define(function(require, exports, module) {
 						formStr+="<tr><th style='width:60px;' class='center'>选择</th>";
 						parserObjDesc(fValueRange[0],"$listTit");
 						//存在列表，且是默认数据列表type存在，或等于0的情况，才有操作列
-						if(islist && !type){ 
+						if(islist && !type){
 							formStr+="<th style='width:120px;'>操作</th>";
 						}
 						formStr+="</tr></thead>";
@@ -521,7 +535,7 @@ define(function(require, exports, module) {
 					//非常重要，避免递归i变量重复
 					var idx = fName.replace(/_dot_/gi,".").replace(/(\$\{)([^\}]*?)(\})/g,function(a,b,c,d){if(a){return c;}}).replace(/(\[)|(\])|(\.)|(data)/g,"")+"_i";
 					formStr+="<!--$for( var "+idx+"=0; "+idx+"<"+fValue+".length; "+idx+"++){-->";
-					
+
 					if(islist && type==2){
 						//用于关联列表的时候，用单选框
 						formStr+="<tr><td style='width:60px;' class='center'><label><input name='rowRadio' type='radio'/><span class='lbl'></span></label></td>";
@@ -560,7 +574,7 @@ define(function(require, exports, module) {
 						}
 
 						var fValue2 = newFname.replace(/_dot_/gi,".").replace(/(\$\{)([^\}]*?)(\})/g,function(a,b,c,d){if(a){ return c;}});
-					
+
 						var fIsList2 = fValueRange.islist?fValueRange.islist:"";
 						formStr+="<td>";
 						parserField(fTitle2,fType2,fValueRange2,fDesc2,fWidth2,fName2,fValue2,fIsList2);
@@ -582,7 +596,7 @@ define(function(require, exports, module) {
 							formStr += btnHtml;
 						}
 					}else{ //字符型
-						var fName2 = fName+"[99]"; 
+						var fName2 = fName+"[99]";
 
 						//将递归所需的$objName 转换成data['name']['age']的形式获取对应的fValue，防止属性名中有.的情况
 						var arrFname = fName2.split(".");
@@ -595,7 +609,7 @@ define(function(require, exports, module) {
 							}
 						}
 						var fValue2 = newFname.replace(/_dot_/gi,".").replace(/(\$\{)([^\}]*?)(\})/g,function(a,b,c,d){if(a){ return c;}});
-						
+
 						formStr+="<td>";
 						parserField(fTitle2,fType2,fValueRange2,fDesc2,fWidth2,fName2,fValue2,fIsList2);
 						formStr+="</td>";
@@ -603,8 +617,8 @@ define(function(require, exports, module) {
 					formStr+="</tr>";
 					formStr+="</tbody></table>";
 
-					//增加list action 按钮 
-					
+					//增加list action 按钮
+
 					formStr += "<div style='width:220px;' class='hidden-phone visible-desktop btn-group pull-left'>";
 					if(type!==2){
 						//增加按钮
@@ -637,16 +651,16 @@ define(function(require, exports, module) {
 					}
 					formStr += "</div>";
 					break;
-					
+
 				//Object数据
-				case "Object": 
+				case "Object":
 					//文本域显示json字符串
 					formStr+="<textarea style='display:none;' class='"+fClass+"_tex' name='"+fName+"' isJson='true'>";
 						formStr+="<!--$if(valueStatus){-->";
 						formStr+="${"+fValue+"}";
 						formStr+="<!--$}-->";
 					formStr+="</textarea>";
-					
+
 					//增加编辑按钮
 					formStr+="<a style='margin-top:5px;' alt='"+fTitle+"' class='btn btn-mini btn-info edit' href='javascript:void(0);'><i class='icon-edit bigger-120'> 点击编辑</i></a>";
 					break;
@@ -658,7 +672,7 @@ define(function(require, exports, module) {
 						formStr+="${"+fValue+"}";
 						formStr+="<!--$}-->";
 					formStr+="</textarea>";
-					
+
 					//增加编辑按钮
 					formStr+="<a style='margin:5px 0 0 10px;' alt='"+fTitle+"' class='btn btn-mini btn-info edit' href='javascript:void(0);'><i class='icon-edit bigger-120'> 点击编辑</i></a>";
 					break;
@@ -670,7 +684,7 @@ define(function(require, exports, module) {
 					formStr+="<div style='margin-top:5px;' alt='"+fTitle+"' class='btn btn-mini btn-info' href='javascript:void(0);'>";
 					formStr+="<i class='icon-search bigger-120'></i> <span id='spanButtonPlaceholder'></span>";
 					formStr+="</div>";
-					
+
 					//进度条
 					formStr+="<div id='divFileProgressContainer'></div>";
 
@@ -686,12 +700,12 @@ define(function(require, exports, module) {
 			}
 		}
 		//parseField() end
-		
-		
+
+
 		//=========================================
 		//============== 表单函数功能 ===============
 		//=========================================
-		
+
 		function formAction(){
 			//外联按钮定义
 			function bindOuterLink(_dom){
@@ -741,7 +755,7 @@ define(function(require, exports, module) {
 			    domDateTimeP.datetimepicker({
 			    	format: formatDateTimeP
 			    });
-			    
+
 			    domDateTimeP.find('input').each(function(){
 			    	var defaultTimeObj = $(this).val()?new Date(parseInt($(this).val())):new Date();
 			    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatDateTimeP);
@@ -767,7 +781,7 @@ define(function(require, exports, module) {
 					var idx = 0;
 				}else{
 					//找到最后一行name[idx]
-					var Col = $(this).parent().prev().find(">tbody>tr"); 
+					var Col = $(this).parent().prev().find(">tbody>tr");
 					var lastCol = Col.eq(Col.length-2);
 					var arr = lastCol.html().match(/(name=["']?)(data.*?)(["']?[\s>])/)[2].split("[");
 					var idx = parseInt(arr[arr.length-1].split("]")[0]) + 1;
@@ -822,7 +836,7 @@ define(function(require, exports, module) {
 					}
 				});
 			});
-			
+
 			//======反选操作=======
 			dom.find(".btn-sel-oppo").on("click",function(){
 				$(this).parent().prev().find(">tbody>tr").not(".list-tr-hidden").each(function(){
@@ -830,8 +844,8 @@ define(function(require, exports, module) {
 					cbox.click();
 				});
 			});
-			
-			
+
+
 			//xheditor编辑器
 			try{
 				if($('.xheditor').length && !islist){
@@ -841,21 +855,21 @@ define(function(require, exports, module) {
 					})
 				}
 			}catch(e){
-				
+
 			}
 
-			
-			
+
+
 
 			//给生成的表单绑定 JSON 编辑事件
 			dom.find('.c_Object .edit, .c_Langs .edit').on('click',function(){
-				
+
 				//数据节点
 				var domJosn = $(this).prev();
-				
+
 				//获得对话框标题：
 				var titDialog = $(this).attr("alt");
-				
+
 				// 获取当前json数据描述对象
 				var curJSONName = domJosn.attr("name");
 				var arrName = curJSONName.split(".");
@@ -870,21 +884,21 @@ define(function(require, exports, module) {
 				curJSONName = arrName.join(".");
 				var data = objdesc;
 				var curDescObj = eval(curJSONName);
-				
+
 				//获得当前数据data
 				try{
 					var curJSONFormData = API.JsonAPI.evalJSON(domJosn.val());
 				}catch(err){
 					var curJSONFormData = "";
 				}
-				
+
 				//将需要传递到模式对话框json编辑页面的数据转为对象
 				// var popenData = {};
 				// popenData.descObj = curDescObj; //数据描述对象
 				// popenData.formData = curJSONFormData; //真实数据对象
 				// popenData.domJosn = domJosn; //数据节点
 				// popenData.titDialog = titDialog; //获得对话框标题
-				
+
 
 				//生成新的表单html代码
 				var jsonStrHTML = "<div class='modal-header' style='margin-bottom:20px;'><h3>"+titDialog+"</h3></div><form id='jsonEditForm' class='form-horizontal clearfix'></form>";
@@ -909,9 +923,9 @@ define(function(require, exports, module) {
 				var curFormDom = $("#jsonEditForm");
 				beginCreateFormOrList(false,curDescObj,curFormDom,curJSONFormData);
 				curFormDom.css("background","#fff");
-				var fWid = curFormDom.find(".form-wrap").outerWidth(), 
+				var fWid = curFormDom.find(".form-wrap").outerWidth(),
 					fHei = curFormDom.outerHeight();
-				
+
 				curFormDom.parents(".modal:eq(0)").addClass("formJsonModal").animate({
 					width:fWid+30,
 					height:fHei+181,
@@ -919,7 +933,7 @@ define(function(require, exports, module) {
 					marginTop:-(fHei+181)/2
 				});
 			})
-			
+
 			//多图批量上传函数绑定
 			if(dom.find('.c_Pics').length){
 				swfu = new SWFUpload({
@@ -969,18 +983,18 @@ define(function(require, exports, module) {
 					button_text_left_padding: 0,
 					button_window_mode: SWFUpload.WINDOW_MODE.TRANSPARENT,
 					button_cursor: SWFUpload.CURSOR.HAND,
-					
+
 					// Flash Settings
 					flash_url : Cfg.baseUrl+"/breeze/swfupload/swfupload.swf",
 
 					custom_settings : {
 						upload_target : "divFileProgressContainer"
 					},
-					
+
 					// Debug Settings
 					debug: false
 				});
-				
+
 				//banding删除按钮
 				dom.find("#PicsField").delegate(".delpic","click",function(){
 					$(this).parent().remove();
@@ -1025,7 +1039,7 @@ define(function(require, exports, module) {
 					})
 					eval(dom.find("#PicsTextArea").attr("name")+"= PicsArr;");
 				}
-				
+
 				//将其还原回来
 				for(var i=0; i<$(this).find(".list-tr-hidden").length; i++){
 					$(this).find(".list-tr-hidden:eq("+i+")").html(lcwnoneArr[i]);
@@ -1042,8 +1056,8 @@ define(function(require, exports, module) {
 			//获取数据并校验
 			dom[0].getDataAndCheck = function(){
 
-				var __data = dom[0].getData(); 
-				
+				var __data = dom[0].getData();
+
 				//下面开始进行值校验，罗光瑜修改
 				function checkValueFun(checkObj,checkDesc){
 					for(var name in checkDesc){
@@ -1075,7 +1089,7 @@ define(function(require, exports, module) {
 							//2013-11-23罗光瑜修改，这里要重新使用会原来的功能，当然function是一个字符串，同样json也是一个字符串
 							//因为标准的json里面如果作为通信传输的话，这两个对象（function和json）是不能被传输的，所以都转成字符串了
 							if(checkOne.checkers ){
-								if (/function/i.test(typeof(checkOne.checkers)) || /^function/i.test(checkOne.checkers)){									
+								if (/function/i.test(typeof(checkOne.checkers)) || /^function/i.test(checkOne.checkers)){
 									var funCheck = checkOne.checkers;
 									if (/string/i.test(typeof(funCheck))){
 										funCheck.evalJSON(checkOne.checkers);
@@ -1091,7 +1105,7 @@ define(function(require, exports, module) {
 									if (/string/i.test(typeof(cReg))){
 										cReg = new RegExp(checkOne.checkers,"i");
 									}
-									//2013-12-23日罗光瑜添加，要保证这是一个正则表达式									
+									//2013-12-23日罗光瑜添加，要保证这是一个正则表达式
 									if (cReg.test && !cReg.test(checkValue)){
 										alert(checkOne.failTips);
 										return null;
@@ -1111,7 +1125,7 @@ define(function(require, exports, module) {
 					var checkArr = [];
 					var data = dom[0].getData();
 					if(!data) return;
-					
+
 					var dataArr = data.formList;
 					dom.find(".table-list:eq(0)>tbody>tr").each(function(index){
 						var status = $(this).find("td:eq(0) input[type='checkbox'], td:eq(0) input[type='radio']").attr("checked");
@@ -1125,19 +1139,19 @@ define(function(require, exports, module) {
 		}
 		//表单函数功能结束
 	}
-	
+
 	//===============================================
 	//====== 逆向处理模板里面的数据，返回json对象 =======
 	//===============================================
-	 
-	/* 
+
+	/*
 	 * 根据页面表单内容，提交后将form表单内容还原为真实数据json格式
 	 * @param dom 指定form的jquery节点包装 器eg:$("#descForm form");
      * @return 返回一个生成好的数据json
 	 */
-	 
+
 	_api.createJsonByForm = function(dom,objdesc){
-		
+
 		var data = {};
 		var arr = dom.find(":input");//罗光瑜修改：可以非form里面获取表单     /////////////为什么会  ？？？？？？？
 		$.each(arr, function() {
@@ -1160,7 +1174,7 @@ define(function(require, exports, module) {
 			}else{
 				var len = arrName.length-1;
 			}
-			
+
 			for(var i=0; i<len;i++){
 				var jsArrName = arrName.slice(0,i+1).join(".");
 				var reg = new RegExp(/\[[0-9]+\]/);
@@ -1176,7 +1190,7 @@ define(function(require, exports, module) {
 				eval(name+"="+name+" || \"\";");
 				return;
 			}
-			
+
 			if(dateFormat){   //新增类型的处理 Alec 20130730 Date时间类型
 				if(value){
 					eval(name+"='"+API.dateTimeAPI.format4(value,dateFormat).getTime()+"';");
@@ -1194,10 +1208,10 @@ define(function(require, exports, module) {
 					eval(name+"=\"\";");
 				}
 			}
-			
+
 		});
-		
-		//将生成的data对象中，如果属性名存在_dot_，将其还原成. 
+
+		//将生成的data对象中，如果属性名存在_dot_，将其还原成.
 		data = API.JsonAPI.evalJSON(API.JsonAPI.toJSONString(data).replace(/_dot_/gi,"."));
 		return data;
 	}
@@ -1207,7 +1221,7 @@ define(function(require, exports, module) {
 	if (_win.APICtr && _win.APICtr.addAPI){
 		_win.APICtr.addAPI(_result);
 	}else{
-		module.exports = _api;	
+		module.exports = _api;
 	}
 });
 

@@ -38,13 +38,13 @@ body{
 }
 /*list css*/
 
-.modal-body .islist .control-group select, 
-.modal-body .islist .control-group textarea, 
-.modal-body .islist .control-group input[type="text"], 
+.modal-body .islist .control-group select,
+.modal-body .islist .control-group textarea,
+.modal-body .islist .control-group input[type="text"],
 .modal-body .islist .control-group input[type="password"],
-.conList .islist .control-group select, 
-.conList .islist .control-group textarea, 
-.conList .islist .control-group input[type="text"], 
+.conList .islist .control-group select,
+.conList .islist .control-group textarea,
+.conList .islist .control-group input[type="text"],
 .conList .islist .control-group input[type="password"]
  {
  	border:none;
@@ -54,9 +54,9 @@ body{
 .conList .islist .date .add-on{
 	display: none;
 }
-.table_formlist select, 
-.table_formlist textarea, 
-.table_formlist input[type="text"], 
+.table_formlist select,
+.table_formlist textarea,
+.table_formlist input[type="text"],
 .table_formlist input[type="password"],
 .table_formlist .date
  {
@@ -84,7 +84,7 @@ body{
 }
 input[readonly],input[readonly]:focus,input[readonly]:active{
 	background: transparent!important;
-	
+
 }
 ._desc_valuerange_tex{
 	height:20px;
@@ -144,7 +144,7 @@ input[readonly],input[readonly]:focus,input[readonly]:active{
 	width: 120px;
 	height: 120px;
 	overflow: hidden;
-	max-width:120px; 
+	max-width:120px;
 	max-height:120px;
 	vertical-align: center;
 	line-height: 120px;
@@ -263,4 +263,9 @@ input[readonly],input[readonly]:focus,input[readonly]:active{
 /*乐享业务样式定义*/
 .mt_order_conEdit .c_OuterLink{
 	display: none;
+}
+
+.table_formlist .img_file{
+  height: 30px!important;
+  width: 45px!important;
 }
