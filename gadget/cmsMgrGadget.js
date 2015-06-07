@@ -1,6 +1,6 @@
 /**
 * @fileOverview CMS后台内容操作视图的Gadget
-* @author <a href="http://www.wgfly.com">Alec</a>
+* @author <a href="http://">Alec</a>
 * @version 0.1
 */
 
@@ -12,6 +12,7 @@
 */
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
+	require("../breeze/framework/js/tools/Widget")(FW);
 	FW.register(
 		{
 			name:"cmsMgrGadget",
@@ -184,6 +185,8 @@ define(function(require, exports, module) {
 			*@example
 			*/
 			onCreate:function(){
+				var _this = this;
+				//全局设置
 				var _this = this;
 				//获取url中参数alias
 				_this.MY.alias =   _this.param.alias || FW.use().getParameter("alias") || "";
@@ -359,7 +362,7 @@ define(function(require, exports, module) {
 					_this.API.doServer(_this.MY.serverName.qCMSCT,_this.MY.package,{alias:_alias},function(code,data){
 						if(code==0 && data){
 							_this.MY.contentDesc[_alias] = data[0].dataDesc?FW.use().evalJSON(data[0].dataDesc):{};
-							_this.MY.contentDesc[_alias].cid={
+							_this.MY.contentDesc[_alias].cid = _this.MY.contentDesc[_alias].cid || {
 								type:'Hidden',
 								title:'cid',
 								islist:"0"
@@ -501,6 +504,7 @@ define(function(require, exports, module) {
 								if(!__FormData.length) return;
 								//将已填写数据getData储存起来
 								var newData = _formDom[0].getData();
+
 								//判断是否是列表视图，如果是列表，就将data转成data.formList
 								if(_this.MY.action == _this.MY.act.conPLAdd || _this.MY.action == _this.MY.act.conList){
 									newData = _formDom[0].getData().formList;
@@ -508,7 +512,7 @@ define(function(require, exports, module) {
 								if(!newData) return;
 								//将data数据内容一一赋值进入外联字段
 								for(var l_prop in _dataDesc){
-									// alert(l_prop);
+									// FW.use('Widget').alert(l_prop);
 									if (!_dataDesc[l_prop].ourterLink){
 										continue;
 									}
@@ -565,7 +569,7 @@ define(function(require, exports, module) {
 				*@example
 				*/
 				privateMaskLayer: function(_dom,_dialogTitle,_width,_bindBtnEvent){
-					var htmlstr = "<div style='text-align:left;cursor:default; background:#fff; padding:10px;'><div class='modal-header' style='margin-bottom:20px;'><h3>"+_dialogTitle+"</h3></div>";
+					var htmlstr = "<div style='text-align:left;cursor:default; background:#fff; padding:10px;'><div class='modal-header' style='margin-bottom:10px;'><h3>"+_dialogTitle+"</h3></div>";
 					htmlstr += "<div class='modal-body'><form id='outerLinkEditForm' class='form-horizontal clearfix' style='margin:0px;'></form></div>";
 					if(_bindBtnEvent){
 						htmlstr += "<div class='modal-footer'>";
@@ -584,7 +588,7 @@ define(function(require, exports, module) {
 					//显示弹出层 默认宽度：800px
 					//计算高度
 					// var fHei = _dom.outerHeight() + 101;
-					FW.blockUI(htmlstr,($(window).width()-_width)/2,100,_width,"auto",0);
+					FW.blockUI(htmlstr,($(window).width()-_width)/2,10,_width,"auto",0);
 					_dom.appendTo($("#outerLinkEditForm")).show();
 					$("#outerLinkEditForm").find(".form-wrap").removeClass("pull-left");
 					$(".chosen-select").chosen(); //绑定closen
@@ -947,9 +951,8 @@ define(function(require, exports, module) {
 						var curNodeid = _this.MY.nodeid;
 						var curAlias = _this.MY.alias;
 					}
-
 					if(!curNodeid && !_this.MY.noClass){
-						alert("请先选择栏目!");
+						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
 					//定义当前状态指针
@@ -1015,7 +1018,7 @@ define(function(require, exports, module) {
 					}
 
 					if(!curNodeid && !_this.MY.noClass){
-						alert("请先选择栏目!");
+						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
 					//显示提交、返回按钮
@@ -1181,7 +1184,7 @@ define(function(require, exports, module) {
 				privateShowClassEdit: function(){
 					var _this = this;
 					if(!_this.MY.nodeid){
-						alert("请先选择栏目!");
+						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
 					//显示提交、返回按钮
@@ -1251,7 +1254,7 @@ define(function(require, exports, module) {
 				privateShowClassAdd: function(){
 					var _this = this;
 					if(!_this.MY.isding && !_this.MY.nodeid){
-						alert("请先选择栏目!");
+						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
 					//显示提交返回按钮
@@ -1337,7 +1340,7 @@ define(function(require, exports, module) {
 							if(code == 0){
 								_this.API.private("privateShowConList");
 							}else{
-								alert("内容删除失败！");
+								FW.use('Widget').alert("内容删除失败！");
 							}
 						})
 					}
@@ -1369,7 +1372,7 @@ define(function(require, exports, module) {
 						for (var i = 0; i < arrCheckData.length; i++) {
 								_this.API.addPost(_this.MY.serverName.dCon,_this.MY.package,{alias:curAlias,param:{cid:arrCheckData[i].cid}},function(code,data){
 									if(code!==0){
-										alert("删除失败！");
+										FW.use('Widget').alert("删除失败！");
 									}
 								});
 						}
@@ -1451,7 +1454,7 @@ define(function(require, exports, module) {
 								if(code==0){
 									_data.push(data[0]);
 								}else{
-									alert("Cid="+data[iii].cid+":修改失败！");
+									FW.use('Widget').alert("Cid="+data[iii].cid+":修改失败！");
 								}
 							});
 						})(i)
@@ -1495,7 +1498,7 @@ define(function(require, exports, module) {
 						if(code == 0){
 							_callback && _callback(data);
 						}else{
-							alert("内容添加失败！");
+							FW.use('Widget').alert("内容添加失败！");
 						}
 					})
 				},
@@ -1557,7 +1560,7 @@ define(function(require, exports, module) {
 								if(code==0 && data){
 									_data.push(data);
 								}else{
-									alert("第"+iii+"条数据添加失败！");
+									FW.use('Widget').alert("第"+iii+"条数据添加失败！");
 								}
 							});
 						})(i)
@@ -1594,7 +1597,7 @@ define(function(require, exports, module) {
 						if(code==0){
 							_callback && _callback();
 						}else{
-							alert("修改内容保存失败！");
+							FW.use('Widget').alert("修改内容保存失败！");
 						}
 					})
 				},
@@ -1625,7 +1628,7 @@ define(function(require, exports, module) {
 						if(code == 0){
 							_callback && _callback();
 						}else{
-							alert("修改栏目保存失败！");
+							FW.use('Widget').alert("修改栏目保存失败！");
 						}
 					})
 				},
@@ -1657,7 +1660,7 @@ define(function(require, exports, module) {
 						if(code == 0 && data){
 							_callback(data);
 						}else{
-							alert("添加栏目保存失败！");
+							FW.use('Widget').alert("添加栏目保存失败！");
 						}
 					})
 				}
@@ -1673,38 +1676,39 @@ define(function(require, exports, module) {
 				*/
 				trigerSubmit: function(){
 					var _this = this;
+
 					//列表提交
 					if(_this.MY.action == _this.MY.act.conList){
 						_this.API.private("privateSubmitConList",function(){
-							alert("修改完成!");
+							FW.use('Widget').alert("修改完成!");
 							_this.API.private("privateShowConList");
 						});
 					}
 					//内容添加
 					else if(_this.MY.action == _this.MY.act.conAdd){
 						_this.API.private("privateSubmitConAdd",function(){
-							alert("内容添加成功！");
+							FW.use('Widget').alert("内容添加成功！");
 							_this.API.private("privateShowConList");
 						});
 					}
 					//内容批量添加
 					else if(_this.MY.action == _this.MY.act.conPLAdd){
 						_this.API.private("privateSubmitConPLAdd",function(){
-							alert("添加完成!");
+							FW.use('Widget').alert("添加完成!");
 							_this.API.private("privateShowConList");
 						});
 					}
 					//编辑内容
 					else if(_this.MY.action == _this.MY.act.conEdit){
 						_this.API.private("privateSubmitConEdit",function(){
-							alert("保存成功！");
+							FW.use('Widget').alert("保存成功！");
 							_this.API.private("privateShowConList");
 						});
 					}
 					//编辑栏目
 					else if(_this.MY.action == _this.MY.act.classEdit){
 						_this.API.private("privateSubmitClassEdit",function(){
-							alert("保存成功！");
+							FW.use('Widget').alert("保存成功！");
 							FW.trigerEvent('trigerReShowNodeTree',_this.MY.alias);
 							_this.API.private("privateShowConList");
 						});
@@ -1712,7 +1716,7 @@ define(function(require, exports, module) {
 					//添加栏目
 					else if(_this.MY.action == _this.MY.act.classAdd){
 						_this.API.private("privateSubmitClassAdd",function(){
-							alert("栏目添加成功！");
+							FW.use('Widget').alert("栏目添加成功！");
 							FW.trigerEvent('trigerReShowNodeTree',_this.MY.alias);
 							_this.API.private("privateShowConList");
 						});
@@ -1852,7 +1856,7 @@ define(function(require, exports, module) {
 					$("#btnAddSonAlias").hide();
 					$("#btnPLAddSonAlias").hide();
 					if(!this.MY.nodeid){
-						alert("请先选择栏目");
+						FW.use('Widget').alert("请先选择栏目");
 						return;
 					}
 					var param = {
@@ -1864,10 +1868,10 @@ define(function(require, exports, module) {
 					if(confirm("确定要删除该栏目吗？")){
 						this.API.doServer(this.MY.serverName.dNode,this.MY.package,param,function(code,data){
 							if(code == 0 && data){
-								alert("栏目删除成功！");
+								FW.use('Widget').alert("栏目删除成功！");
 								document.location.href = document.location.href;
 							}else{
-								alert("栏目删除失败！");
+								FW.use('Widget').alert("栏目删除失败！");
 							}
 						})
 					}
@@ -1897,7 +1901,7 @@ define(function(require, exports, module) {
 				*@example
 				*/
 				trigerCheckBoxClick:function(rowData){
-					//alert(FW.use().toJSONString(rowData));
+					//FW.use('Widget').alert(FW.use().toJSONString(rowData));
 				}
 
 			}

@@ -74,7 +74,7 @@
 					</small>
 				</h1>
 			</div>
-			<div class="nodetree clearfix FWApp" id="cmsMgrNodeTreeGadget">
+			<div class="nodetree clearfix FWApp~" id="cmsMgrNodeTreeGadget" style="display:none;">
 				<!--@cmsMgrNodeTreeGadget@
 				{
 					displayName:{
@@ -89,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="shownodecontent">
+			<div class="shownodecontent~">
 				<div id="tabSonAlias" style="display:none; margin-bottom:30px;">
 					<a id="btnPLAddSonAlias" class="pull-right btn btn-mini btn-success" href="javascript:void(0)" style="display:none; margin:10px 10px 0 0; position:relative; z-index:2">
 						<i class="icon-plus"></i> 批量添加
@@ -130,7 +130,7 @@
 						</form>
 					</div>
 				</div>
-				<div id="submitBtn" style="padding:20px 0 0 180px; border-top:1px solid #E2E2E2; display:none;">
+				<div id="submitBtn" class="cmssubmitbtn">
 					<a href="javascript:void(0)" onclick="FW.trigerEvent('trigerSubmit')" class="btn btn-info">
 						<i class="icon-ok bigger-110"></i>
 						确认提交

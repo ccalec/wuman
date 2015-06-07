@@ -5,17 +5,17 @@
 	.STRN {color: #393;}
 	.REGX {color: #339;}
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
-	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/** 
-<span class='line'>  2</span> * @fileOverview FW配套使用的时间处理API 
-<span class='line'>  3</span> * @author &lt;a href="http://www.wgfly.com">Alec&lt;/a> 
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * @fileOverview FW配套使用的时间处理API
+<span class='line'>  3</span> * @author &lt;a href="http://">Alec&lt;/a>
 <span class='line'>  4</span> * @version 0.1
 <span class='line'>  5</span> */</span><span class="WHIT"> </span><span class="WHIT">
-<span class='line'>  6</span> 
+<span class='line'>  6</span>
 <span class='line'>  7</span> </span><span class="COMM">/**
 <span class='line'>  8</span> * @namespace
-<span class='line'>  9</span> * @author Alec 
+<span class='line'>  9</span> * @author Alec
 <span class='line'> 10</span> * @name DateTime
-<span class='line'> 11</span> * @description  FW的核心基本扩展 
+<span class='line'> 11</span> * @description  FW的核心基本扩展
 <span class='line'> 12</span> */</span><span class="WHIT"> </span><span class="WHIT">
 <span class='line'> 13</span> </span><span class="NAME">define</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">require</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">module</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 14</span> </span><span class="WHIT">	</span><span class="COMM">//用函数自身做域名承载对象</span><span class="WHIT">
@@ -84,7 +84,7 @@
 <span class='line'> 77</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">result</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 79</span> </span><span class="WHIT">	</span><span class="WHIT">
-<span class='line'> 80</span> 
+<span class='line'> 80</span>
 <span class='line'> 81</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'> 82</span> 	 * @function
 <span class='line'> 83</span> 	 * @memberOf DateTime
@@ -178,7 +178,7 @@
 <span class='line'>171</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Number</span><span class="PUNC">(</span><span class="NAME">expResult</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>172</span> </span><span class="WHIT">			</span><span class="NAME">result.setDate</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>173</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>174</span> 
+<span class='line'>174</span>
 <span class='line'>175</span> </span><span class="WHIT">		</span><span class="COMM">//处理小时</span><span class="WHIT">
 <span class='line'>176</span> </span><span class="WHIT">		</span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">__sp.replace</span><span class="PUNC">(</span><span class="REGX">/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">all</span><span class="PUNC">,</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">,</span><span class="NAME">d</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>177</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -206,7 +206,7 @@
 <span class='line'>199</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Number</span><span class="PUNC">(</span><span class="NAME">expResult</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>200</span> </span><span class="WHIT">			</span><span class="NAME">result.setHours</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>201</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>202</span> 
+<span class='line'>202</span>
 <span class='line'>203</span> </span><span class="WHIT">		</span><span class="COMM">//处理分钟</span><span class="WHIT">
 <span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">__sp.replace</span><span class="PUNC">(</span><span class="REGX">/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">all</span><span class="PUNC">,</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">,</span><span class="NAME">d</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>205</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -234,7 +234,7 @@
 <span class='line'>227</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Number</span><span class="PUNC">(</span><span class="NAME">expResult</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>228</span> </span><span class="WHIT">			</span><span class="NAME">result.getMinutes</span><span class="PUNC">(</span><span class="NAME">d</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>229</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>230</span> 
+<span class='line'>230</span>
 <span class='line'>231</span> </span><span class="WHIT">		</span><span class="COMM">//处理秒</span><span class="WHIT">
 <span class='line'>232</span> </span><span class="WHIT">		</span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">__sp.replace</span><span class="PUNC">(</span><span class="REGX">/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g</span><span class="PUNC">,</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">all</span><span class="PUNC">,</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">,</span><span class="NAME">d</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>233</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">

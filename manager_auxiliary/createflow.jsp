@@ -49,6 +49,7 @@
 
 	<!-- //前端框架JS -->
 	<script src="../page/manager/assets/js/bootstrap.min.js"></script>
+	<script src="../breeze/xheditor/jquery-migrate-1.1.0.min.js"></script>
 
 	<!--basic styles-->
 	<link href="../page/manager/assets/css/bootstrap.min.css" rel="stylesheet" />

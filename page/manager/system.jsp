@@ -120,7 +120,7 @@
             </form>
           </div>
         </div>
-        <div id="submitBtn" style="padding:20px 0 0 180px; border-top:1px solid #E2E2E2; display:none;">
+        <div id="submitBtn" class="cmssubmitbtn">
           <a href="javascript:void(0)" onclick="FW.trigerEvent('trigerSubmit')" class="btn btn-info">
             <i class="icon-ok bigger-110"></i>
             确认提交

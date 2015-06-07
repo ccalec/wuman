@@ -1,15 +1,15 @@
-﻿/** 
+﻿/**
 * @fileOverview cms前台购物车相关按钮Gadget
-* @author <a href="http://www.wgfly.com">Alec</a> 
+* @author <a href="http://">Alec</a>
 * @version 0.1
-*/ 
+*/
 
 /**
 * @namespace
-* @author Alec 
-* @name cartActionGadget 
+* @author Alec
+* @name cartActionGadget
 * @description  cms前台购物车相关按钮Gadget
-*/ 
+*/
 
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
 					var SSGoodsList = FW.use().load("SSGoodsList") || [];
 					var status = true; //判断是否需要储存
 					//库存长度判断
-					if(SSGoodsList.length){	
+					if(SSGoodsList.length){
 						for(var i=0; i<SSGoodsList.length; i++){
 							if(SSGoodsList[i].skuid == proData.skuid){
 								var inventory = parseInt(SSGoodsList[i].inventory);
@@ -137,7 +137,7 @@ define(function(require, exports, module) {
 					//给购物车弹出层绑定关闭事件
 					$("#cBoxClose a").click(function(){
 						FW.unblockUI();
-					}); 
+					});
 				}
 			}
 		}

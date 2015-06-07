@@ -1,0 +1,470 @@
+body{
+  color: #565656;
+}
+ul,li {
+  margin: 0;
+  list-style: none;
+}
+.tac{
+  text-align: center!important;
+}
+.visible-desktop{
+  display: inline-block!important;
+}
+.space10{
+  clear: both;
+  height: 10px;
+}
+.table thead tr{
+  background: #eee!important;
+}
+.infodesc{
+  font-size: 12px;
+  color: gray;
+}
+.goods_nav{
+  margin: 10px 0;
+  overflow: hidden;
+  ul{
+    margin: 0;
+  }
+  li{
+    list-style: none;
+    position: relative;
+    float: left;
+    width: 30%;
+    margin-right: 10px;
+    line-height: 32px;
+    text-align: center;
+    color: #555;
+    background: #f0f0f0;
+    &.last{
+      overflow: hidden;
+      width: 32%;
+    }
+    &.current{
+      color: #fff;
+      background: #2283C5;
+      &:after{
+        border-left-color: #2283C5;
+      }
+    }
+    &:before, &:after{
+      position: absolute;
+      top: 0;
+      content: "";
+      width: 0;
+      height: 0;
+      border-width: 16px;
+      border-color: transparent;
+      border-style: solid;
+    }
+    &:before{
+      right: -42px;
+      border-left-color: #fff;
+      z-index: 1;
+    }
+    &:after{
+      right: -32px;
+      border-left-color: #f0f0f0;
+      z-index: 2;
+    }
+  }
+}
+
+
+.step1{
+  .catebox{
+    margin: 20px 0;
+    padding: 25px 10px;
+    float: left;
+    background: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    .catelist{
+      float: left;
+      margin: 0 15px;
+      width: 200px;
+      height: 240px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      background: #fff;
+      ul{
+        margin: 0;
+      }
+      li{
+        list-style: none;
+        padding-left: 15px;
+        line-height: 30px;
+        font-size: 12px;
+        cursor: pointer;
+        &:hover{
+          background: #f7f7f7;
+        }
+        &.active{
+          background: #D9EDF7;
+        }
+      }
+    }
+    .arrow{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -10px 0 0 -10px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      color: #aaa;
+      text-align: center;
+    }
+  }
+  .catres{
+    clear: both;
+    line-height: 40px;
+    padding-left: 20px;
+    width: 464px;
+    background: #f0f0f0;
+  }
+  .btncls{
+    margin-top: 20px;
+    padding-top:20px;
+    border-top:1px solid #E2E2E2;
+  }
+}
+
+
+
+.goodsform{
+  margin-top: 20px;
+  max-width: 1000px;
+  .control-group-sm{
+    label{
+      vertical-align: middle;
+      line-height: 24px;
+      margin: 0 15px 5px 0;
+    }
+    input[type=checkbox]+.lbl, input[type=radio]+.lbl{
+      top: -3px;
+      margin-right: 2px;
+    }
+    margin: 5px 0;
+    .control-label{
+      width: 50px;
+      padding-top: 0;
+    }
+    .controls{
+      margin-left: 60px;
+    }
+  }
+  table{
+    td{
+      vertical-align: middle;
+      text-align: center;
+      input{
+        text-align: center;
+      }
+    }
+  }
+}
+
+.step3{
+  .well{
+    padding: 50px 0;
+    margin: 0;
+    width: 400px;
+    h4{
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+.serarea{
+  margin: -10px 0;
+  padding: 10px 20px;
+  position: relative;
+  background: #f0f0f0;
+  label,.catsel{
+    display: inline-block;
+    margin-right: 40px;
+  }
+  input{
+    margin-bottom: 0!important;
+    width: 180px;
+  }
+  select{
+    margin-bottom: 0!important;
+    width: 100px;
+  }
+  .btn,.btn:active{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+  }
+  .label-price{
+    width: 254px;
+    input{
+      width: 63px;
+    }
+    span{
+      margin: 0 10px;
+    }
+  }
+}
+.mlr10{
+  margin: 0 10px;
+}
+.tabList{
+  margin: 40px 0 10px;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  clear: both;
+  li{
+    float: left;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 10px;
+    text-align: center;
+    background: #f0f0f0;
+    color: #666;
+    cursor: pointer;
+    &.active{
+      background: #2A91D8;
+      color: #fff;
+      &:hover{
+        color: #fff;
+      }
+    }
+    &:hover{
+      color: #2A91D8;
+    }
+  }
+}
+.itemlist{
+  font-size: 12px;
+  table{
+    margin-bottom:10px;
+    table-layout:fixed;
+    word-break:break-all;
+    th{
+      text-align: center;
+    }
+    td{
+      vertical-align: middle;
+    }
+  }
+  .orderItem{
+    .tit{
+      line-height: 30px;
+      height: 30px;
+      padding-left: 10px;
+      text-align: left;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background: #f7f7f7;
+      label{
+        display: inline-block;
+        margin-right: 10px;
+        .lbl{
+          top: -3px;
+        }
+      }
+    }
+  }
+}
+
+// .table-list{
+//   .inp_text{
+//     width: 98%!important;
+//   }
+// }
+
+.f_good_img{
+  margin-bottom: 5!important;
+}
+
+
+.f_goodsno{
+  .help-inline{
+    display: none;
+  }
+}
+
+#goodsMgrGadget .f_goodsno{
+  position: relative;
+  padding-bottom: 20px;
+  .help-inline{
+    display: inline-block;
+    padding-left: 0;
+    margin-left: -1px;
+    margin-right: 10px;
+  }
+  &:after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 0;
+    border-bottom: 1px dashed #ddd;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.controls.error input,.controls.error select,.controls.error textarea {
+    border-color: #f09784;
+    color: #d68273;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none
+}
+
+.controls.error input:focus,.controls.error select:focus,.controls.error textarea:focus {
+    -webkit-box-shadow: 0 0 0 2px rgba(219,137,120,0.3);
+    -moz-box-shadow: 0 0 0 2px rgba(219,137,120,0.3);
+    box-shadow: 0 0 0 2px rgba(219,137,120,0.3);
+    color: #866;
+    border-color: #db8978
+}
+
+.controls.error [class*="icon-"] {
+    color: #d68273
+}
+
+.controls.error .btn [class*="icon-"] {
+    color: inherit
+}
+
+.controls.error .control-label,.controls.error .help-block,.controls.error .help-inline {
+    color: #d16e6c
+}
+
+
+.table-list{
+  th{
+    text-align: center;
+    min-width: 60px;
+  }
+  td{
+    text-align: center;
+    input{
+      text-align: center;
+    }
+  }
+  .td_File{
+    div{
+      display: inline-block!important;
+      float: none!important;
+    }
+  }
+}
+
+//宝贝管理table宽度设置
+#goodsListGadget{
+  th{
+    text-align: center;
+  }
+  .th_cid{
+    width: 60px;
+  }
+  .th_good_img,.th_dazhe_price,.th_price,.th_quantity{
+    width: 6%;
+  }
+  .td_title{
+    text-align: left;
+    input{text-align: left;}
+  }
+}
+
+//上下架弹出层
+.yushe-time{
+  display: inline-block;
+  width: 200px;
+  overflow: hidden;
+}
+.radio-label{
+  margin: 0 20px;
+}
+
+input.error{
+  border-color: red!important;
+}
+
+.nodata{
+  text-align: center!important;
+  padding: 40px 0!important;
+  color: gray;
+}
+
+.goodaddpv{
+  width: 300px;
+  padding: 40px 100px;
+}
+
+.baobeigg{
+  td{
+    min-width: 50px;
+    input{
+      width: 90%;
+    }
+  }
+}
+
+.tr_add td{
+  background: #FAF6F0!important;
+}
+.tr_edit td{
+  background: #E5F4FC!important;
+}
+
+.step2{
+  .f_cid{
+    display: none;
+  }
+  ._title_inp{
+    width: 450px;
+  }
+  ._dazhe_price_inp,._price_inp,._quantity_inp{
+    width: 80px;
+  }
+  ._good_desc_tex{
+    height: 150px;
+  }
+}
+
+
+
+
+
+
+
+
+
+//  测试
+.navbar{
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

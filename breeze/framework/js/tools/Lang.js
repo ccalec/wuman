@@ -1,6 +1,6 @@
 /**
 * @fileOverview FW配套使用的核心默认函数lang
-* @author <a href="http://www.wgfly.com">Alec</a>
+* @author <a href="http://">Alec</a>
 * @version 0.1
 */
 
@@ -27,6 +27,30 @@ define(function(require, exports, module) {
 		FormAPI:require("./lib/FormOper")
 	}
 	// alert(APICtr.JsonAPI.toJSONString({name:"alec"}));
+
+	/**
+	 * @function
+	 * @memberOf lang
+	 * @name getServiceTime
+	 * @description 获取服务端当前时间
+	 * @param {String}pName 参数名
+	 * @returns 时间对象
+	 */
+
+	_result.getServiceTime = function(callback){
+    var xmlhttp = new XMLHttpRequest;
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState != 4) return;
+        var now = new Date(xmlhttp.getResponseHeader('date'));
+        if (!now)  now = new Date;
+        xmlhttp.onreadystatechange = null;
+        callback && callback(now);
+    };
+    xmlhttp.open("HEAD", location.href,true);
+    xmlhttp.send(null);
+	};
+
+
 	/**
 	 * @function
 	 * @memberOf lang
@@ -43,6 +67,35 @@ define(function(require, exports, module) {
 		}
 		return null;
 	};
+
+	/**
+	 * @function
+	 * @memberOf lang
+	 * @name fixed2Fun
+	 * @description 00格式
+	 * @param {int} num
+	 * @returns 9 返回 09
+	 */
+	_result.fixed2Fun=function(num){
+      if(num<10){
+          return num = "0"+num;
+      }else{
+          return num;
+      }
+  },
+
+	/**
+	 * @function
+	 * @memberOf lang
+	 * @name fmtPrice
+	 * @description 分转成元
+	 * @param {int} price
+	 * @returns 900返回9.00
+	 */
+	_result.fmtPrice=function(price){
+     return (price / 100).toFixed(2);
+  },
+
 
 	/**
 	 * @function

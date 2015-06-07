@@ -1,26 +1,44 @@
-/** 
-* @fileOverview FW配套使用的时间处理API 
-* @author <a href="http://www.wgfly.com">Alec</a> 
+/**
+* @fileOverview FW配套使用的时间处理API
+* @author <a href="http://">Alec</a>
 * @version 0.1
-*/ 
+*/
 
 /**
 * @namespace
-* @author Alec 
+* @author Alec
 * @name DateTime
-* @description  FW的核心基本扩展 
-*/ 
+* @description  FW的核心基本扩展
+*/
 define(function(require, exports, module) {
 	//用函数自身做域名承载对象
 	//这样在外部使用的时候，可以简化比如use("xx/x/xx")(FW);
 	var _result = function(fw){
 		fw.use(_result);
 	}
-	
+
 	_result.getDomain = function(){
 		return "DateTime";
 	}
-	
+
+	/**
+	 * @function
+	 * @memberOf DateTime
+	 * @name getDayStart
+	 * @description 获取某时间对象当天的00:00时间戳
+	 * @param {Date} __timestamp 被加减的原时间对象
+	 * @param {Number}__num 要加减的时间数量，整形，单位是天
+	 * @returns 运算结果后的时间戳
+	 */
+	_result.getDayStart = function(__timestamp, __num) {
+	  var dd = new Date(__timestamp);
+	  dd.setDate(dd.getDate()+__num);//获取__num天后的日期
+	  var y = dd.getFullYear();
+	  var m = dd.getMonth()+1;//获取当前月份的日期
+	  var d = dd.getDate();
+	  return new Date(y+'/'+m+'/'+d);
+	}
+
 	/**
 	 * @function
 	 * @memberOf DateTime
@@ -37,7 +55,7 @@ define(function(require, exports, module) {
 		result.setTime(num);
 		return result;
 	}
-	
+
 	/**
 	 * @function
 	 * @memberOf DateTime
@@ -48,7 +66,7 @@ define(function(require, exports, module) {
 	 * @returns 格式化后的字符串
 	 */
 	_result.format = function(__dd,__sp){
-		
+
 		var result = __sp.replace(/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g,function(all,a,b,c,d,e,f){
 			if (a){
 				return __dd.getFullYear();
@@ -76,7 +94,7 @@ define(function(require, exports, module) {
 		});
 		return result;
 	};
-	
+
 
 	/**
 	 * @function
@@ -91,13 +109,13 @@ define(function(require, exports, module) {
 		__sp = __sp.replace(/\s+/gi,"\\s*");
 		var result = new Date();
 		result.setDate(1);
-		
+
 		//处理年份
 		var t = __sp.replace(/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g,function(all,a,b,c,d,e,f){
 			if (a){
 				return "(\\d{4})";
 			};
-			if (b){				
+			if (b){
 				return "\\d{2}";
 			};
 			if (c){
@@ -125,7 +143,7 @@ define(function(require, exports, module) {
 			if (a){
 				return "\\d{4}";
 			};
-			if (b){				
+			if (b){
 				return "(\\d{2})";
 			};
 			if (c){
@@ -147,13 +165,13 @@ define(function(require, exports, module) {
 			var d = Number(expResult[1]);
 			result.setMonth(d-1);
 		}
-		
+
 		//处理日期
 		t = __sp.replace(/(yyyy)|(MM)|(dd)|(hh)|(mm)|(ss)/g,function(all,a,b,c,d,e,f){
 			if (a){
 				return "\\d{4}";
 			};
-			if(b){				
+			if(b){
 				return "\\d{2}";
 			};
 			if (c){
@@ -181,7 +199,7 @@ define(function(require, exports, module) {
 			if (a){
 				return "\\d{4}";
 			};
-			if (b){				
+			if (b){
 				return "\\d{2}";
 			};
 			if (c){
@@ -209,7 +227,7 @@ define(function(require, exports, module) {
 			if (a){
 				return "\\d{4}";
 			};
-			if (b){				
+			if (b){
 				return "\\d{2}";
 			};
 			if (c){
@@ -237,7 +255,7 @@ define(function(require, exports, module) {
 			if (a){
 				return "\\d{4}";
 			};
-			if (b){				
+			if (b){
 				return "\\d{2}";
 			};
 			if (c){
@@ -261,6 +279,6 @@ define(function(require, exports, module) {
 		}
 		return result;
 	}
-	
+
 	return _result;
 });

@@ -7,9 +7,6 @@
 <!-- 图片上传 -->
 <script src="${B}/breeze/lib/js/ajaxfileupload.js"></script>
 
-<!-- Jquery UI -->
-<script type="text/javascript"> if("ontouchend" in document) document.write("<script src='${B}/page/manager/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-</script>
 
 <!--page specific plugin scripts-->
 <script src="${B}/page/manager/assets/js/bootstrap.min.js"></script>

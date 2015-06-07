@@ -10,12 +10,12 @@
 	BreezeContext root = ContextMgr.getRootContext();
     String flowName = root.getContextByPath("_R.flowname").getData().toString();
     String data = root.getContextByPath("_R.data").getData().toString();
-
-    String baseDir = Cfg.getCfg().getRootDir()+"WEB-INF/classes/flow/";
-
-
+    
+    String baseDir = Cfg.getCfg().getRootDir()+"WEB-INF\\classes\\flow\\";
+    
+    
     String fileName = baseDir + flowName + ".flw";
-
+    
     FileTools.writeFile(fileName,data,"utf-8");
 
 	ServerProcessManager.INSTANCE.reloadMap();

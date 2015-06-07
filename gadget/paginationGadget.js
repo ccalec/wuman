@@ -1,20 +1,20 @@
-﻿/** 
+﻿/**
 * @fileOverview cms前台展示页面绑定分页功能
-* @author <a href="http://www.wgfly.com">Alec</a> 
+* @author <a href="http://">Alec</a>
 * @version 0.1
-*/ 
+*/
 
 /**
 * @namespace
-* @author Alec 
-* @name paginationGadget 
+* @author Alec
+* @name paginationGadget
 * @description  这是一个支持cms绑定分页功能的gadget,提供给需要绑定分页功能的gadget继承
-*/ 
+*/
 
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
 	require("../breeze/framework/js/tools/DateTime")(FW);
-	
+
 	FW.register(
 		{
 			param:{
@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 								//获取pagesize
 								var pageSize = _pagesize || 10;
 								curPageNum = Math.ceil(dataCount/pageSize);
-								
+
 								function reShowConList(_prePageNum){
 									var pageNum = parseInt(_prePageNum);
 									_param.spes.limit = {
@@ -63,7 +63,7 @@ define(function(require, exports, module) {
 										length: pageSize.toString()
 									}
 									_this.API.doServer(_serverName, _package, _param, function(code,data){
-										if(code == 0){							
+										if(code == 0){
 											_callback && _callback(data);
 											FW.use().showPagination(_this.API.find("#"+_domid),dataCount,pageSize,pageNum,function(prePageNum){
 												reShowConList(prePageNum);

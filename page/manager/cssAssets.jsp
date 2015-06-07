@@ -24,8 +24,8 @@
 <link rel="stylesheet" href="<%=this.getServletContext().getContextPath()%>/page/manager/assets/css/ace-responsive.min.css" />
 <link rel="stylesheet" href="<%=this.getServletContext().getContextPath()%>/page/manager/assets/css/ace-skins.min.css" />
 
-
-
 <!--[if lt IE 9]>
 <link rel="stylesheet" href="<%=this.getServletContext().getContextPath()%>/page/manager/assets/css/ace-ie.min.css" />
 <![endif]-->
+
+<link rel="stylesheet" href="<%=this.getServletContext().getContextPath()%>/page/manager/assets/css/wuman.css" />

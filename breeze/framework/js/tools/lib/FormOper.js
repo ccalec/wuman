@@ -20,6 +20,9 @@ define(function(require, exports, module) {
 			formatQuota : function(str){
 				return str.replace(/'/g,"&apos;");
 			},
+			toJSONString: function(obj){
+				return API.JsonAPI.toJSONString(obj);
+			},
 			showPicsList: function(PicsArr){
 				var PicsListHtml = "";
 				for (var i = 0; i < PicsArr.length; i++) {
@@ -228,11 +231,11 @@ define(function(require, exports, module) {
 				case "Text":
 
 					formStr+="<input id='"+fName+"' class='inp_text "+fClass+"_inp' type='text' name='"+fName+"' ";
-					if(islist) formStr+="readOnly='true' ";
+					// if(islist) formStr+="readOnly='true' ";
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+="/>";
@@ -241,7 +244,7 @@ define(function(require, exports, module) {
 				//hidden隐藏的表单类型
 				case "Hidden":
 				  formStr+= "<input id='"+fName+"' class='inp_text "+fClass+"_inp' type='hidden' name='"+fName+"' ";		//2013-03-20 Alec修改
-				  if(islist) formStr+="readOnly='true' ";
+				  // if(islist) formStr+="readOnly='true' ";
 				  formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
@@ -254,7 +257,7 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+="/>";
@@ -267,7 +270,7 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+="readOnly='true'/>";
@@ -286,10 +289,10 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if(fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
-					if(islist) formStr+="readOnly='true' ";
+					// if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
 					if(!fIsList){
 						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
@@ -304,8 +307,8 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if(fWidth) formStr+="style='width:"+fWidth+"' ";
-					if(islist) formStr+="readOnly='true' ";
+					if (fWidth && !fIsList) formStr+="style='width:"+fWidth+"' ";
+					// if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
 					if(!islist){
 						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
@@ -320,10 +323,10 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
-					if(islist) formStr+="readOnly='true' ";
+					// if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
 					if(!islist){
 						formStr+="<span class='add-on'><i data-time-icon='icon-time' data-date-icon='icon-calendar'></i></span>";
@@ -338,10 +341,10 @@ define(function(require, exports, module) {
 					formStr+="<!--$if(valueStatus){-->";
 					formStr+="value='${lang:formatQuota("+fValue+")}' ";
 					formStr+="<!--$}-->";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
-					if(islist) formStr+="readOnly='true' ";
+					// if(islist) formStr+="readOnly='true' ";
 					formStr+="/>";
 					formStr+="</div>";
 					break;
@@ -371,10 +374,6 @@ define(function(require, exports, module) {
 							formStr+="<!--$if("+fValue+"=='"+fValueRange[i][emun]+"'){-->";
 							formStr+="checked='true' ";
 							formStr+="<!--$}-->";
-							formStr+="<!--$}else{-->";
-							if(i==0){
-								formStr+="checked='true' ";
-							}
 							formStr+="<!--$}-->";
 							formStr+="/><span class='lbl'> "+emun+"</span></label>";
 						}
@@ -385,10 +384,10 @@ define(function(require, exports, module) {
 				//下拉菜单函数
 				case "Select":
 					formStr+="<select id='"+fName+"' class='"+fClass+"_sel' ";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
-					if(islist) formStr+="disabled='true' ";
+					// if(islist) formStr+="disabled='true' ";
 					formStr+="name='"+fName+"'>";
 					for (var i=0; i<fValueRange.length; i++){
 						for(var emun in fValueRange[i]){
@@ -486,7 +485,7 @@ define(function(require, exports, module) {
 				//文本域函数
 				case "TextArea":
 					formStr+="<div class='row-fluid'><textarea id='"+fName+"' class='span12 "+fClass+"_tex' name='"+fName+"' ";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+=">";
@@ -499,7 +498,7 @@ define(function(require, exports, module) {
 				//html编辑器函数
 				case "Html":
 					formStr+="<div class='row-fluid'><textarea id='"+fName+"' class='"+"span12 xheditor "+fClass+"_tex' name='"+fName+"' ";
-					if (fWidth){
+					if (fWidth && !fIsList){
 						formStr+="style='width:"+fWidth+"' ";
 					}
 					formStr+=">";
@@ -679,7 +678,11 @@ define(function(require, exports, module) {
 
 				//多图上传
 				case "Pics":
-					formStr+="<textarea id='PicsTextArea' style='display:none;' class='"+fClass+"_tex' name='"+fName+"'></textarea>";
+					formStr+="<textarea id='PicsTextArea' style='display:none;' class='"+fClass+"_tex' name='"+fName+"'>";
+					formStr+="<!--$if(valueStatus){-->";
+					formStr+="${lang:toJSONString("+fValue+")}";
+					formStr+="<!--$}-->";
+					formStr+="</textarea>";
 					//增加选择按钮
 					formStr+="<div style='margin-top:5px;' alt='"+fTitle+"' class='btn btn-mini btn-info' href='javascript:void(0);'>";
 					formStr+="<i class='icon-search bigger-120'></i> <span id='spanButtonPlaceholder'></span>";
@@ -714,7 +717,7 @@ define(function(require, exports, module) {
 					var _fieldName = $(this).siblings(".outerlink").attr("name");
 					//获取参数二：fieldValue
 					var _fieldValue = $(this).siblings(".outerlink").val();
-				    callback && callback( _fieldName, _fieldValue);
+				  callback && callback( _fieldName, _fieldValue);
 				})
 			}
 			//OuterLink 操作事件，只支持一层，list字段里面不支持外联
@@ -735,9 +738,9 @@ define(function(require, exports, module) {
 			    	$(this).attr("dateFormat",formatDateP);
 			    });
 		    }
-		    //time-picker
-		    function bindTimeP(domTimeP){
-			    var formatTimeP = 'hh:mm:ss';
+	    //time-picker
+	    function bindTimeP(domTimeP){
+			    var formatTimeP = 'hh:mm';
 			    domTimeP.datetimepicker({
 			    	format: formatTimeP,
 			        pickDate: false
@@ -750,8 +753,8 @@ define(function(require, exports, module) {
 			    });
 			}
 			//date-time-picker
-		    function bindDateTimeP(domDateTimeP){
-			    var formatDateTimeP = 'yyyy-MM-dd hh:mm:ss';
+		  function bindDateTimeP(domDateTimeP){
+			    var formatDateTimeP = 'yyyy-MM-dd hh:mm';
 			    domDateTimeP.datetimepicker({
 			    	format: formatDateTimeP
 			    });

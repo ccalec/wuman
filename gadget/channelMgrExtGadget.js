@@ -1,15 +1,15 @@
-/** 
-* @fileOverview CMS后台模型操作视图Gadget 
-* @author <a href="http://www.wgfly.com">Alec</a> 
+/**
+* @fileOverview CMS后台模型操作视图Gadget
+* @author <a href="http://">Alec</a>
 * @version 0.1
-*/ 
+*/
 
 /**
 * @namespace
-* @author Alec 
+* @author Alec
 * @name channelMgrExtGadget
 * @description  CMS后台模型操作视图Gadget
-*/ 
+*/
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
 	require("../breeze/framework/js/tools/DateTime")(FW);
@@ -22,13 +22,13 @@ define(function(require, exports, module) {
 				/**
 				*@name descChannelUrl
 				*@memberOf channelMgrExtGadget
-				*@description 数据模型的内置数据描述文件				
+				*@description 数据模型的内置数据描述文件
 				*/
 				descChannelUrl: "",
-				/**				
+				/**
 				*@name alias
 				*@memberOf channelMgrExtGadget
-				*@description 默认的alias				
+				*@description 默认的alias
 				*/
 				alias: "channel"
 			},
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 			*@memberOf channelMgrExtGadget
 			*@description 初始化，覆盖底层onCreate函数，为channel定制
 				注意：默认alias为“channel"
-			*@example 
+			*@example
 			*/
 			private:{
 				/**
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 				*@description 定义查询指定alias的数据描述函数，主要实现如下：
 				* 1、ajax获取channel的数据描述，并将其保存在this.MY.contentDesc["channel"]下
 				* 2、执行回调函数
-				*@example 
+				*@example
 				*/
 				privateContentDesc: function(_alias,_callback){
 					var _this = this;
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
 				*@param {Object} _arrData 从数据库获取到的多笔数据的一个数组
 				*@description 将createForm函数执行参数的数据描述desc和数据data进行数据转换，主要实现如下
 				* 1、channel模型对数据的特殊转换
-				*@example 
+				*@example
 				*/
 				privateDataToForm: function(_desc,_arrData){
 					if(_arrData && _arrData.length){
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
 				*@param {Object} _data dom[0].getData()函数获取到的单条数据
 				*@description 数据转换函数:将表单获取到的数据中的数组类型List,Pics等，转换成字符串类型保存至数据库，主要实现如下：
 				* 1、将List和Pics等数组类型，由数组转成字符串
-				*@example 
+				*@example
 				*/
 				privateFormToData: function(_desc,_data){
 					if(_data && _data.dataDesc){
@@ -133,7 +133,7 @@ define(function(require, exports, module) {
 						_data.dataDesc = FW.use().toJSONString(_dataDesc);
 					}
 				},
-				
+
 				/**
 				*@function
 				*@name privateBtnConDel
@@ -143,7 +143,7 @@ define(function(require, exports, module) {
 				* 1、判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
 				* 2、doServer从数据库删除该条数据
 				* 3、删除成功后重新执行内容列表视图
-				*@example 
+				*@example
 				*/
 				privateBtnConDel: function(_dom,_data){
 					var _this = this;
@@ -171,7 +171,7 @@ define(function(require, exports, module) {
 				* 2、判断当前视图是否存在_this.MY.sonAlias，如果存在则为子集alias操作
 				* 3、绑定按钮点击事件，doServer从数据库删除该条数据
 				* 4、删除成功后重新执行内容列表视图
-				*@example 
+				*@example
 				*/
 				privateBtnConPLDel: function(){
 					var _this = this;
@@ -206,7 +206,7 @@ define(function(require, exports, module) {
 				* 2、转换data中有List、Pics数组类型为字符串
 				* 3、将数据doServer保存进数据库
 				* 4、执行回调函数_callback
-				*@example 
+				*@example
 				*/
 				privateSubmitConAdd: function(_callback){
 					var _this = this;
@@ -247,7 +247,7 @@ define(function(require, exports, module) {
 				* 2、转换data中有List、Pics数组类型为字符串
 				* 3、将数据doServer保存进数据库
 				* 4、执行回调函数_callback
-				*@example 
+				*@example
 				*/
 				privateSubmitConEdit: function(_callback){
 					var _this = this;

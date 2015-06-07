@@ -29,6 +29,7 @@ if (session.getAttribute("login") == null){
 
 	<!-- //前端框架JS -->
 	<script src="../page/manager/assets/js/bootstrap.min.js"></script>
+	<script src="../breeze/xheditor/jquery-migrate-1.1.0.min.js"></script>
 
 	<!--basic styles-->
 	<link href="../page/manager/assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -53,7 +54,11 @@ if (session.getAttribute("login") == null){
 	<!--[if lt IE 9]>
 	  <link rel="stylesheet" href="../page/manager/assets/css/ace-ie.min.css" />
 	<![endif]-->
-
+	<style>
+	textarea{
+		height: 150px!important;
+	}
+	</style>
 
 <%
 		//获取所有流程

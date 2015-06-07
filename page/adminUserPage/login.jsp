@@ -56,7 +56,7 @@
 											<div id="login-box" class="login-box visible widget-box no-border">
 												<div class="widget-body">
 													<div class="widget-main">
-														<h4 class="header white lighter bigger">
+														<h4 class="header green lighter bigger">
 															<i class="icon-coffee green"></i>
 															${loginDesc2}
 														</h4>

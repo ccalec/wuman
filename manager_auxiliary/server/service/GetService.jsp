@@ -9,9 +9,14 @@
 <%
 	BreezeContext root = ContextMgr.getRootContext();
     String serviceName = root.getContextByPath("_R.service").getData().toString();
+
     String baseDir = Cfg.getCfg().getRootDir()+"WEB-INF/classes/service/";
+
+
     String fileName = baseDir + serviceName.replaceAll("\\.", "/") + ".brz";
+
     String content = FileTools.readFile(fileName,"utf-8");
+
     BreezeContext resultContext = new BreezeContext();
     resultContext.setContext("code", new BreezeContext(0));
     resultContext.setContext("data", new BreezeContext(content));

@@ -23,7 +23,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a href="#" class="brand">
+      <a href="total.jsp" target="myframe" class="brand">
         <small> <i class="icon-flag"></i>
           ${title}
         </small>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="page-content clearfix">
-      <iframe name="myframe" id="ifr" src="total.jsp" width="100%" height="500" scrolling-y="yes" frameborder="0"></iframe>
+      <iframe name="myframe" id="ifr" src="" width="100%" height="500" scrolling-y="yes" frameborder="0"></iframe>
     </div>
   </div>
   <!-- ====================== -->
@@ -97,12 +97,17 @@
 <script type="text/javascript">
   // 计算页面的实际高度，iframe自适应会用到
   var height = $(window).height();
-  $('#ifr').height(height-117);
+  $('#ifr').height(height-127);
   // hash初始化
-  var hash = document.location.hash.replace('#','');
-  if(hash){
-    $('#ifr').attr('src',hash);
-  }
+  var hash = document.location.hash.replace('#','') || 'total.jsp';
+  $('#ifr').attr('src',hash);
+
+  // 轮训调整iframe高度
+  $(window).resize(function() {
+    var height = $(window).height();
+    $('#ifr').height(height-127);
+  })
+
   // 点击带hash
   $("a").on('click',function(){
     var href = $(this).attr('href');

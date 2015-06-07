@@ -1,0 +1,1 @@
+<a alt="更新商品信息" class="btn btn-mini btn-primary J_updateGoodsInfo" href="javascript:void(0);"><i class="icon-refresh bigger-120"></i> 同步商品信息</a> * 如果货号存在，则更新商品信息，如不存在，则表示新商品入库

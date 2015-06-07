@@ -1,6 +1,6 @@
 ﻿/**
 * @fileOverview CMS后台内容操作视图的扩展函数Gadget
-* @author <a href="http://www.wgfly.com">Alec</a>
+* @author <a href="http://">Alec</a>
 * @version 0.1
 */
 
@@ -14,6 +14,7 @@
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
 	require("../breeze/framework/js/tools/DateTime")(FW);
+	require("../breeze/framework/js/tools/Widget")(FW);
 	require("../gadget/cmsMgrGadget"); //引入扩展函数
 	FW.register(
 		{
@@ -113,6 +114,66 @@ define(function(require, exports, module) {
 				}
 			},
 			TrigerEvent:{
+				trigerSubmit: function(){
+					var _this = this;
+					//列表提交
+					if(_this.MY.action == _this.MY.act.conList){
+						_this.API.private("privateSubmitConList",function(){
+							FW.use('Widget').alert("修改完成!");
+							_this.API.private("privateShowConList");
+						});
+					}
+					//内容添加
+					else if(_this.MY.action == _this.MY.act.conAdd){
+						_this.API.private("privateSubmitConAdd",function(){
+							FW.use('Widget').alert("内容添加成功！");
+							_this.API.private("privateShowConList");
+						});
+					}
+					//内容批量添加
+					else if(_this.MY.action == _this.MY.act.conPLAdd){
+						_this.API.private("privateSubmitConPLAdd",function(){
+							FW.use('Widget').alert("添加完成!");
+							_this.API.private("privateShowConList");
+						});
+					}
+					//编辑内容
+					else if(_this.MY.action == _this.MY.act.conEdit){
+						_this.API.private("privateSubmitConEdit",function(){
+							FW.use('Widget').alert("保存成功！");
+							_this.API.private("privateShowConList");
+						});
+					}
+					//编辑栏目
+					else if(_this.MY.action == _this.MY.act.classEdit){
+						_this.API.private("privateSubmitClassEdit",function(){
+							FW.use('Widget').alert("保存成功！");
+							FW.trigerEvent('trigerReShowNodeTree',_this.MY.alias);
+							_this.API.private("privateShowConList");
+						});
+					}
+					//添加栏目
+					else if(_this.MY.action == _this.MY.act.classAdd){
+						_this.API.private("privateSubmitClassAdd",function(){
+							FW.use('Widget').alert("栏目添加成功！");
+							FW.trigerEvent('trigerReShowNodeTree',_this.MY.alias);
+							_this.API.private("privateShowConList");
+						});
+					}
+					//其他
+					else{
+						_this.API.private('privateSubmit_'+_this.MY.action);
+					}
+				},
+				trigerGoBack: function(){
+					//删除sonAlias
+					delete this.MY.sonAlias;
+					//隐藏子级头
+					$("#tabSonAlias").hide();
+					$("#btnAddSonAlias").hide();
+					$("#btnPLAddSonAlias").hide();
+					this.API.private("privateShowConList");
+				}
 			}
 		}
 	);

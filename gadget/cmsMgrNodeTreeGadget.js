@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	FW.register(
 		{
 			param:{
-				/**				
+				/**
 				*@name displayName
 				*@memberOf cmsMgrNodeTreeGadget
 				*@description 栏目树显示的栏目字段名 默认为displayName	格式{"xxxalias":"fieldName"};
@@ -59,11 +59,11 @@ define(function(require, exports, module) {
 										selfData.additionalParameters = temp[t_cid].additionalParameters;
 									}
 
-									temp[t_cid] = selfData;							
+									temp[t_cid] = selfData;
 
 									//判断是否是顶级节点
 									//2013-08-13 杨昆  如果非直接在页面上创建树，那么顶级结点t_nodeID为null，这样无法显示；需要加上null 判断
-									if(t_nodeID == null || t_nodeID == 0){								
+									if(t_nodeID == null || t_nodeID == 0){
 										//直接加入到临时列表中
 										tree_data[t_cid] = selfData;
 										continue;
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
 									var parent = temp[t_nodeID];
 									if (!parent){
 										//造一个假老爸
-										parent = {									
+										parent = {
 										};
 										//丢到临时数据里面
 										temp[t_nodeID] = parent;
@@ -88,7 +88,7 @@ define(function(require, exports, module) {
 									parent.additionalParameters.children[selfData.cid] = selfData;
 								}
 							}
-							
+
 							//栏目树数据组合函数
 							var DataSourceTree = function(options) {
 								this._data 	= options.data;
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
 										$data = options.additionalParameters.children;
 									else $data = {}//no data
 								}
-								
+
 								if($data != null)//this setTimeout is only for mimicking some random delay
 									setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
 							}

@@ -1,6 +1,6 @@
 ﻿/**
 * @fileOverview 处理用户信息用户登录的gadget
-* @author <a href="http://www.wgfly.com">Alec</a>
+* @author <a href="http://">Alec</a>
 * @version 0.1
 */
 

@@ -1,79 +1,79 @@
-﻿/** 
-* @fileOverview cms前台展示页面通用视图Gadget 
-* @author <a href="http://www.wgfly.com">Alec</a> 
+﻿/**
+* @fileOverview cms前台展示页面通用视图Gadget
+* @author <a href="http://">Alec</a>
 * @version 0.1
-*/ 
+*/
 
 /**
 * @namespace
-* @author Alec 
-* @name cmsViewGadget 
+* @author Alec
+* @name cmsViewGadget
 * @description  这是一个支持cms查询显示的gadget，支持用cms显示alias的三个模式
 * 包括：nodeList,contentList,contentDetail,
 * 在本API中，页面将使用主视图view_main
-*/ 
+*/
 
 define(function(require, exports, module) {
 	var FW = require("../breeze/framework/js/BreezeFW");
 	require("../breeze/framework/js/tools/DateTime")(FW);
-	
+
 	FW.register(
 		{
 			param:{
-				/**				
+				/**
 				*@name viewObj
 				*@memberOf cmsViewGadget
-				*@description 默认模式			
+				*@description 默认模式
 				*/
 				viewObj:"nodeList",
-				/**				
+				/**
 				*@name alias
 				*@memberOf cmsViewGadget
-				*@description 默认alias			
+				*@description 默认alias
 				*/
 				alias:null,
-				/**				
+				/**
 				*@name cid
 				*@memberOf cmsViewGadget
-				*@description 默认cid 当nodeList的视图下，0标示查顶级栏目; contentList视图下，-1表示忽略cid，查询全部		
+				*@description 默认cid 当nodeList的视图下，0标示查顶级栏目; contentList视图下，-1表示忽略cid，查询全部
 				*/
 				cid:null,
-				/**				
+				/**
 				*@name pageLen
 				*@memberOf cmsViewGadget
-				*@{int} int类型 
-				*@description 默认分页长度是10如果不想要分页限制，可以将分页长度设定成足够大			
+				*@{int} int类型
+				*@description 默认分页长度是10如果不想要分页限制，可以将分页长度设定成足够大
 				*/
 				pageLen:10,
-				/**				
+				/**
 				*@name orderby
 				*@memberOf cmsViewGadget
-				*@{Arrar} 数组类型 
-				*@description 数据排序条件			
+				*@{Arrar} 数组类型
+				*@description 数据排序条件
 				*/
 				orderby:[{
 					name:"cid",
 					desc:"true"
-				}],				
-				
-				/**				
+				}],
+
+				/**
 				*@name btnShowMore
 				*@memberOf cmsViewGadget
-				*@description 用于nodeList或contentList两种视图，指定点击查看更多节点ID			
+				*@description 用于nodeList或contentList两种视图，指定点击查看更多节点ID
 				*/
 				btnShowMore:"pageDv",
 
-                /**				
+                /**
 				*@name view_main
 				*@memberOf cmsViewGadget
-				*@description 主要视图，缺省为view_main		
+				*@description 主要视图，缺省为view_main
 				*/
 				mainView:"view_main",
 
-				/**				
+				/**
 				*@name condiction
 				*@memberOf cmsViewGadget
-				*@description 查询的条件	
+				*@description 查询的条件
 				*/
 				condiction:{}
 			},
@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 			*@name onCreate
 			*@memberOf cmsViewGadget
 			*@description 初始化，根据参数，显示对应视图
-			*@example 
+			*@example
 			*/
 			onCreate:function(){
 
@@ -153,7 +153,7 @@ define(function(require, exports, module) {
 						_this.doServerParam.param.cid = _this.cid;
 					}
 				}
-				
+
 				//视图: view_firstContent
 				//firstContent 查询当前alias，当前栏目cid下面的第一条内容的内容详情
 				if(_this.param.viewObj == "firstContent"){
@@ -188,7 +188,7 @@ define(function(require, exports, module) {
 							}else{
 								_this.API.show(_this.param.mainView, data.cmsdata);
 							}
-							
+
 						}else{
 							_this.API.show("view_"+_this.param.viewObj);
 						}
@@ -204,17 +204,17 @@ define(function(require, exports, module) {
 				*@memberOf cmsViewGadget
 				*@description 用于nodeList,contentList两种列表视图，点击查看更多loading数据
 				*@param {String} thisId 指定需要loading数据的appid
-				*@example 				
+				*@example
 				*/
 				showMore:function(_appid){
 					this.pageNo++;
 					this.MY.getData(true);
 				}
 			},
-			TrigerEvent:{				
-				trigerSearch:function(_appid,_keyword){					
+			TrigerEvent:{
+				trigerSearch:function(_appid,_keyword){
 					if(_appid == this.id){
-						
+
 						//重置pageNo
 						this.pageNo = 0;
 
