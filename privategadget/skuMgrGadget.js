@@ -292,7 +292,7 @@ define(function(require, exports, module) {
                 //如果不是当前p唯一值，则删除所有相关的数据
                 var skuList = [];
                 $.each(allSkuList,function(i,sku){
-                  console.log(sku['_fe'][curpid]['cid'] != curpvid);
+                  // console.log(sku['_fe'][curpid]['cid'] != curpvid);
                   if(sku['_fe'][curpid]['cid'] != curpvid){
                     skuList.push(sku);
                   };
@@ -371,7 +371,6 @@ define(function(require, exports, module) {
             // 校验
             if(name=='seller_bianma'){
               if(!$.trim($(this).val())){
-                FW.use('Widget').alert('请正确输入商家编码','warning');
                 $(self).addClass('error');
                 return false;
               }else{
@@ -379,7 +378,6 @@ define(function(require, exports, module) {
               }
             }else if(name=='price'){
               if(!/^\d+(\.)?\d+$/.test($.trim($(this).val()))){
-                FW.use('Widget').alert('请正确输入商品价格','warning');
                 $(self).addClass('error');
                 return false;
               }else{
@@ -387,7 +385,6 @@ define(function(require, exports, module) {
               }
             }else if(name=='quantity'){
               if(!/^\d+$/.test($.trim($(this).val()))){
-                FW.use('Widget').alert('请正确输入库存','warning');
                 $(self).addClass('error');
                 return false;
               }else{
@@ -462,7 +459,6 @@ define(function(require, exports, module) {
           }
           var editDataMap = _this.MY.editDataMap = _this.MY.editDataMap || {};
           var addData = [];
-
           $('#J_skuform').find('tr.tr_add').each(function(){
             var obj = {
               nodeid: _this.MY.cid,
@@ -483,8 +479,7 @@ define(function(require, exports, module) {
             obj[_this.MY.skuMapData.feaField] = obj[_this.MY.skuMapData.feaField].sort(function(a,b){return a>b}).join(',');
             addData.push(obj);
           });
-
-          if(Object.keys(editDataMap)+addData.length){
+          if((Object.keys(editDataMap).length+addData.length)==0){
             FW.trigerEvent('trigerStep3');
             return;
           }

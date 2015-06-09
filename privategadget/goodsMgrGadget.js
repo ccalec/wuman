@@ -169,6 +169,7 @@ define(function(require, exports, module) {
           FW.use('Widget').prompt(htmlstr,'宝贝入库');
         },
         trigerReset: function(){
+          $.unblockUI();
           this.API.private('privateStep2');
         }
       }

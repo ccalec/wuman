@@ -74,31 +74,40 @@ define(function(require, exports, module) {
           var errArr = [];
           for (var i = 0; i < _this.MY.maskData.length; i++) {
             var onedata = _this.MY.maskData[i];
-            //设置时间
-            // 如果是上架或预设上架，看下架时间是否大于预设时间  否则 清除下架时间
-            // 如果是下架或预设下架，不需要变动上架时间
-            if(_this.MY.maskType==0){ //上架
-              var start_time = timeValue;
-              if(parseInt(onedata.end_time) > timeStamp){
-                var end_time = 'end_time';
+            (function(_onedata){
+              //设置时间
+              // 如果是上架或预设上架，看下架时间是否大于预设时间  否则 清除下架时间
+              // 如果是下架或预设下架，不需要变动上架时间
+              if(_this.MY.maskType==0){ //上架
+                var start_time = timeValue;
+                if(parseInt(_onedata.end_time) > timeStamp){
+                  var end_time = 'end_time';
+                }else{
+                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，上架时间必须小于下架时间！');
+                  return;
+                }
               }else{
-                var end_time = 'null';
+                var start_time = 'start_time';
+                var end_time = timeValue;
+                if(parseInt(_onedata.start_time) < timeStamp){
+                  var start_time = 'start_time';
+                }else{
+                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，下架时间必须大于上架时间！');
+                  return;
+                }
               }
-            }else{
-              var start_time = 'start_time';
-              var end_time = timeValue;
-            }
-            //设置请求参数
-            var param = {
-              start_time: start_time,
-              end_time: end_time,
-              cid: onedata.cid
-            };
-            _this.API.addPost('updateGoodsTime', 'goods', param, function(code,data){
-              if(code!==0){
-                errArr.push(onedata.cid);
-              }
-            });
+              //设置请求参数
+              var param = {
+                start_time: start_time,
+                end_time: end_time,
+                cid: _onedata.cid
+              };
+              _this.API.addPost('updateGoodsTime', 'goods', param, function(code,data){
+                if(code!==0){
+                  errArr.push(_onedata.cid);
+                }
+              });
+            })(onedata);
           };
           _this.API.doPost(function(){
             if(errArr.length){
