@@ -130,62 +130,56 @@ define(function(require, exports, module) {
           };
 
           // 使用abcdefg的字母顺序进行排序
-          var s = 'abcdefghijkmnlopqrstuvwxyzABCDEFGHIJKMNLOPQRSTUVWXYZ';
+          var sn = 'abcdefghijkmnlopqrstuvwxyzABCDEFGHIJKMNLOPQRSTUVWXYZ';
           // 设置pMap
-          $.each(pData.cmsdata,function(i,k){
-            k['_sn'] = s.charAt(i);  //排序标记
-            k['_len'] = 0;  //有值的pv数
-            k['_actpv'] = []; //有效pv数组
-            pMap[k.cid] = k;
+          $.each(pData.cmsdata,function(i,pobj){
+            pobj['_sn'] = sn.charAt(i);  //排序标记
+            pobj['_actpvids'] = [];  //激活的pvlen
+            pobj['_pvids'] = [];  //排序标记
+            pMap[pobj.cid] = pobj;
           });
           //设置pvMap, 并放入pMap
-          $.each(pvData.cmsdata,function(i,k){
-            pvMap[k.cid] = k;
-            pMap[k['property_id']]['pvList'] = pMap[k['property_id']]['pvList'] || [];
-            k['_sn'] = s.charAt(pMap[k['property_id']]['pvList'].length);  //排序标记
-            pMap[k['property_id']]['pvList'].push(k);
+          $.each(pvData.cmsdata, function(i,pvobj){
+            pvMap[pvobj.cid] = pvobj;
+            var pid = pvobj['property_id'];
+            pvobj['_sn'] = sn.charAt(pMap[pid]['_pvids'].length);  //排序标记
+            pMap[pid]['_pvids'].push(pvobj.cid);
           });
           // 设置skuMapData
-          $.each(skuData.cmsdata,function(i,k){
-            skuMap[k.cid] = k;
+          $.each(skuData.cmsdata,function(i,skuobj){
+            skuMap[skuobj.cid] = skuobj;
           });
           // 标记有值的p-v, 将sku的feature转为pvMap，并将排序标记复制给_sort字段
-          $.each(skuData.cmsdata,function(i,sku){
-            var feaArr = sku[skuMapData.feaField].split(',');
-            sku['_fe'] = {};
-            sku._sort = []; //排序标示
-            $.each(feaArr,function(ei,pvid){
-              if(pvMap[pvid]){
-                pvMap[pvid]['activeStatus'] = true;
-                var pid = pvMap[pvid]['property_id'];
-                if(pMap[pid]){
-                  pvMap[pvid]['_initStatus'] = true;
-                  pMap[pid]['_len']++;
-                  pMap[pid]['_actpv'].push(pvMap[pvid]);
-                  sku['_fe'][pid] = pvMap[pvid];
-                  sku._sort.push(pMap[pid]['_sn']+pvMap[pvid]['_sn']);
+          $.each(skuData.cmsdata, function(i,skuobj){
+            var feaArr = skuobj[skuMapData.feaField].split(',');
+            skuobj['_fe'] = {};
+            skuobj._sort = []; //排序标示
+            $.each(feaArr,function(ei, pvid){
+              var pvobj = pvMap[pvid];
+              if(pvobj){
+                pvobj['activeStatus'] = true;
+                var pid = pvobj['property_id'];
+                var pobj = pMap[pid];
+                if(pobj){
+                  if($.inArray(pvid, pobj['_actpvids'])==-1){
+                    pobj['_actpvids'].push(pvid);
+                  }
+                  skuobj['_fe'][pid] = pvobj;
+                  skuobj._sort.push(pobj['_sn']+pvobj['_sn']);
                 }
               }
             });
-            sku._sort = sku._sort.length ? sku._sort.sort() : ['ZZ','ZZ','ZZ','ZZ'];  //按照p排序
+            skuobj._sort = skuobj._sort.length ? skuobj._sort.sort() : ['ZZ','ZZ','ZZ','ZZ'];  //按照p排序
           });
-
-          //主列表数据
-          $.each(skuData.cmsdata,function(i, sku){
-            $.each(pMap,function(pK,pV){
-              if(!pV['_len'].length) return;
-              var obj = sku['_fe'][pK] || {cid:'',value:'-'};
-            });
-          });
+          console.log("xxxxxxxxxxx123xxxxx",this.MY);
         },
         privateShowSkuList: function(){
           var _this = this;
-
           //列表头th部分
           var headList = [];
-          $.each(_this.MY.pMap,function(pK,pV){
-            if(!pV['_len']) return;
-            headList.push(pV['property_name']);
+          $.each(_this.MY.pMap, function(pid,pobj){
+            if(!pobj['_actpvids'].length) return;
+            headList.push(pobj['property_name']);
           });
           $.each(_this.MY.skuMapData.showFields, function(i, field){
             headList.push(_this.MY.skuDescMap[field].title);
@@ -201,6 +195,7 @@ define(function(require, exports, module) {
           _this.API.show('viewSkuMgr', {
             cateid: _this.MY.cateid,
             pMap : _this.MY.pMap,
+            pvMap : _this.MY.pvMap,
             skuMapData : _this.MY.skuMapData
           });
           console.log(_this.MY.skuMapData.skuList);
@@ -209,7 +204,7 @@ define(function(require, exports, module) {
           var _this = this;
           //勾选属性勾选一个选项，重新绘制一次
           $("#skuMgrGadget").delegate("input[name='pvid']","click",function(){
-            if($(this).hasClass('disabled')) return false;
+            // if($(this).hasClass('disabled')) return false;
             var pMap = _this.MY.pMap;
             var pvMap = _this.MY.pvMap;
             var skuMapData = _this.MY.skuMapData;
@@ -223,8 +218,7 @@ define(function(require, exports, module) {
             //选中
             if($(this).attr('checked')){
               // n. 如果是p中第一个点击，则是在之前得sku上添加sort和feature
-              if(!pMap[curpid]['_len']){
-
+              if(!pMap[curpid]['_actpvids'].length){
                 //如果是第一笔sku数据，且只有一个pv
                 if(!allSkuList.length){
                   allSkuList[0] = {};
@@ -239,53 +233,49 @@ define(function(require, exports, module) {
                   });
                 }
               }else{
-                // 0. 判断当前所属哪个p,将其排除在外
-                // 1. 计算增加条数： 除当前p外，p中有效pv数相乘
-                // 2. 遍历各个p, 计算当前有值的pv数，用总数除以有效pv值 ＝ 单个显示次数
-                // 3. 循环总数，添加初始化数据进入skuList各个feature属性
-                var tolLen = 1;
+                // 0. 判断当前所属哪个p,将当前p内置为第一个
+                // 1. 递归循环其他p,将其子pv依次与“组合结果数组”进行匹配
+                // 2. 遍历组合结果数组，转化成skuobj
+                var skuResArr = [{  //组合结果数组
+                  '_fe': {},
+                  '_sort': []
+                }];
+                skuResArr[0]['_fe'][curpid] = pvMap[curpvid];
+                skuResArr[0]['_sort'].push(pMap[curpid]['_sn']+pvMap[curpvid]['_sn']);
                 $.each(pMap,function(pid,pobj){
-                  if(curpid==pid || !pobj['_len']) return;
-                  tolLen=tolLen*pobj['_len'];
-                });
-                for (var i = 0; i < tolLen; i++) {  //添加sku数据
-                  var skuobj = {};
-                  skuobj['_fe'] = {};
-                  skuobj['_fe'][curpid] = pvMap[curpvid];
-                  skuobj._sort = [cursn];
-                  $.each(pMap,function(pid,pobj){
-                    if(curpid == pid || !pobj['_len']) return;
-                    var len = pobj['_len'];
-                    var curCS = tolLen/len;
-                    var idx = Math.floor(i/curCS);
-                    // sku字段值
-                    skuobj['_fe'][pid] = pobj['_actpv'][idx];
-                    //排序标示
-                    skuobj._sort.push(pobj['_sn']+pobj['_actpv'][idx]['_sn']);
+                  if(curpid==pid || !pobj['_actpvids'].length) return;
+                  var newResArr = [];
+                  $.each(pobj['_actpvids'], function(i,pvid){
+                    $.each(skuResArr,function(ii, skuobj){
+                      var newSkuObj = $.extend(true, {}, skuobj);
+                      newSkuObj['_fe'][pid] = pvMap[pvid];
+                      newSkuObj['_sort'].push(pobj['_sn']+pvMap[pvid]['_sn']);
+                      newSkuObj['_sort'] = newSkuObj['_sort'].sort();  //按照p排序
+                      newResArr.push(newSkuObj);
+                    });
                   });
-                  skuobj._sort  = skuobj._sort.sort();  //按照p排序
-                  allSkuList.push(skuobj);
-                };
+                  skuResArr = $.extend(true, [], newResArr);
+                });
+                console.log("新增的sku:",skuResArr);
+                allSkuList = _this.MY.skuMapData.skuList = allSkuList.concat(skuResArr);
               }
 
               //标记当前点击的pvobj
-              pMap[curpid]['_len']++;
-              pMap[curpid]['_actpv'].push(pvMap[curpvid]);
+              pMap[curpid]['_actpvids'].push(curpvid);
               pvMap[curpvid]['activeStatus'] = true;
-
             }else{ //取消
 
               //如果在当前p是唯一值，则删除相关数据中的pv
-              if(pMap[curpid]['_len']==1){
+              if(pMap[curpid]['_actpvids'].length==1){
                 //如果是最后一笔sku数据，且只有一个pv
                 if(allSkuList.length==1 && allSkuList[0]._sort.length==1){
                   allSkuList = _this.MY.skuMapData.skuList = [];
                 }else{
-                  $.each(allSkuList,function(i,sku){
-                    if(!sku['_fe'][curpid]) return;
-                    delete sku['_fe'][curpid];
-                    var idx2 = $.inArray(cursn, sku._sort);
-                    sku._sort = arrDel(sku._sort,idx2);
+                  $.each(allSkuList,function(i,skuobj){
+                    if(!skuobj['_fe'][curpid]) return;
+                    delete skuobj['_fe'][curpid];
+                    var idx2 = $.inArray(cursn, skuobj._sort);
+                    skuobj._sort = arrDel(skuobj._sort, idx2);
                   });
                 }
               }else{
@@ -300,11 +290,10 @@ define(function(require, exports, module) {
                 _this.MY.skuMapData.skuList = allSkuList = skuList;
               };
 
-              //pv有效值减一
-              pMap[curpid]['_len']--;
-              $.each(pMap[curpid]['_actpv'],function(i, pvobj){
-                if(pvobj.cid===curpvid){
-                  pMap[curpid]['_actpv'] = arrDel(pMap[curpid]['_actpv'], i);
+              //actpvids减
+              $.each(pMap[curpid]['_actpvids'],function(i, pvid){
+                if(pvid==curpvid){
+                  pMap[curpid]['_actpvids'] = arrDel(pMap[curpid]['_actpvids'], i);
                   return false;
                 }
               });
@@ -312,11 +301,6 @@ define(function(require, exports, module) {
             }
             //获取到最新的allSkuList后，重新渲染试图
             _this.API.private('privateShowSkuList');
-
-            //校验所有tr是否编辑状态
-            $('#J_skuform tbody tr').each(function(){
-              _this.API.private('privateCheckTrEdit', $(this));
-            });
 
           });
           function arrDel(arr,d){
@@ -391,57 +375,7 @@ define(function(require, exports, module) {
                 $(self).removeClass('error');
               }
             }
-            // 单行校验
-            var p_tr = $(self).parents('tr');
-            _this.API.private('privateCheckTrEdit',p_tr);
           });
-        },
-        privateCheckTrEdit: function(p_tr){
-          var _this = this;
-          var curskuid = $.trim(p_tr.find("input[name='cid']").val());
-          var editDataMap = _this.MY.editDataMap = _this.MY.editDataMap || {};
-          var skuMapData = _this.MY.skuMapData;
-          var skuMap = _this.MY.skuMap;
-          // 状态变更，判断是否原始数据, 且数据是否与原数据有变动
-          var editStatus = false;
-          if(curskuid && skuMap[curskuid]){  //存在cid标示是编辑
-            //如果feature不一样，则必定是编辑状态
-            var obj = {}
-            p_tr.find('input').each(function(){
-              var val = $.trim($(this).val());
-              var name = $(this).attr('name');
-              var type = $(this).attr('type');
-              if(type=="checkbox"){
-                obj[name] = obj[name] || [];
-                obj[name].push(parseInt(val));
-              }else{
-                obj[name] = val;
-              }
-            });
-            var fea = _this.MY.skuMapData.feaField;
-            obj[fea] = obj[fea].sort(function(a,b){return a>b}).join(',');
-            //校验feature
-            if(obj[fea] != skuMap[curskuid][fea]){
-              editDataMap[curskuid] = editDataMap[curskuid] || $.extend({}, skuMap[curskuid]);
-              editDataMap[curskuid][fea] = obj[fea];
-              editStatus = true;
-            }
-            //校验自定义字段
-            $.each(skuMapData.showFields, function(i,field){
-              var propval = obj[field];
-              if(propval != skuMap[curskuid][field]){
-                editDataMap[curskuid] = editDataMap[curskuid] || $.extend({}, skuMap[curskuid]);
-                editDataMap[curskuid][field] = propval;
-                editStatus = true;
-              }
-            });
-          }
-          if(editStatus){
-            p_tr.addClass('tr_edit');
-          }else{
-            delete editDataMap[curskuid];
-            p_tr.removeClass('tr_edit');
-          }
         }
       },
       TrigerEvent:{
@@ -457,9 +391,8 @@ define(function(require, exports, module) {
           if(cid){
             _this.MY.cid = cid;
           }
-          var editDataMap = _this.MY.editDataMap = _this.MY.editDataMap || {};
           var addData = [];
-          $('#J_skuform').find('tr.tr_add').each(function(){
+          $('#J_skuform').find('tbody>tr').each(function(){
             var obj = {
               nodeid: _this.MY.cid,
               addtime: new Date().getTime(),
@@ -479,45 +412,38 @@ define(function(require, exports, module) {
             obj[_this.MY.skuMapData.feaField] = obj[_this.MY.skuMapData.feaField].sort(function(a,b){return a>b}).join(',');
             addData.push(obj);
           });
-          if((Object.keys(editDataMap).length+addData.length)==0){
-            FW.trigerEvent('trigerStep3');
-            return;
-          }
+
           //多请求同时发送初始化
-          var postStatus = true;
           _this.API.initPost();
 
-          //修改部分的参数,
-          var param = {
-            alias: 'sku',
-            param: {}
-          };
-          // 修改的请求：
-          $.each(editDataMap,function(k,v){
-            param.param = v;
-            _this.API.addPost('modifyContent', 'cms', param, function(code,data){
-              if(code!=0 || !data){
-                postStatus = false;
-              }
-            });
+          //先删除原来的所有sku后添加,
+          // 删除的请求：
+          $.each(_this.MY.skuMap,function(skuid,skuobj){
+            (function(_skuid){
+              var param = {
+                alias: 'sku',
+                param: {
+                  cid: _skuid
+                }
+              };
+              _this.API.addPost('deleteContent', 'cms', param, function(code,data){
+              });
+            })(skuid);
           });
+
           // 添加的请求：
           $.each(addData,function(i,o){
-            param.param = o;
-            _this.API.addPost('addContent', 'cms', param, function(code,data){
-              if(code!=0 || !data){
-                postStatus = false;
-              }
-            });
+            (function(obj){
+              var param = {
+                alias: 'sku',
+                param: obj
+              };
+              _this.API.addPost('addContent', 'cms', param, function(code,data){
+              });
+            })(o);
           });
           _this.API.doPost(function(){
-            if(postStatus){
-              // FW.use('Widget').alert('保存成功','success');
-              FW.trigerEvent('trigerStep3');
-            }else{
-              FW.use('Widget').alert('数据保存存在异常','danger',5000);
-              _this.API.private('privateShowDefaultView');
-            }
+            FW.trigerEvent('trigerStep3');
           });
         }
       }

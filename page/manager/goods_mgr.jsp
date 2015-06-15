@@ -97,10 +97,7 @@
         <div id="viewGoodsMgrStep3" class="step3">
           <div class="well">
             <h4 class="green smaller lighter">
-              <strong>
-                <i class="icon-ok"></i>
-                提交成功
-              </strong>
+              <strong><i class="icon-ok"></i> 提交成功</strong>
             </h4>
             <a class="btn btn-small btn-info" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
             <a class="btn btn-small btn-success" href="${B}page/manager/goods_list.jsp?norole=true">返回宝贝列表</a>
@@ -126,16 +123,13 @@
                     <div class="control-group control-group-sm">
                       <label class="control-label">${_}{pObj.property_name}：</label>
                       <div class="controls">
-                        <!--$if(pObj.pvList && pObj.pvList.length){ -->
-                        <!--$for(var i=0; i<pObj.pvList.length; i++){ -->
+                        <!--$if(pObj._pvids && pObj._pvids.length){ -->
+                        <!--$for(var i=0; i<pObj._pvids.length; i++){ -->
+                        <!--$var pvObj = data.pvMap[pObj._pvids[i]]; -->
                         <label>
-                          <!--$if(pObj.pvList[i].activeStatus){ -->
-                          <!--$if(pObj.pvList[i]._initStatus){var disabled='disabled';}else{var disabled='';} -->
-                          <input name="pvid" data-pid="${_}{pid}" class="ace ace-checkbox-2 ${_}{disabled}" type="checkbox" value="${_}{pObj.pvList[i].cid}" checked="true">
-                          <!--$}else{ -->
-                          <input name="pvid" data-pid="${_}{pid}" class="ace ace-checkbox-2" type="checkbox" value="${_}{pObj.pvList[i].cid}">
-                          <!--$} -->
-                          <span class="lbl"></span> ${_}{pObj.pvList[i].value}
+                          <!--$if(pvObj.activeStatus){var checked='checked';}else{var checked='';}-->
+                          <input name="pvid" data-pid="${_}{pid}" class="ace ace-checkbox-2" type="checkbox" value="${_}{pvObj.cid}" ${_}{checked}>
+                          <span class="lbl"></span> ${_}{pvObj.value}
                         </label>
                         <!--$} -->
                         <!--$} -->
@@ -167,13 +161,12 @@
                       <!--$var skuList = data.skuMapData.skuList; fieldList = data.skuMapData.showFields; -->
                       <!--$if(skuList && skuList.length){ -->
                       <!--$for(var i=0; i<skuList.length; i++){ -->
-                      <!--$if(!skuList[i].cid){var colcls = 'tr_add';}else{var colcls = '';} -->
-                      <tr class="${_}{colcls}">
+                      <tr>
                         <td class="hidden"><input type="hidden" name="cid" value="${_}{skuList[i].cid || ''}" /></td>
                         <!--$for(var pid in data.pMap){ -->
-                        <!--$if(data.pMap[pid]['_len']){-->
-                        <!--$var fobj = skuList[i]['_fe'][pid]; -->
-                        <td>${_}{fobj.value}<input style="display:none;" type="checkbox" name="${_}{data.skuMapData.feaField}" value="${_}{fobj.cid}" checked="true"></td>
+                        <!--$if(data.pMap[pid]['_actpvids']){-->
+                        <!--$var pvobj = skuList[i]['_fe'][pid]; -->
+                        <td>${_}{pvobj.value}<input style="display:none;" type="checkbox" name="${_}{data.skuMapData.feaField}" value="${_}{pvobj.cid}" checked="true"></td>
                         <!--$} -->
                         <!--$} -->
                         <!--$for(var k=0; k<fieldList.length; k++){ -->
@@ -190,7 +183,7 @@
                       <!--$} -->
                     </tbody>
                   </table>
-                  <div class="infodesc">备注：蓝色背景为“修改”的规格数据，黄色背景为“新增”数据</div>
+                  <!-- <div class="infodesc">备注：蓝色背景为“修改”的规格数据，黄色背景为“新增”数据</div> -->
                   </form>
                 </div>
               </div>

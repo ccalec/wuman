@@ -69,11 +69,13 @@
               </select>
               <input type="hidden" name="category_id" class="J_nodeid">
             </div>
-            <button type="button" class="btn btn-app btn-primary btn-small J_submitBtn">
-              <i class="icon-search bigger-200"></i>
-                搜索
-            </button>
-            <button type="submit" style="display:none;"></button>
+            <div class="btndiv">
+              <button type="button" class="btn btn-app btn-primary btn-small J_submitBtn">
+                <i class="icon-search bigger-200"></i>
+                  搜索
+              </button>
+              <button type="submit" style="display:none;"></button>
+            </div>
           </form>
 
           <div class="tabList" id="J_tablist">
