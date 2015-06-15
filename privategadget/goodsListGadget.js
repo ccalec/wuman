@@ -135,7 +135,7 @@ define(function(require, exports, module) {
           _this.API.private("privateShowConList");
         },
         privateBtnConEdit: function(_dom,_data){
-          location.href = Cfg.baseUrl+'/page/manager/goods_mgr.jsp?cid='+_data.cid+'&action=conEdit&norole=true';
+          location.href = Cfg.baseUrl+'/page/manager/goods_mgr.jsp?nodeid='+_data.nodeid+'&cid='+_data.cid+'&action=conEdit&norole=true';
           window.location.hash = location.href;
         },
         privateGetCheckedData: function(){
