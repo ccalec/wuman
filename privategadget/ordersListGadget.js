@@ -165,6 +165,51 @@ define(function(require, exports, module) {
             }
           }
           _param.where = whereSql.join(' ');
+        },
+        privateBtnConDel: function(_dom,_data){
+          var _this = this;
+          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
+          var curAlias = _this.MY.sonAlias || _this.MY.alias;
+          if(confirm("确认要删除该内容吗？")){
+            var _param = {
+              alias:curAlias,
+              param:{
+                cid:_data.cid,
+                status: '0'
+              }
+            }
+            var _serverName = _this.MY.serverName.mCon;
+            _this.API.doServer(_serverName,_this.MY.package,_param,function(code,data){
+              if(code == 0){
+                _this.API.private("privateShowConList");
+              }else{
+                FW.use('Widget').alert("内容删除失败！");
+              }
+            });
+          }
+        },
+        privateBtnConPLDel: function(){
+          var _this = this;
+          //获得dom
+          var formDom = _this.API.find("#"+_this.param.formConList);
+          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
+          var curAlias = _this.MY.sonAlias || _this.MY.alias;
+          if(confirm("确认要删除该内容吗？")){
+            //单个循环删除=======
+            //多请求同时发送初始化
+            _this.API.initPost();
+            var arrCheckData = formDom[0].batchEdit();
+            for (var i = 0; i < arrCheckData.length; i++) {
+                _this.API.addPost(_this.MY.serverName.mCon,_this.MY.package,{alias:curAlias,param:{cid:arrCheckData[i].cid, status: '0'}},function(code,data){
+                  if(code!==0){
+                    FW.use('Widget').alert("删除失败！");
+                  }
+                });
+            }
+            _this.API.doPost(function(){
+              _this.API.private("privateShowConList");
+            })
+          }
         }
       },
       TrigerEvent:{
