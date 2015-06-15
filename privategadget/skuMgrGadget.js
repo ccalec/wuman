@@ -394,6 +394,7 @@ define(function(require, exports, module) {
           }
           var addData = [];
           $('#J_skuform').find('tbody>tr').each(function(){
+            if(!$(this).find('input').length) return true;
             var obj = {
               nodeid: _this.MY.cid,
               addtime: new Date().getTime(),
@@ -413,6 +414,10 @@ define(function(require, exports, module) {
             obj[_this.MY.skuMapData.feaField] = obj[_this.MY.skuMapData.feaField].sort(function(a,b){return a>b}).join(',');
             addData.push(obj);
           });
+          if(!addData.length){
+            FW.trigerEvent('trigerStep3');
+            return;
+          }
 
           //多请求同时发送初始化
           _this.API.initPost();
