@@ -142,6 +142,7 @@ define(function(require, exports, module) {
           $.each(pvData.cmsdata, function(i,pvobj){
             pvMap[pvobj.cid] = pvobj;
             var pid = pvobj['property_id'];
+            if(!pMap[pid]) return true;
             pvobj['_sn'] = sn.charAt(pMap[pid]['_pvids'].length);  //排序标记
             pMap[pid]['_pvids'].push(pvobj.cid);
           });
