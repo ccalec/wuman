@@ -42,4 +42,5 @@ logs/
 app/cache
 
 WEB-INF/config.cfg
+WEB-INF/config2.cfg
 WEB-INF/breeze.log
