@@ -65,11 +65,14 @@ define(function(require, exports, module) {
             _this.API.private('privateShowConEdit'); //显示编辑视图
           }else{
             _this.API.private('privateShowConAdd'); //显示添加视图
+            FW.trigerEvent("triggerShowSkuView", this.MY.cid, this.MY.nodeid);
           }
           // 货物编号增加同步按钮,绑定同步事件
           _this.API.private('privateUpdateGoods');
-          //显示sku信息
-          FW.trigerEvent("triggerShowSkuView",_this.MY.cid, _this.MY.nodeid);
+
+        },
+        privateMessConEditOk:function(data){
+          FW.trigerEvent("triggerShowSkuView", this.MY.cid, this.MY.nodeid, data.feature);
         },
         privateUpdateGoods: function(){
           var _this = this;
@@ -97,7 +100,6 @@ define(function(require, exports, module) {
                 _this.MY.cid = data.cmsdata[0].cid;
                 _this.MY.nodeid = data.cmsdata[0].nodeid;
                 _this.API.private('privateShowConEdit'); //显示编辑视图
-                FW.trigerEvent('triggerShowSkuView', _this.MY.cid, _this.MY.nodeid);
               }else{
                 $this.find('i').attr('class','icon-refresh bigger-120');  //去掉loading
                 $this.parents('.controls').removeClass('error');
@@ -132,6 +134,45 @@ define(function(require, exports, module) {
         },
         privateSetNavbar: function(num){
           $('.goods_nav li').eq(num-1).addClass('current').siblings().removeClass('current');
+        },
+        privateFormToData: function(_desc,_data){
+          var _this = this;
+          //转换_data中数组字符串的情况为数组
+          if(_data){
+            // feature
+            var feature = [];
+            $('.J_commmon_property select').each(function(){
+              feature.push($(this).val());
+            })
+            _data.feature = feature.join(',');
+            _data.dazhe_price = parseFloat(_data.dazhe_price)*100;
+            _data.price = parseFloat(_data.price)*100;
+            for(var v_prop in _desc){
+              if($.inArray(_desc[v_prop].type, ['List','Pics']) != -1){
+                if(!_data[v_prop]) continue;
+                _data[v_prop] = FW.use().toJSONString(_data[v_prop]);
+              }
+            }
+          }
+        },
+        privateDataToForm: function(_desc,_arrData){
+          var _this = this;
+
+          //转换data中数组字符串的情况为数组
+          if(_arrData && _arrData.length){
+            $.each(_arrData,function(i,item){
+              item.dazhe_price = item.dazhe_price ? parseInt(item.dazhe_price)/100+"" : "0";
+              item.price = item.price ? parseInt(item.price)/100+"" : "0";
+            })
+            for(var v_prop in _desc){
+              if($.inArray(_desc[v_prop].type, ['List','Pics']) != -1){
+                for(var i = 0; i < _arrData.length; i++){
+                  if(!_arrData[i][v_prop]) continue;
+                  _arrData[i][v_prop] = FW.use().evalJSON(_arrData[i][v_prop]);
+                }
+              }
+            }
+          }
         }
       },
       TrigerEvent:{

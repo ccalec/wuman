@@ -1149,7 +1149,7 @@ define(function(require, exports, module) {
 								}
 								reShowOutLink(data.cmsdata[0]);
 								//内容编辑视图显示完的mess
-								_this.API.private("privateMessConEditOk");
+								_this.API.private("privateMessConEditOk",data.cmsdata[0]);
 							})
 						}
 					})
@@ -1161,7 +1161,7 @@ define(function(require, exports, module) {
 				*@description 内容编辑视图显示完后发送的内部消息，可根据alias及视图指针判断
 				*@example
 				*/
-				privateMessConEditOk:function(){
+				privateMessConEditOk:function(data){
 				},
 				/**
 				*@function

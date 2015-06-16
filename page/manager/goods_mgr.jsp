@@ -113,6 +113,27 @@
         <div id="viewSkuMgr">
           <div class="form-horizontal clearfix goodsform" style="display: ;">
             <div class="form-wrap clearfix">
+              <!--$if(Object.keys(data.ptpMap).length){ -->
+              <!--$for(var pid in data.ptpMap){ -->
+              <!--$var ptpObj = data.ptpMap[pid]; -->
+              <div class="control-group J_commmon_property">
+                <label class="control-label">${_}{ptpObj.property_name}：</label>
+                <div class="controls">
+                  <select class="ptp_${_}{ptpObj.cid}">
+                    <!--$for(var i=0; i < ptpObj['_pvobjs'].length; i++){ -->
+                    <!--$var ptpvObj = ptpObj['_pvobjs'][i]; -->
+                    <!--$if(ptpvObj['_selected']){ -->
+                    <option value="${_}{ptpvObj.cid}" selected="selected">${_}{ptpvObj.value}</option>
+                    <!--$}else{ -->
+                    <option value="${_}{ptpvObj.cid}">${_}{ptpvObj.value}</option>
+                    <!--$} -->
+                    <!--$} -->
+                  </select>
+                </div>
+              </div>
+              <!--$} -->
+              <hr>
+              <!--$} -->
               <div class="control-group">
                 <label for="huohao" class="control-label">宝贝规格：</label>
                 <div class="controls">

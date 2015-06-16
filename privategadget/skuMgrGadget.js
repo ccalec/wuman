@@ -33,13 +33,12 @@ define(function(require, exports, module) {
           //多请求同时发送初始化
           _this.API.initPost();
 
-          // 获取类目属性列表:
+          // 获取类目属性列表, 包含销售属性和普通属性
           //参数：param1
           var param1 = {
             alias: 'category_properties',
             param:{
-              nodeid: _this.MY.cateid,
-              tag: 1  //销售属性
+              nodeid: _this.MY.cateid
             },
             spes:{
               orderby:[{
@@ -54,7 +53,7 @@ define(function(require, exports, module) {
             }
           });
 
-          // 获取类目属性值列表
+          // 获取类目属性值列表, 包含销售属性和普通属性
           //参数：param2
           var param2 = {
             alias: 'category_property_values',
@@ -117,10 +116,14 @@ define(function(require, exports, module) {
           pvData.cmsdata = pvData.cmsdata || [];
           skuData.cmsdata = skuData.cmsdata || [];
 
-          //数据map
+          //sku数据map
           var pMap = _this.MY.pMap = {};
           var pvMap = _this.MY.pvMap = {};
           var skuMap = _this.MY.skuMap = {};
+
+          // 普通属性map
+          var ptpMap = _this.MY.ptpMap = {};
+          var ptpvMap = _this.MY.ptpvMap = {};
 
           var skuMapData = _this.MY.skuMapData = {
             feaField: 'feature',
@@ -133,18 +136,29 @@ define(function(require, exports, module) {
           var sn = 'abcdefghijkmnlopqrstuvwxyzABCDEFGHIJKMNLOPQRSTUVWXYZ';
           // 设置pMap
           $.each(pData.cmsdata,function(i,pobj){
-            pobj['_sn'] = sn.charAt(i);  //排序标记
-            pobj['_actpvids'] = [];  //激活的pvlen
-            pobj['_pvids'] = [];  //排序标记
-            pMap[pobj.cid] = pobj;
+            //判断是哪种属性
+            if(pobj.tag==0){
+              pobj['_pvobjs'] = [];  //p下所有pv对象
+              ptpMap[pobj.cid] = pobj;
+            }else{
+              pobj['_sn'] = sn.charAt(i);  //排序标记
+              pobj['_actpvids'] = [];  //激活的pvlen
+              pobj['_pvids'] = [];  //p下所有pv的ids
+              pMap[pobj.cid] = pobj;
+            }
           });
           //设置pvMap, 并放入pMap
           $.each(pvData.cmsdata, function(i,pvobj){
-            pvMap[pvobj.cid] = pvobj;
             var pid = pvobj['property_id'];
-            if(!pMap[pid]) return true;
-            pvobj['_sn'] = sn.charAt(pMap[pid]['_pvids'].length);  //排序标记
-            pMap[pid]['_pvids'].push(pvobj.cid);
+            if(ptpMap[pid]){ // 普通属性
+              pvobj['_selected'] = $.inArray(pvobj.cid, _this.MY.feature)!=-1?"selected":"";
+              ptpMap[pid]['_pvobjs'].push(pvobj);
+            }
+            if(pMap[pid]){  //销售属性
+              pvMap[pvobj.cid] = pvobj;
+              pvobj['_sn'] = sn.charAt(pMap[pid]['_pvids'].length);  //排序标记
+              pMap[pid]['_pvids'].push(pvobj.cid);
+            }
           });
           // 设置skuMapData
           $.each(skuData.cmsdata,function(i,skuobj){
@@ -172,7 +186,7 @@ define(function(require, exports, module) {
             });
             skuobj._sort = skuobj._sort.length ? skuobj._sort.sort() : ['ZZ','ZZ','ZZ','ZZ'];  //按照p排序
           });
-          console.log("xxxxxxxxxxx123xxxxx",this.MY);
+          // console.log("xxxxxxxxxxx123xxxxx",this.MY);
         },
         privateShowSkuList: function(){
           var _this = this;
@@ -192,14 +206,16 @@ define(function(require, exports, module) {
             return a._sort.join('').localeCompare(b._sort.join(''));
           });
 
+          console.log("===========",_this.MY.ptpMap);
           //展现试图
           _this.API.show('viewSkuMgr', {
             cateid: _this.MY.cateid,
+            ptpMap: _this.MY.ptpMap,
             pMap : _this.MY.pMap,
             pvMap : _this.MY.pvMap,
             skuMapData : _this.MY.skuMapData
           });
-          console.log(_this.MY.skuMapData.skuList);
+          // console.log(_this.MY.skuMapData.skuList);
         },
         privateBindCheckedPV: function(){
           var _this = this;
@@ -257,13 +273,14 @@ define(function(require, exports, module) {
                   });
                   skuResArr = $.extend(true, [], newResArr);
                 });
-                console.log("新增的sku:",skuResArr);
+                // console.log("新增的sku:",skuResArr);
                 allSkuList = _this.MY.skuMapData.skuList = allSkuList.concat(skuResArr);
               }
 
               //标记当前点击的pvobj
               pMap[curpid]['_actpvids'].push(curpvid);
               pvMap[curpvid]['activeStatus'] = true;
+
             }else{ //取消
 
               //如果在当前p是唯一值，则删除相关数据中的pv
@@ -345,14 +362,11 @@ define(function(require, exports, module) {
         },
         privateBindEditSku: function(){
           var _this = this;
-
           //绑定input输入校验, 状态、数据变更
           $("#skuMgrGadget").delegate("input","blur",function(){
-
             var self = this;
             var name = $(self).attr('name');
             var value = $.trim($(self).val());
-
             // 校验
             if(name=='seller_bianma'){
               if(!$.trim($(this).val())){
@@ -380,11 +394,12 @@ define(function(require, exports, module) {
         }
       },
       TrigerEvent:{
-        triggerShowSkuView: function(cid, cateid){
+        triggerShowSkuView: function(cid, cateid, feature){
           var _this = this;
           _this.MY = {}; //清空数据
-          _this.MY.cid = cid;
+          _this.MY.cid = cid || 0;
           _this.MY.cateid = cateid;
+          _this.MY.feature = feature ? feature.split(',') : [];
           _this.API.private('privateShowDefaultView');
         },
         triggerSkuSubmit: function(cid){
