@@ -194,7 +194,7 @@ return function(juery){
 			constrainTabKey: true,
 
 			// fadeIn time in millis; set to 0 to disable fadeIn on block
-			fadeIn:  100,
+			fadeIn:  50,
 
 			// fadeOut time in millis; set to 0 to disable fadeOut on unblock
 			fadeOut:  50,

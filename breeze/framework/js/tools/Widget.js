@@ -94,7 +94,7 @@ define(function(require, exports, module) {
       htmlArr.push('<div class="widget-header">');
         htmlArr.push('<h5 style="color:gray">'+title+'</h5>');
         htmlArr.push('<span class="widget-toolbar">');
-          htmlArr.push('<a href="javascript:void(0);" id="propCancel">');
+          htmlArr.push('<a href="javascript:void(0);" onclick="$.unblockUI();">');
             htmlArr.push('<i class="icon-remove" style="color:gray"></i>');
           htmlArr.push('</a>');
         htmlArr.push('</span>');
@@ -103,7 +103,7 @@ define(function(require, exports, module) {
         htmlArr.push('<div class="widget-main no-padding">');
           htmlArr.push('<div id="promptCon"></div>');
           if(succCallback || errCallback){
-            htmlArr.push('<div class="form-actions tac" style="margin:0;">');
+            htmlArr.push('<div class="form-actions tac" style="margin:0; padding:10px 20px;">');
               if(succCallback){
               htmlArr.push('<button type="button" class="btn btn-small btn-success" id="propSubmit">');
                 htmlArr.push('<i class="icon-ok bigger-110"></i>');
@@ -111,7 +111,7 @@ define(function(require, exports, module) {
               htmlArr.push('</button>');
               }
               if(errCallback){
-              htmlArr.push('<button type="button" class="btn btn-small btn-default" onclick="$.unblockUI();">');
+              htmlArr.push('<button type="button" class="btn btn-small btn-default" id="propCancel">');
                 htmlArr.push('<i class="icon-undo bigger-110"></i>');
                 htmlArr.push('取消');
               htmlArr.push('</button>');
@@ -133,10 +133,10 @@ define(function(require, exports, module) {
       succCallback && succCallback();
     });
     newdom.find('#propCancel').on('click',function(){
-      if(errCallback){
-        errCallback();
-      }else{
+      if(errCallback===true){
         $.unblockUI();
+      }else{
+        errCallback();
       }
     });
     $.blockUI({

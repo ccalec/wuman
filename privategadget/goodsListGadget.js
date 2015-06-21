@@ -14,113 +14,35 @@ define(function(require, exports, module) {
       extends:["cmsMgrGadget"],
       FireEvent:{
         updateStatus: function(type){
+          var _this = this;
           // 校验是否选中商品
-          this.MY.maskData = this.API.private('privateGetCheckedData');
-          if(!this.MY.maskData.length){
+          _this.MY.maskData = _this.API.private('privateGetCheckedData');
+          if(!_this.MY.maskData.length){
             FW.use('Widget').alert('请先勾选商品！');
             return;
           }
-          this.MY.maskType = type;
-          this.MY.maskTitle = type==0?"上架":"下架";
-          this.API.mask('viewMask',{title: this.MY.maskTitle}, 500, 227);
+          _this.MY.maskType = type;
+          _this.MY.maskTitle = type==0?"上架":"下架";
+          var htmlstr = _this.API.getHtml('viewUpdateStatus',{title: _this.MY.maskTitle});
+          FW.use('Widget').prompt(htmlstr, _this.MY.maskTitle, function(){
+            _this.API.private('privateSubmitUpdateStatus');
+          },true);
           FW.use("Widget").bindDateTimeP($('.yushe-time'));
         },
-        updateStatusYXSX: function(){
+        updateYxsx: function(){
           var _this = this;
           // 校验是否选中商品
-          var maskData = _this.API.private('privateGetCheckedData');
-          if(!maskData.length){
+          _this.MY.maskData = _this.API.private('privateGetCheckedData');
+          if(!_this.MY.maskData.length){
             FW.use('Widget').alert('请先勾选商品！');
             return;
           }
-          var cids = [];
-          for (var i = 0; i < maskData.length; i++) {
-            cids.push(maskData[i].cid);
-          };
-          _this.API.doServer('updateGoodsYxsx', 'goods', {cids: cids.join(',')}, function(code,data){
-            if(code==0 && data){
-              FW.use('Widget').alert('设置成功','success');
-              _this.API.private("privateShowConList");
-            }else{
-              FW.use('Widget').alert('设置失败','danger');
-            }
-          });
+          var htmlstr = _this.API.getHtml('viewUpdateYxsx');
+          FW.use('Widget').prompt(htmlstr, '设置优先上新', function(){
+            _this.API.private('privateSubmitUpdateYxsx');
+          },true);
+          FW.use("Widget").bindDateTimeP($('.yushe-time'));
         },
-        closeMask: function(){
-          this.API.unmask();
-        },
-        submitMask: function(){
-          var _this = this;
-          //获取时间值
-          var type = $(".J_timeType:checked").val();
-          var ystext = "";
-          if(type==0){
-            var timeValue = 'UNIX_TIMESTAMP()*1000';
-            var timeStamp = FW.use().getServiceTime();
-          }else{
-            ystext = "预设";
-            var ysvalue = $('.J_ysvalue').val();
-            var format = $('.J_ysvalue').attr('data-format');
-            if(!ysvalue){
-              $('.J_ysvalue').addClass('error');
-              return;
-            }
-            var timeValue = "UNIX_TIMESTAMP('"+ysvalue+"')*1000";
-            var timeStamp = FW.use('DateTime').format4(ysvalue,'yyyy-MM-dd hh:mm');
-          }
-          //单个循环删除=======
-          //多请求同时发送初始化
-          _this.API.initPost();
-          var errArr = [];
-          for (var i = 0; i < _this.MY.maskData.length; i++) {
-            var onedata = _this.MY.maskData[i];
-            (function(_onedata){
-              //设置时间
-              // 如果是上架或预设上架，看下架时间是否大于预设时间  否则 清除下架时间
-              // 如果是下架或预设下架，不需要变动上架时间
-              if(_this.MY.maskType==0){ //上架
-                var start_time = timeValue;
-                if(parseInt(_onedata.end_time) > timeStamp){
-                  var end_time = 'end_time';
-                }else{
-                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，上架时间必须小于下架时间！');
-                  return;
-                }
-              }else{
-                var start_time = 'start_time';
-                var end_time = timeValue;
-                if(parseInt(_onedata.start_time) < timeStamp){
-                  var start_time = 'start_time';
-                }else{
-                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，下架时间必须大于上架时间！');
-                  return;
-                }
-              }
-              //设置请求参数
-              var param = {
-                start_time: start_time,
-                end_time: end_time,
-                cid: _onedata.cid
-              };
-              _this.API.addPost('updateGoodsTime', 'goods', param, function(code,data){
-                if(code!==0){
-                  errArr.push(_onedata.cid);
-                }
-              });
-            })(onedata);
-          };
-          _this.API.doPost(function(){
-            if(errArr.length){
-              $('#J_conWrap').html('<div class="tac">'+ystext+_this.MY.maskTitle+'失败如下：'+errArr.join(',')+'</div>');
-            }else{
-              $('#J_conWrap').html('<div class="tac">'+ystext+_this.MY.maskTitle+'成功！');
-            }
-            setTimeout(function(){
-              _this.API.unmask();
-              _this.API.private("privateShowConList");
-            },2000);
-          });
-        }
       },
       TrigerEvent:{
         trigerUpdateConList: function(param){
@@ -181,8 +103,8 @@ define(function(require, exports, module) {
                 whereSql.push("and end_time < UNIX_TIMESTAMP()*1000");
               }else if(filterParam[prop]==5){ //从未上架
                 whereSql.push("and start_time is null && end_time is null");
-              }else{ //新品优先
-                whereSql.push("and yxsx = 0");
+              }else if(filterParam[prop]==6){ //新品优先
+                whereSql.push("and cid in (select item_id from (select item_id from wm_new_item where start_time < UNIX_TIMESTAMP()*1000 and UNIX_TIMESTAMP()*1000 < end_time order by cid desc limit 1000) a)");
               }
             }
           }
@@ -232,6 +154,112 @@ define(function(require, exports, module) {
               _this.API.private("privateShowConList");
             })
           }
+        },
+        privateSubmitUpdateYxsx: function(){
+          var _this = this;
+
+          var start_time = FW.use('DateTime').format4($('.J_yxsx_start').val(), $('.J_yxsx_start').attr('data-format')).getTime();
+          var end_time = FW.use('DateTime').format4($('.J_yxsx_end').val(), $('.J_yxsx_end').attr('data-format')).getTime();
+
+          //单个循环删除=======
+          //多请求同时发送初始化
+          _this.API.initPost();
+
+          for (var i = 0; i < _this.MY.maskData.length; i++) {
+            var onedata = _this.MY.maskData[i];
+            (function(_onedata){
+              _this.API.addPost('deleteContent','cms',{alias:'new_item',param:{item_id: _onedata.cid}},function(code,data){
+                if(code!==0){
+                  FW.use('Widget').alert("删除失败！");
+                }
+              });
+              _this.API.addPost('addContent','cms',{alias:'new_item',param:{
+                item_id: _onedata.cid,
+                start_time: start_time.toString(),
+                end_time: end_time.toString()
+              }},function(code,data){
+                if(code!==0){
+                  FW.use('Widget').alert('设置失败','danger');
+                }
+              });
+            })(onedata);
+          }
+          _this.API.doPost(function(){
+            FW.use('Widget').alert('设置成功','success');
+            _this.API.private("privateShowConList");
+          });
+        },
+        privateSubmitUpdateStatus: function(){
+          var _this = this;
+          //获取时间值
+          var type = $(".J_timeType:checked").val();
+          var ystext = "";
+          if(type==0){
+            var timeValue = 'UNIX_TIMESTAMP()*1000';
+            var timeStamp = FW.use().getServiceTime();
+          }else{
+            ystext = "预设";
+            var ysvalue = $('.J_ysvalue').val();
+            var format = $('.J_ysvalue').attr('data-format');
+            if(!ysvalue){
+              $('.J_ysvalue').addClass('error');
+              return;
+            }
+            var timeValue = "UNIX_TIMESTAMP('"+ysvalue+"')*1000";
+            var timeStamp = FW.use('DateTime').format4(ysvalue, format);
+          }
+          //单个循环删除=======
+          //多请求同时发送初始化
+          _this.API.initPost();
+          var errArr = [];
+          for (var i = 0; i < _this.MY.maskData.length; i++) {
+            var onedata = _this.MY.maskData[i];
+            (function(_onedata){
+              //设置时间
+              // 如果是上架或预设上架，看下架时间是否大于预设时间  否则 清除下架时间
+              // 如果是下架或预设下架，不需要变动上架时间
+              if(_this.MY.maskType==0){ //上架
+                var start_time = timeValue;
+                if(parseInt(_onedata.end_time) > timeStamp){
+                  var end_time = 'end_time';
+                }else{
+                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，上架时间必须小于下架时间！', 'danger', 5000);
+                  return;
+                }
+              }else{
+                var start_time = 'start_time';
+                var end_time = timeValue;
+                if(parseInt(_onedata.start_time) < timeStamp){
+                  var start_time = 'start_time';
+                }else{
+                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，下架时间必须大于上架时间！', 'danger', 5000);
+                  return;
+                }
+              }
+              //设置请求参数
+              var param = {
+                start_time: start_time,
+                end_time: end_time,
+                cid: _onedata.cid
+              };
+              _this.API.addPost('updateGoodsTime', 'goods', param, function(code,data){
+                if(code!==0){
+                  errArr.push(_onedata.cid);
+                }
+              });
+            })(onedata);
+          };
+          _this.API.doPost(function(){
+            if(errArr.length){
+              $('#J_conWrap').html('<div class="tac">'+ystext+_this.MY.maskTitle+'失败如下：'+errArr.join(',')+'</div>');
+            }else{
+              $('#J_conWrap').html('<div class="tac">'+ystext+_this.MY.maskTitle+'成功！');
+            }
+            setTimeout(function(){
+              _this.API.unmask();
+              _this.API.private("privateShowConList");
+            },2000);
+          });
         },
         privateBindFormListPage: function(_dom,_param,_type,_callback){
           var _this = this;

@@ -102,7 +102,7 @@
               <button type="button" onclick="FireEvent.updateStatus(1);" class="btn btn-small~ btn-info btn-sel-all">
                 <i class="icon-download"></i> 下 架
               </button>
-              <button type="button" onclick="FireEvent.updateStatusYXSX();" class="btn btn-small~ btn-warning btn-sel-oppo">
+              <button type="button" onclick="FireEvent.updateYxsx();" class="btn btn-small~ btn-warning btn-sel-oppo">
                 <i class="icon-bookmark-empty"></i> 优先上新
               </button>
             </div>
@@ -110,49 +110,51 @@
           <form id="formContentList" class="form-horizontal clearfix">
           </form>
       </div>
-      <div id="viewMask">
-        <div class="widget-box" style="width:500px; height:227px;">
-          <div class="widget-header">
-            <h4>${_}{data.title}提示</h4>
-            <span class="widget-toolbar">
-              <a href="javascript:void(0);" onclick="FireEvent.closeMask();">
-                <i class="icon-remove"></i>
-              </a>
-            </span>
-          </div>
-          <div class="widget-body">
-            <div class="widget-main no-padding">
-              <form class="form-inline">
-                <fieldset style="padding: 50px 20px;" id="J_conWrap">
-                  <label class="radio-label">
-                    <input type="radio" name="jk" class="J_timeType" checked="true" value="0">
-                    <span class="lbl"> 即刻${_}{data.title}</span>
-                  </label>
-                  <label class="radio-label">
-                    <input type="radio" name="jk" class="J_timeType" value="1">
-                    <span class="lbl"> 预设${_}{data.title}</span>
-                  </label>
-                  <div class="row-fluid input-append yushe-time">
-                    <input class="span10 J_ysvalue" type="text" data-format="yyyy-MM-dd hh:mm" readonly="true">
-                    <span class="add-on">
-                      <i class="icon-calendar"></i>
-                    </span>
-                  </div>
-                </fieldset>
-                <div class="form-actions tac">
-                  <button type="button" class="btn btn-small btn-success" onclick="FireEvent.submitMask();">
-                    <i class="icon-ok bigger-110"></i>
-                    确定
-                  </button>
-                  <button type="button" class="btn btn-small btn-default" onclick="FireEvent.closeMask();">
-                    <i class="icon-undo bigger-110"></i>
-                    取消
-                  </button>
-                </div>
-              </form>
+      <div id="viewUpdateStatus">
+        <form class="form-inline" style="width:500px; height:130px;">
+          <fieldset style="padding: 50px 20px;">
+            <label class="radio-label">
+              <input type="radio" name="jk" class="J_timeType" checked="true" value="0">
+              <span class="lbl"> 即刻${_}{data.title}</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="jk" class="J_timeType" value="1">
+              <span class="lbl"> 预设${_}{data.title}</span>
+            </label>
+            <div class="row-fluid input-append yushe-time">
+              <input class="span10 J_ysvalue" type="text" data-format="yyyy-MM-dd hh:mm" readonly="true">
+              <span class="add-on">
+                <i class="icon-calendar"></i>
+              </span>
             </div>
-          </div>
-        </div>
+          </fieldset>
+        </form>
+      </div>
+      <div id="viewUpdateYxsx">
+        <form class="form-inline" style="width:500px; height:130px;">
+          <fieldset style="padding: 50px 20px;">
+             <label class="radio-label">
+              开始时间：
+            </label>
+            <div class="row-fluid input-append yushe-time">
+              <input class="span10 J_yxsx_start" type="text" data-format="yyyy-MM-dd hh:mm" readonly="true">
+              <span class="add-on">
+                <i class="icon-calendar"></i>
+              </span>
+            </div>
+            <div class="space-6"></div>
+            <label class="radio-label">
+              结束时间：
+            </label>
+            <div class="row-fluid input-append yushe-time">
+              结束时间：
+              <input class="span10 J_yxsx_end" type="text" data-format="yyyy-MM-dd hh:mm" readonly="true">
+              <span class="add-on">
+                <i class="icon-calendar"></i>
+              </span>
+            </div>
+          </fieldset>
+        </form>
       </div>
     </div>
   </div>
