@@ -266,11 +266,11 @@ define(function(require, exports, module) {
 
 			//下一页 and 尾页
 			if(pageNum == pageCount){
-				strPageBtn += "<li class='next disabled'><a href='#'><i class='icon-angle-right'></i></a></li>";
-				strPageBtn += "<li class='plast disabled'><a href='#'><i class='icon-double-angle-right'></i></a></li>";
+				strPageBtn += "<li class='next disabled'><a href='javascript:void(0);'><i class='icon-angle-right'></i></a></li>";
+				strPageBtn += "<li class='plast disabled'><a href='javascript:void(0);'><i class='icon-double-angle-right'></i></a></li>";
 			}else{
-				strPageBtn += "<li class='next'><a href='#'><i class='icon-angle-right'></i></a></li>";
-				strPageBtn += "<li class='plast'><a href='#'><i class='icon-double-angle-right'></i></a></li>";
+				strPageBtn += "<li class='next'><a href='javascript:void(0);'><i class='icon-angle-right'></i></a></li>";
+				strPageBtn += "<li class='plast'><a href='javascript:void(0);'><i class='icon-double-angle-right'></i></a></li>";
 			}
 		}
 		//总计信息
@@ -289,19 +289,24 @@ define(function(require, exports, module) {
 		$pageLast = dom.find("li.plast").not(".disabled");    //尾页 Dom
 
 		//给分页按钮绑定点击事件
-		$pageFirst.on("click",function(){
+		$pageFirst.on("click",function(e){
+			e.preventDefault();
 			reShowList && reShowList(1);
 		})
-		$pagePrev.on("click",function(){
-			reShowList && reShowList(parseInt(dom.find("li.pagenum.active").text()));
+		$pagePrev.on("click",function(e){
+			e.preventDefault();
+			reShowList && reShowList(parseInt(dom.find("li.pagenum.active").text())-1);
 		})
-		$pageNum.on("click",function(){
+		$pageNum.on("click",function(e){
+			e.preventDefault();
 			reShowList && reShowList(parseInt($(this).text()));
 		})
-		$pageNext.on("click",function(){
-			reShowList && reShowList(parseInt(dom.find("li.pagenum.active").text()));
+		$pageNext.on("click",function(e){
+			e.preventDefault();
+			reShowList && reShowList(parseInt(dom.find("li.pagenum.active").text())+1);
 		})
-		$pageLast.on("click",function(){
+		$pageLast.on("click",function(e){
+			e.preventDefault();
 			reShowList && reShowList(pageCount);
 		})
 	}
