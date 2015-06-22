@@ -12,6 +12,71 @@
   <jsp:include page="cssAssets.jsp"/>
   <base target="_self"></base>
   <!-- /cssAssets -->
+  <style>
+    select{
+      width: 100px;
+    }
+    ._buyer_nick_inp,._buyer_full_name_inp{
+      width: 120px;
+    }
+    ._memo_tex,._refund_reason_tex{
+      height: 80px;
+    }
+    .date-time-picker input{
+      width: 150px;
+    }
+    ._buy_num_inp,._ori_price_inp,._pay_price_inp,._attributes_inp{
+      width: 60px;
+    }
+    ._item_title_inp,._buyer_address_inp,._sender_address_inp{
+      width: 500px;
+    }
+    .inp_file_val,.thumbBtn,._item_good_img_file,.add-on{
+      display: none!important;
+    }
+    .f_buyer_full_name,.f_refund_type,.f_sender_address{
+      position: relative;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px dashed #d5d5d5;
+    }
+    .f_buyer_full_name:after,.f_refund_type:after,.f_sender_address:after{
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      line-height: 20px!important;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+    }
+    .f_buyer_full_name:after{
+      content: "收货信息"!important;
+    }
+    .f_refund_type:after{
+      content: "退货信息"!important;
+    }
+    .f_sender_address:after{
+      content: "发货信息"!important;
+    }
+
+    /*.f_orderno,.f_status,.f_pay_price,.f_ori_price,.f_buy_num,.f_attributes{
+      float: left;
+    }*/
+    /*.form-wrap{
+      position: relative;
+    }*/
+    /*.f_item_good_img label{
+      display: none;
+    }
+    .f_item_good_img{
+      position: absolute;
+      right: 0;
+      top: 100px;
+    }
+*/
+  </style>
 </head>
 <body class="skin-1">
 

@@ -87,6 +87,7 @@
               <li data-value="4">已收货</li>
               <li data-value="5">申请退款</li>
               <li data-value="6">退款成功</li>
+              <li data-value="0">已失效</li>
             </ul>
           </div>
         </div>
@@ -102,8 +103,14 @@
         }
         -->
         <div id="viewOrdersList" class="orderlist">
+         <!--  <div class="itemlist">
+            <div style="width:220px; margin: 10px 0 20px;" class="btn-group">
+              <button type="button" class="btn btn-small~ btn-success btn-add-con btn-order-do">
+                <i class="icon-check bigger-120"> 订单处理</i>
+              </button>
+            </div>
+          </div> -->
           <div class="itemlist">
-
             <table class="table table-striped table-bordered table-hover">
               <thead>
                 <tr>
@@ -122,12 +129,17 @@
             <!--$var item = data.orderList[i]; -->
             <table class="table table-bordered orderItem">
               <caption align="top" class="tit" >
-                <label><input type="checkbox"><span class="lbl"></span></label>
-                <a href="${_}{item.descurl}">订单编号：${_}{item.orderno}</a>　　 成交时间：${_}{item.add_time}
+                <div class="pull-left">
+                <label><input type="checkbox" data-cid="${_}{item.cid}"><span class="lbl"></span></label>
+                <a href="${_}{item.descurl}">订单编号：${_}{item.orderno}</a>　　 <span class="gray">成交时间：${_}{item.add_time}</span>
+                </div>
+                <!-- <div class="pull-right" style="margin-right:10px;">
+                  <a href="${_}{item.descurl}">查看详情</a>
+                </div> -->
               </caption>
               <tr>
                 <td width="100%">
-                  ${_}{item.item_good_img} ${_}{item.item_title}
+                  ${_}{item.titcon}
                 </td>
                 <td class="tac" width="80">${_}{item.ori_price}</td>
                 <td class="tac" width="80">${_}{item.buy_num}</td>
@@ -146,12 +158,10 @@
             <!--$} -->
 
             <div style="width:220px;" class="hidden-phone visible-desktop btn-group pull-left">
-
               <button type="button" class="btn btn-mini btn-info btn-sel-all"><i class="icon-ok bigger-120"> 全选</i></button>
               <button type="button" class="btn btn-mini btn-warning btn-sel-oppo"><i class="icon-remove bigger-120"> 反选</i></button>
+              <button type="button" class="btn btn-mini btn-danger btn-del btn-del-list"><i class="icon-trash bigger-120"> 设置失效</i></button>
               <span class="mlr10"></span>
-              <button type="button" class="btn btn-mini btn-success btn-order-do"><i class="icon-check bigger-120"> 订单处理</i></button>
-              <!-- <button authority="deleteContent" type="button" class="btn btn-mini btn-danger btn-del btn-del-list"><i class="icon-trash bigger-120"> 操作</i></button> -->
             </div>
             <div id="pagination" class="pull-right"></div>
           </div>

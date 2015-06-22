@@ -97,7 +97,9 @@
 	   				{"仅时间":"TimePicker"},
 	   				{"日期+时间":"DateTimePicker"},
 	   				{"日期区间":"DateRangePicker"},
-	   				{"外联字段":"OuterLink"}
+	   				{"外联字段":"OuterLink"},
+	   				{"价格类型":"Price"},
+	   				{"折扣类型":"Discount"}
 	   			]
 			},
 			fieldType:{
@@ -181,6 +183,6 @@
 	   			width:"30px"
 			}
 		}]
-	}	
+	}
 }
 

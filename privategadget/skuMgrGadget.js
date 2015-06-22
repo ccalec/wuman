@@ -167,7 +167,7 @@ define(function(require, exports, module) {
           // 标记有值的p-v, 将sku的feature转为pvMap，并将排序标记复制给_sort字段
           $.each(skuData.cmsdata, function(i,skuobj){
             //价格转换
-            skuobj.price = parseFloat(skuobj.price)/100;
+            skuobj.price = FW.use().fixedNum(skuobj.price/100,2);
             var feaArr = skuobj[skuMapData.feaField].split(',');
             skuobj['_fe'] = {};
             skuobj._sort = []; //排序标示
@@ -456,7 +456,6 @@ define(function(require, exports, module) {
           // 添加的请求：
           $.each(addData,function(i,o){
             //转换价格
-            console.log(o.price);
             o.price = (parseFloat(o.price)*100).toString();
             (function(obj){
               var param = {

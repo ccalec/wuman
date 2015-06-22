@@ -145,31 +145,10 @@ define(function(require, exports, module) {
               feature.push($(this).val());
             })
             _data.feature = feature.join(',');
-            _data.dazhe_price = parseFloat(_data.dazhe_price)*100;
-            _data.price = parseFloat(_data.price)*100;
             for(var v_prop in _desc){
               if($.inArray(_desc[v_prop].type, ['List','Pics']) != -1){
                 if(!_data[v_prop]) continue;
                 _data[v_prop] = FW.use().toJSONString(_data[v_prop]);
-              }
-            }
-          }
-        },
-        privateDataToForm: function(_desc,_arrData){
-          var _this = this;
-
-          //转换data中数组字符串的情况为数组
-          if(_arrData && _arrData.length){
-            $.each(_arrData,function(i,item){
-              item.dazhe_price = item.dazhe_price ? parseInt(item.dazhe_price)/100+"" : "0";
-              item.price = item.price ? parseInt(item.price)/100+"" : "0";
-            })
-            for(var v_prop in _desc){
-              if($.inArray(_desc[v_prop].type, ['List','Pics']) != -1){
-                for(var i = 0; i < _arrData.length; i++){
-                  if(!_arrData[i][v_prop]) continue;
-                  _arrData[i][v_prop] = FW.use().evalJSON(_arrData[i][v_prop]);
-                }
               }
             }
           }

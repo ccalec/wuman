@@ -7,7 +7,7 @@ define(function(require, exports, module) {
     {
       param:{
         alias:'orders',
-        pagesize: 15
+        pagesize: 10
       },
       name:'ordersListGadget',
       onCreate:function(){
@@ -25,7 +25,8 @@ define(function(require, exports, module) {
           //定义获取param,用于获取总数
           var _param = {
             alias: _this.param.alias,
-            param: {},
+            param: {
+            },
             spes:{
               orderby:[{
                 name:"cid",
@@ -40,16 +41,18 @@ define(function(require, exports, module) {
         },
         privateFormatData: function(data){
           var _this = this;
-          var statusArr = [{"待付款":1,"待发货":2,"已发货":3,"已收货":4,"申请退款":5,"退款成功":6}];
+          var statusArr = [{"待付款":1,"待发货":2,"已发货":3,"已收货":4,"申请退款":5,"退款成功":6,"已失效":0}];
+          var statusColor = ['gray','red','orange','green','black','red','purple'];
           $.each(data, function(i,item){
             item.add_time = FW.use('DateTime').format(new Date(parseInt(item.add_time)), 'yyyy-MM-dd hh:mm');
-            item.ori_price = FW.use().fmtPrice(item.ori_price);
-            item.pay_price = FW.use().fmtPrice(item.pay_price);
+            item.ori_price = FW.use().fixedNum(item.ori_price/100,2);
+            item.pay_price = FW.use().fixedNum(item.pay_price/100,2);
             item.descurl = Cfg.baseUrl+'/page/manager/orders_edit.jsp?alias=orders&action=conEdit&cid='+item.cid+'&norole=true';
-            item.item_good_img = '<img class="img_file" style="height:60px; width:90px;" src="'+Cfg.baseUrl+'/'+item.item_good_img+'">';
+            item.titcon = '<img class="img_file" style="height:40px; max-width:100px;" src="'+Cfg.baseUrl+'/'+item.item_good_img+'"> '+item.item_title+'<a style="margin-left: 5px;" target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/goods_mgr.jsp?nodeid='+item.category_id+'&cid='+item.item_id+'&action=conEdit&norole=true">查看商品详情</a>';
+            item.buyer_nick = '<a target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/CMSMgr.jsp?alias=user&action=conEdit&cid='+item.buyer_id+'&norole=true">'+item.buyer_nick+'</a>';
             $.each(statusArr[0],function(name,val){
               if(val==item.status){
-                item.status = name;
+                item.status = '<span style="color:'+statusColor[val]+';">'+name+'</span>';
                 return false;
               }
             });
@@ -72,6 +75,43 @@ define(function(require, exports, module) {
           this.dom.delegate(".btn-sel-oppo","click",function(){
             $(this).parents('.itemlist').find("caption input").each(function(){
               $(this).click();
+            });
+          });
+
+          //批量删除
+          this.dom.delegate(".btn-del-list","click",function(){
+            var ckdIds = [];
+            $(this).parents('.itemlist').find("caption input").each(function(){
+              if($(this).attr("checked")){
+                ckdIds.push($(this).attr('data-cid'));
+              }
+            });
+            if(!ckdIds.length){
+              FW.use('Widget').alert('请先勾选订单！');
+              return;
+            }
+            if(!confirm('确定要将这'+ckdIds.length+'笔订单设置为失效吗？')) return;
+            //单个循环删除=======
+            //多请求同时发送初始化
+            var err = [];
+            _this.API.initPost();
+            $.each(ckdIds,function(i,cid){
+              _this.API.addPost('updateOrdersStatus','orders',{
+                cid: cid,
+                status: '0'
+              },function(code,data){
+                if(code!==0){
+                  err.push(cid);
+                }
+              });
+            })
+            _this.API.doPost(function(){
+              if(err.length){
+                FW.use('Widget').alert('['+err.join(',')+']删除失败！', 'danger', 100000);
+              }else{
+                FW.use('Widget').alert('处理成功！');
+              }
+              _this.API.private("privateShowConList");
             });
           });
 
@@ -137,7 +177,10 @@ define(function(require, exports, module) {
         },
         privateSetListParam: function(_param){
           var whereSql = [];
-          var filterParam = this.MY.param;
+          var filterParam = this.MY.param || {};
+          if(!filterParam.status){
+            whereSql.push("and status != 0");
+          }
           for(var prop in filterParam){
             if(!filterParam[prop]) continue;
             if(prop=='item_title'){
@@ -165,56 +208,11 @@ define(function(require, exports, module) {
             }
           }
           _param.where = whereSql.join(' ');
-        },
-        privateBtnConDel: function(_dom,_data){
-          var _this = this;
-          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
-          var curAlias = _this.MY.sonAlias || _this.MY.alias;
-          if(confirm("确认要删除该内容吗？")){
-            var _param = {
-              alias:curAlias,
-              param:{
-                cid:_data.cid,
-                status: '0'
-              }
-            }
-            var _serverName = _this.MY.serverName.mCon;
-            _this.API.doServer(_serverName,_this.MY.package,_param,function(code,data){
-              if(code == 0){
-                _this.API.private("privateShowConList");
-              }else{
-                FW.use('Widget').alert("内容删除失败！");
-              }
-            });
-          }
-        },
-        privateBtnConPLDel: function(){
-          var _this = this;
-          //获得dom
-          var formDom = _this.API.find("#"+_this.param.formConList);
-          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
-          var curAlias = _this.MY.sonAlias || _this.MY.alias;
-          if(confirm("确认要删除该内容吗？")){
-            //单个循环删除=======
-            //多请求同时发送初始化
-            _this.API.initPost();
-            var arrCheckData = formDom[0].batchEdit();
-            for (var i = 0; i < arrCheckData.length; i++) {
-                _this.API.addPost(_this.MY.serverName.mCon,_this.MY.package,{alias:curAlias,param:{cid:arrCheckData[i].cid, status: '0'}},function(code,data){
-                  if(code!==0){
-                    FW.use('Widget').alert("删除失败！");
-                  }
-                });
-            }
-            _this.API.doPost(function(){
-              _this.API.private("privateShowConList");
-            })
-          }
         }
       },
       TrigerEvent:{
         trigerUpdateConList: function(param){
-          this.MY.param = param;
+          this.MY.param = param || {};
           this.dom.height(this.dom.height());
           this.API.private("privateShowConList");
         }

@@ -84,10 +84,10 @@ define(function(require, exports, module) {
               whereSql.push("and addtime >= "+addtime_start+" and addtime < "+ addtime_end);
             }
             if(prop=='price_start'){
-              whereSql.push("and price >= "+ filterParam[prop]);
+              whereSql.push("and price*100 >= "+ filterParam[prop]);
             }
             if(prop=='price_end'){
-              whereSql.push("and price <= "+ filterParam[prop]);
+              whereSql.push("and price*100 <= "+ filterParam[prop]);
             }
             if(prop=='nodeid'){
               whereSql.push("and nodeid = "+ filterParam[prop]);

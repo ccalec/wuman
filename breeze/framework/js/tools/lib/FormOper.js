@@ -17,7 +17,12 @@ define(function(require, exports, module) {
 		dateTimeAPI:require("./../DateTime"),
 		BreezeTemplate:require("./BreezeTemplate"),
 		lang:{
-			formatQuota : function(str){
+			fixedNum: function(number, len){
+				number = this.formatQuota(number);
+		    var res = (parseFloat(number)/Math.pow(10,len)).toFixed(len);
+		    return res===NaN?0:res;
+		  },
+			formatQuota: function(str){
 				return str.replace(/'/g,"&apos;");
 			},
 			toJSONString: function(obj){
@@ -226,6 +231,38 @@ define(function(require, exports, module) {
 
 			//根据type判断，逐一解析
 			switch(fType){
+
+				//价格函数
+				case "Price":
+
+					formStr+="<input isPrice='true' id='"+fName+"' class='inp_text "+fClass+"_inp' type='text' name='"+fName+"' ";
+					// if(islist) formStr+="readOnly='true' ";
+					formStr+="<!--$if(valueStatus){-->";
+					formStr+="value='${lang:fixedNum("+fValue+",2)}' ";
+					formStr+="<!--$}else{-->";
+					formStr+="value='${lang:fixedNum(\"0\",2)}' ";
+					formStr+="<!--$}-->";
+					if (fWidth && !fIsList){
+						formStr+="style='width:"+fWidth+"' ";
+					}
+					formStr+="/>";
+					break;
+
+				//折扣函数
+				case "Discount":
+
+					formStr+="<input isDiscount='true' id='"+fName+"' class='inp_text "+fClass+"_inp' type='text' name='"+fName+"' ";
+					// if(islist) formStr+="readOnly='true' ";
+					formStr+="<!--$if(valueStatus){-->";
+					formStr+="value='${lang:fixedNum("+fValue+",1)}' ";
+					formStr+="<!--$}else{-->";
+					formStr+="value='${lang:fixedNum(\"0\",1)}' ";
+					formStr+="<!--$}-->";
+					if (fWidth && !fIsList){
+						formStr+="style='width:"+fWidth+"' ";
+					}
+					formStr+="/>";
+					break;
 
 				//单行文本函数
 				case "Text":
@@ -732,9 +769,11 @@ define(function(require, exports, module) {
 			        pickTime: false
 			    })
 			    domDateP.find('input').each(function(){
-			    	var defaultTimeObj = $(this).val()?new Date(parseInt($(this).val())):new Date();
-			    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatDateP);
-			    	$(this).val(curval);
+			    	if($.trim($(this).val())){
+				    	var defaultTimeObj = new Date(parseInt($(this).val()));
+				    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatDateP);
+				    	$(this).val(curval);
+				    }
 			    	$(this).attr("dateFormat",formatDateP);
 			    });
 		    }
@@ -746,9 +785,11 @@ define(function(require, exports, module) {
 			        pickDate: false
 			    });
 			    domTimeP.find('input').each(function(){
-			    	var defaultTimeObj = $(this).val()?new Date(parseInt($(this).val())):new Date();
-			    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatTimeP);
-			    	$(this).val(curval);
+			    	if($.trim($(this).val())){
+				    	var defaultTimeObj = new Date(parseInt($(this).val()));
+				    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatTimeP);
+				    	$(this).val(curval);
+				    }
 			    	$(this).attr("dateFormat",formatTimeP);
 			    });
 			}
@@ -760,18 +801,20 @@ define(function(require, exports, module) {
 			    });
 
 			    domDateTimeP.find('input').each(function(){
-			    	var defaultTimeObj = $(this).val()?new Date(parseInt($(this).val())):new Date();
-			    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatDateTimeP);
-			    	$(this).val(curval);
+			    	if($.trim($(this).val())){
+				    	var defaultTimeObj = new Date(parseInt($(this).val()));
+				    	var curval = API.dateTimeAPI.format(defaultTimeObj, formatDateTimeP);
+				    	$(this).val(curval);
+			    	}
 			    	$(this).attr("dateFormat",formatDateTimeP);
 			    });
 			}
 			//Alec 20130630
 			try{
-			    bindDateP(dom.find('.date-picker'));
+		    bindDateP(dom.find('.date-picker'));
 				bindTimeP(dom.find('.time-picker'));
 				bindDateTimeP(dom.find('.date-time-picker'));
-			    //date-range-picker
+		    //date-range-picker
 				dom.find('.date-range-picker').daterangepicker();
 			}catch(e){
 			}
@@ -1168,8 +1211,19 @@ define(function(require, exports, module) {
 			var type = this.type;
 			var value = this.value || "";
 			var isJson = $(this).attr('isJson');
+			var isPrice = $(this).attr('isPrice');
+			var isDiscount = $(this).attr('isDiscount');
 			var dateFormat = $(this).attr('dateFormat');
 			var arrName = name.split(".");
+
+			//价格类型
+			if(isPrice){
+				value = (parseFloat(value)*100).toString();
+			}
+			//折扣类型
+			if(isDiscount){
+				value = (parseFloat(value)*10).toString();
+			}
 
 			//给对象各层属性定义类型;
 			if(name.split(']')[1]==""){

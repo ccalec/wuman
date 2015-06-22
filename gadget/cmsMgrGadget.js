@@ -699,12 +699,6 @@ define(function(require, exports, module) {
 						var curNodeid = _this.MY.nodeid;
 						var curAlias = _this.MY.alias;
 					}
-					//如果是可快速编辑模式，则显示提交按钮,否则隐藏
-					if(_this.param.plModSet[curAlias]){
-						$("#submitBtn").show();
-					}else{
-						$("#submitBtn").hide();
-					}
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.conList;
 					//替换操作标题
@@ -738,6 +732,12 @@ define(function(require, exports, module) {
 					_this.API.private("privateBindFormListPage",formDom,_param,0,function(data){
 						//内容列表回调函数
 						_this.API.private("privateShowConListCB",data);
+						//如果是可快速编辑模式，则显示提交按钮,否则隐藏
+						if(_this.param.plModSet[curAlias]){
+							$("#submitBtn").show();
+						}else{
+							$("#submitBtn").hide();
+						}
 					});
 				},
 				/**
@@ -827,7 +827,7 @@ define(function(require, exports, module) {
 				*@memberOf cmsMgrGadget
 				*@param {jqueryContainer} _dom 内容列表生成后插入的dom节点
 				*@param {Object} _param doServer内容列表的数据查询参数
-				*@param {Object} _type  doServer内容列表的显示类型 0为通用列表，1为批量添加，2为外联列表
+				*@param {Object} _type  doServer内容列表的显示类型 0为通用列表，1为批量添加，2为外联列表，3纯展示内容，无任何表单编辑项
 				*@param {Object} _callback 内容列表的回调函数，用于绑定按钮操作等
 				*@description 内容列表回调函数，主要实现如下：
 				* 1、doServer查询列表总数
@@ -940,8 +940,6 @@ define(function(require, exports, module) {
 				*/
 				privateShowConAdd: function(){
 					var _this = this;
-					//显示提交返回按钮
-					$("#submitBtn").show();
 					//判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
 					//判断是否指定栏目
 					if(_this.MY.sonAlias){
@@ -977,6 +975,8 @@ define(function(require, exports, module) {
 						})
 					}
 					reShowOutLink(null);
+					//显示提交返回按钮
+					$("#submitBtn").show();
 					//内容添加视图显示完的mess
 					_this.API.private("privateMessConAddOk");
 				},
@@ -1021,8 +1021,6 @@ define(function(require, exports, module) {
 						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
-					//显示提交、返回按钮
-					$("#submitBtn").show();
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.conPLAdd;
 					//替换操作标题
@@ -1055,6 +1053,8 @@ define(function(require, exports, module) {
 						})
 					}
 					reShowOutLink(blankData);
+					//显示提交、返回按钮
+					$("#submitBtn").show();
 					//内容批量添加视图显示完的mess
 					_this.API.private("privateMessConPLAddOk");
 				},
@@ -1100,8 +1100,6 @@ define(function(require, exports, module) {
 						var curAlias = _this.MY.alias;
 						var curCid = _this.MY.cid;
 					}
-					//显示提交\返回按钮
-					$("#submitBtn").show();
 					//定义当前状态指针 包含list,edit,add
 					_this.MY.action = _this.MY.act.conEdit;
 					//替换操作标题
@@ -1148,6 +1146,8 @@ define(function(require, exports, module) {
 									})
 								}
 								reShowOutLink(data.cmsdata[0]);
+								//显示提交\返回按钮
+								$("#submitBtn").show();
 								//内容编辑视图显示完的mess
 								_this.API.private("privateMessConEditOk",data.cmsdata[0]);
 							})
@@ -1187,8 +1187,6 @@ define(function(require, exports, module) {
 						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
-					//显示提交、返回按钮
-					$("#submitBtn").show();
 					//定义当前状态指针 包含list,edit,add
 					_this.MY.action = _this.MY.act.classEdit;
 					//替换操作标题
@@ -1220,6 +1218,8 @@ define(function(require, exports, module) {
 								})
 							}
 							reShowOutLink(data.cmsdata[0]);
+							//显示提交、返回按钮
+							$("#submitBtn").show();
 							//栏目编辑视图显示完的mess
 							_this.API.private("privateMessClassEditOk");
 						}
@@ -1257,8 +1257,6 @@ define(function(require, exports, module) {
 						FW.use('Widget').alert("请先选择栏目!");
 						return;
 					}
-					//显示提交返回按钮
-					$("#submitBtn").show();
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.classAdd;
 					//判断是否添加顶级栏目
@@ -1282,6 +1280,8 @@ define(function(require, exports, module) {
 						})
 					}
 					reShowOutLink(null);
+					//显示提交返回按钮
+					$("#submitBtn").show();
 					//栏目添加视图显示完的mess
 					_this.API.private("privateMessClassAddOk");
 				},

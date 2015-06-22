@@ -87,13 +87,15 @@ define(function(require, exports, module) {
 	/**
 	 * @function
 	 * @memberOf lang
-	 * @name fmtPrice
-	 * @description 分转成元
-	 * @param {int} price
+	 * @name fixedNum
+	 * @description 保留几位小数
+	 * @param {int｜float} number
+	 * @param {int} len  保留小数长度
 	 * @returns 900返回9.00
 	 */
-	_result.fmtPrice=function(price){
-     return (price / 100).toFixed(2);
+	_result.fixedNum=function(number, len){
+    var res = parseFloat(number).toFixed(len);
+    return res===NaN?0:res;
   },
 
 
