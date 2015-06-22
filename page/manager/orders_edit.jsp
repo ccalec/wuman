@@ -31,7 +31,8 @@
     ._item_title_inp,._buyer_address_inp,._sender_address_inp{
       width: 500px;
     }
-    .inp_file_val,.thumbBtn,._item_good_img_file,.add-on{
+    .inp_file_val,.thumbBtn,._item_good_img_file,._item_sku_inp,._feature_inp,
+    .f_add_time .add-on,.f_pay_time .add-on{
       display: none!important;
     }
     .f_buyer_full_name,.f_refund_type,.f_sender_address{

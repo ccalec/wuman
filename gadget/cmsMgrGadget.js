@@ -1143,13 +1143,13 @@ define(function(require, exports, module) {
 												reShowOutLink(newdata);
 											})
 										})
+										//显示提交\返回按钮
+										$("#submitBtn").show();
+										//内容编辑视图显示完的mess
+										_this.API.private("privateMessConEditOk",data.cmsdata[0]);
 									})
 								}
 								reShowOutLink(data.cmsdata[0]);
-								//显示提交\返回按钮
-								$("#submitBtn").show();
-								//内容编辑视图显示完的mess
-								_this.API.private("privateMessConEditOk",data.cmsdata[0]);
 							})
 						}
 					})
