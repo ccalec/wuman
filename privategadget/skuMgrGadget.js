@@ -166,6 +166,8 @@ define(function(require, exports, module) {
           });
           // 标记有值的p-v, 将sku的feature转为pvMap，并将排序标记复制给_sort字段
           $.each(skuData.cmsdata, function(i,skuobj){
+            //价格转换
+            skuobj.price = parseFloat(skuobj.price)/100;
             var feaArr = skuobj[skuMapData.feaField].split(',');
             skuobj['_fe'] = {};
             skuobj._sort = []; //排序标示
@@ -205,8 +207,7 @@ define(function(require, exports, module) {
           _this.MY.skuMapData.skuList.sort(function(a,b){
             return a._sort.join('').localeCompare(b._sort.join(''));
           });
-
-          console.log("===========",_this.MY.ptpMap);
+          // console.log(_this.MY);
           //展现试图
           _this.API.show('viewSkuMgr', {
             cateid: _this.MY.cateid,
@@ -215,7 +216,7 @@ define(function(require, exports, module) {
             pvMap : _this.MY.pvMap,
             skuMapData : _this.MY.skuMapData
           });
-          // console.log(_this.MY.skuMapData.skuList);
+
         },
         privateBindCheckedPV: function(){
           var _this = this;
@@ -454,6 +455,9 @@ define(function(require, exports, module) {
 
           // 添加的请求：
           $.each(addData,function(i,o){
+            //转换价格
+            console.log(o.price);
+            o.price = (parseFloat(o.price)*100).toString();
             (function(obj){
               var param = {
                 alias: 'sku',

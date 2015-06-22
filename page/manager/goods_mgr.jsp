@@ -185,7 +185,7 @@
                       <tr>
                         <td class="hidden"><input type="hidden" name="cid" value="${_}{skuList[i].cid || ''}" /></td>
                         <!--$for(var pid in data.pMap){ -->
-                        <!--$if(data.pMap[pid]['_actpvids']){-->
+                        <!--$if(data.pMap[pid]['_actpvids'].length){-->
                         <!--$var pvobj = skuList[i]['_fe'][pid]; -->
                         <td>${_}{pvobj.value}<input style="display:none;" type="checkbox" name="${_}{data.skuMapData.feaField}" value="${_}{pvobj.cid}" checked="true"></td>
                         <!--$} -->
