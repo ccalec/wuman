@@ -75,7 +75,7 @@
       <!--#nav-search-->
     </div>
 
-    <div class="page-content clearfix">
+    <div class="clearfix">
       <iframe name="myframe" id="ifr" src="" width="100%" height="500" scrolling-y="yes" frameborder="0"></iframe>
     </div>
   </div>

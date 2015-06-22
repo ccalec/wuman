@@ -183,10 +183,11 @@ define(function(require, exports, module) {
           }
         },
         trigerStep3: function(){
-          this.API.private('privateStep2');
           this.API.private('privateSetNavbar',3);
           var htmlstr = this.API.getHtml('viewGoodsMgrStep3');
-          FW.use('Widget').prompt(htmlstr,'宝贝入库');
+          FW.use('Widget').prompt(htmlstr,'宝贝入库',function(){
+            this.API.private('privateStep2');
+          });
         },
         trigerReset: function(){
           $.unblockUI();

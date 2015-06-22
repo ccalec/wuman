@@ -67,12 +67,12 @@ define(function(require, exports, module) {
     $.blockUI({
       message: htmlArr.join('\n'),
       overlayCSS: {
-        backgroundColor: "rgba(100,100,100,.6)"
+        backgroundColor: "rgba(0,0,0,.8)"
       },
       css: {
-        width: 300,
+        width: 400,
         height: 124,
-        left: ($(window).width() - 300) / 2,
+        left: ($(window).width() - 400) / 2,
         top: ($(window).height() - 124) / 2,
         border: 'none',
         background: "transparent"
@@ -142,7 +142,7 @@ define(function(require, exports, module) {
     $.blockUI({
       message: newdom,
       overlayCSS: {
-        backgroundColor: "rgba(100,100,100,.6)"
+        backgroundColor: "rgba(0,0,0,.8)"
       },
       css: {
         width: width,
