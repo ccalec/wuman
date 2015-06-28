@@ -131,9 +131,9 @@ define(function(require, exports, module) {
           var formDom = _this.API.find("#"+_this.param.formConEdit);
           formDom.find('input,select,textArea').each(function(){
             var name = $(this).attr('name');
-            var editField = ['data.status','data.sender_address','data.send_type','data.send_id','data.send_time'];
+            var editField = ['data.sender_address','data.send_type','data.send_id','data.send_time'];
             if($.inArray(name, editField) != -1 && data.status==2) return true;
-            $(this).attr('disabled','true');
+            if(name!='data.status') $(this).attr('disabled','true');
           });
         }
       },
