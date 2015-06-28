@@ -698,7 +698,7 @@ define(function(require, exports, module) {
 					formStr+="</textarea>";
 
 					//增加编辑按钮
-					formStr+="<a style='margin-top:5px;' alt='"+fTitle+"' class='btn btn-mini btn-info edit' href='javascript:void(0);'><i class='icon-edit bigger-120'> 点击编辑</i></a>";
+					formStr+="<a style='margin-top:5px;' alt='"+fTitle+"' class='btn btn-mini btn-info edit' href='javascript:void(0);'><i class='icon-edit bigger-120'> 点击查看</i></a>";
 					break;
 
 				//双语言模型

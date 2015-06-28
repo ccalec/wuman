@@ -86,11 +86,11 @@ define(function(require, exports, module) {
 					var psd = _this.API.find('#password').val();
 					var repsd = _this.API.find('#repassword').val();
 					if(!psd || !repsd){
-						alert("密码输入不能为空");
+						FW.use('Widget').alert("密码输入不能为空");
 						return;
 					}
 					if(psd!==repsd){
-						alert("两次密码输入不一致，请重新输入");
+						FW.use('Widget').alert("两次密码输入不一致，请重新输入");
 						_this.API.find('#password').val('');
 						_this.API.find('#repassword').val('');
 						return;
@@ -102,7 +102,7 @@ define(function(require, exports, module) {
 					}
 					_this.API.doServer("modifyPassword",packageName,{userid:uid,newPassword:psd},function(code,data){
 						if(code==0 && data){
-							alert("密码修改成功");
+							FW.use('Widget').alert("密码修改成功");
 							_this.API.private("privateShowConList");
 						}else{
 							$(this).html("修改失败，重新修改</i>");
@@ -111,6 +111,23 @@ define(function(require, exports, module) {
 				},
 				privateSetRoles:function(_dom,_data){
 					document.location.href = "rolesAction.jsp?nodeid="+_data.cid;
+				},
+				privateSetDescAndData: function(_alias,_data,_callback){
+					var _this = this;
+					if(_alias === 'category_property_values' && this.MY.sonAlias === 'category_property_values' && (this.MY.action==='conAdd'||this.MY.action==='conPLAdd')){
+						if(this.MY.action==='conAdd') _data = [_data];
+						$.each(_data, function(index,item){
+							item.category_id = _this.MY.nodeid;
+							item.property_id = _this.MY.cid;
+							item.add_time = (new Date().getTime()).toString();
+						});
+						var desc = _this.MY.contentDesc[_alias];
+						desc.category_id.type = 'Hidden';
+						desc.category_name.type = 'Hidden';
+						desc.property_id.type = 'Hidden';
+						desc.property_name.type = 'Hidden';
+					}
+					_callback && _callback();
 				}
 			},
 			TrigerEvent:{

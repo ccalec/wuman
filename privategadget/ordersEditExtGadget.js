@@ -28,28 +28,87 @@ define(function(require, exports, module) {
         privateSetDescAndData: function(_alias,_data,_callback){
           var _this = this;
           var _desc = _this.MY.contentDesc[_alias];
+          // status 成交状态处理
+          var statusMap = {
+            "1": [1,2],
+            "2": [2,3],
+            "3": [3,4],
+            "4": [4,0],
+            "5": [5,6],
+            "6": [6,0],
+            "0": [0]
+          };
+          var c_status_data = _data.status || 0;
+          var c_status_desc = _desc.status.valueRange[0];
+          var selopt = {};
+          var smap = {};
+          $.each(c_status_desc, function(k,v){
+            smap[v] = k;
+          });
+          $.each(statusMap[c_status_data], function(i,v){
+            selopt[smap[v]] = v;
+          });
+          _desc.status.valueRange = [selopt];
+          if(c_status_data==2){
+            _desc.status.desc = ' 更新到已发货状态，请完善发货信息';
+          }
+          // actinfo 处理
+          try{
+            var actinfoData = _data.actinfo?FW.use().evalJSON(_data.actinfo):{};
+            var voucherinfoData = _data.voucherinfo?FW.use().evalJSON(_data.voucherinfo):{};
+          }catch(err){
+            var actinfoData = {};
+            var voucherinfoData = {};
+          }
+          var actinfoMap = {
+            id: '活动ID',
+            title: '活动标题',
+            discount: '享受折扣',
+            price: '优惠价格'
+          };
+          var voucherinfoMap = {
+            id: '红包ID',
+            money: '红包金额'
+          };
+          _desc.actinfo.desc = _desc.voucherinfo.desc = "";
+          if(actinfoData.id) _desc.actinfo.desc += actinfoMap.id+"："+actinfoData.id+"； ";
+          if(actinfoData.title) _desc.actinfo.desc += actinfoMap.title+"："+actinfoData.title+"； ";
+          if(actinfoData.discount) _desc.actinfo.desc += actinfoMap.discount+"："+actinfoData.discount+"折； ";
+          if(actinfoData.price) _desc.actinfo.desc += actinfoMap.price+"："+actinfoData.price+"元； ";
+          if(voucherinfoData.id) _desc.voucherinfo.desc += voucherinfoMap.id+"："+voucherinfoData.id+"； ";
+          if(voucherinfoData.money) _desc.voucherinfo.desc += voucherinfoMap.money+"："+voucherinfoData.money+"元； ";
+          if(!_desc.actinfo.desc) _desc.actinfo.desc = "无";
+          if(!_desc.voucherinfo.desc) _desc.voucherinfo.desc = "无";
 
           _this.API.initPost();
-
+          var skuHtml = [];  //销售属性
+          var feaHtml = [];  //普通属性
+          var skuArr = [];
+          var feaArr = [];
           //item_sku处理
           if(_data.item_sku && _data.item_sku.split(':').length===2){
-            var skuHtml = [];  //销售属性
-            var cpvArr = _data.item_sku.split(':')[1].split(',');
-            getCpv(cpvArr, skuHtml);
+            skuArr = _data.item_sku.split(':')[1].split(',');
           }
           //feature处理
           if(_data.feature){
-            var feaHtml = [];  //普通属性
-            var cpvArr = _data.feature.split(',');
-            getCpv(cpvArr, feaHtml);
+            feaArr = _data.feature.split(',');
+          }
+          if(!skuArr.length && !feaArr.length){
+            tocb();
+            return;
           }
 
-          _this.API.doPost(function(){
-            _desc.item_sku.desc = skuHtml.join('； ');
-            _desc.feature.desc = feaHtml.join('； ');
-            _callback && _callback();
-          });
+          getCpv(skuArr, skuHtml);
+          getCpv(feaArr, feaHtml);
 
+          _this.API.doPost(function(){
+            tocb();
+          });
+          function tocb(){
+            _desc.item_sku.desc = skuHtml.length?skuHtml.join('； '):'无';
+            _desc.feature.desc = feaHtml.length?feaHtml.join('； '):'无';
+            _callback && _callback();
+          }
           function getCpv(cpvArr, strArr){
             $.each(cpvArr,function(i,cid){
               _this.API.addPost('queryContent','cms',{
@@ -73,10 +132,9 @@ define(function(require, exports, module) {
           formDom.find('input,select,textArea').each(function(){
             var name = $(this).attr('name');
             var editField = ['data.status','data.sender_address','data.send_type','data.send_id','data.send_time'];
-            if($.inArray(name, editField) ==-1){
-              $(this).attr('disabled','true');
-            }
-          })
+            if($.inArray(name, editField) != -1 && data.status==2) return true;
+            $(this).attr('disabled','true');
+          });
         }
       },
       TrigerEvent:{

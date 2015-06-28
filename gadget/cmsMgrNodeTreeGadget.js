@@ -23,7 +23,11 @@ define(function(require, exports, module) {
 					_this.MY.displayName = _displayName || _this.param.displayName[alias] ||  "displayName";
 					//定义获取父栏目列表的data数据 的参数
 					//2013-11-26日罗光瑜扩展，增加从参数可以动态控制显示的名称以及查询的过滤参数，但兼容原来的程序
-					_this.API.doServer("queryNode", "cms", {alias:alias,param:_param}, function(code,data){
+					var param = {
+						alias:alias,
+						param:_param
+					};
+					_this.API.doServer("queryNode", "cms", param, function(code,data){
 						if(code == 0){
 							//显示视图
 							_this.API.show("viewNodeTree");
@@ -114,7 +118,6 @@ define(function(require, exports, module) {
 									setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
 							}
 							var treeDataSource = new DataSourceTree({data: tree_data});
-
 
 							// alert(FW.use().toJSONString(treeDataSource));
 

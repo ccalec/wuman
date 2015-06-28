@@ -61,7 +61,7 @@ define(function(require, exports, module) {
 				*@memberOf cmsMgrGadget
 				*@description 批量添加默认多少比空白数据
 				*/
-				plAddSetNum:10,
+				plAddSetNum:5,
 				/**
 				*@name btnForList
 				*@memberOf cmsMgrGadget
@@ -974,7 +974,7 @@ define(function(require, exports, module) {
 							})
 						})
 					}
-					reShowOutLink(null);
+					reShowOutLink({});
 					//显示提交返回按钮
 					$("#submitBtn").show();
 					//内容添加视图显示完的mess

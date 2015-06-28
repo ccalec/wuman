@@ -12,6 +12,31 @@
   <jsp:include page="cssAssets.jsp"/>
   <base target="_self"></base>
   <!-- /cssAssets -->
+  <style>
+  .commmon_property,.sku_property{
+      position: relative;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px dashed #d5d5d5;
+    }
+    .commmon_property:after,.sku_property:after{
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      line-height: 20px!important;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+    }
+    .commmon_property:after{
+      content: "普通属性"!important;
+    }
+    .sku_property:after{
+      content: "SKU属性"!important;
+    }
+  </style>
 </head>
 <body class="skin-1">
 
@@ -44,8 +69,8 @@
       <div class="goods_nav">
         <ul>
           <li>1. 选择宝贝类目</li>
-          <li>2. 填写宝贝详情信息</li>
-          <li class="last">3. 入库成功</li>
+          <li>2. 宝贝详情信息编辑</li>
+          <li class="last">3. 保存成功</li>
         </ul>
       </div>
       <div class="FWApp " id="goodsMgrGadget">
@@ -95,50 +120,60 @@
         </div>
 
         <div id="viewGoodsMgrStep3" class="step3">
-          <div class="well">
-            <h4 class="green smaller lighter">
-              <strong><i class="icon-ok"></i> 提交成功</strong>
-            </h4>
-            <a class="btn btn-small btn-info" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
-            <a class="btn btn-small btn-success" href="${B}page/manager/goods_list.jsp?norole=true">返回宝贝列表</a>
+          <div class="well" style="width: 500px; margin: 50px auto 0; padding: 50px;">
+            <!--$if(data.action=='conAdd'){-->
+            <h4 class="green smaller lighter"><strong><i class="icon-ok"></i>宝贝入库成功</strong></h4>
+            <a class="btn btn-small btn-success" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
+            <a class="btn btn-small btn-info" onclick="FW.trigerEvent('trigerAdd')" href="javascript:void(0)">改类目下继续添加</a>
+            <a class="btn btn-small btn-warning" onclick="FW.trigerEvent('trigerStep1')" href="javascript:void(0)">返回重新选择类目</a>
+            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp?norole=true">查看宝贝列表</a>
+            <!--$}else{-->
+            <h4 class="green smaller lighter"><strong><i class="icon-ok"></i>宝贝编辑成功</strong></h4>
+            <a class="btn btn-small btn-success" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
+            <a class="btn btn-small btn-warning" onclick="FW.trigerEvent('trigerStep1')" href="javascript:void(0)">宝贝入库</a>
+            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp?norole=true">查看宝贝列表</a>
+            <!--$} -->
           </div>
         </div>
       </div>
-      <hr>
+
       <div class="FWApp " id="skuMgrGadget">
         <!--@skuMgrGadget@
         {
         }
         -->
         <div id="viewSkuMgr">
-          <div class="form-horizontal clearfix goodsform" style="display: ;">
+          <div class="form-horizontal clearfix goodsform" style="display: ; margin:-40px 0 30px;">
             <div class="form-wrap clearfix">
               <!--$if(Object.keys(data.ptpMap).length){ -->
-              <!--$for(var pid in data.ptpMap){ -->
-              <!--$var ptpObj = data.ptpMap[pid]; -->
-              <div class="control-group J_commmon_property">
-                <label class="control-label">${_}{ptpObj.property_name}：</label>
-                <div class="controls">
-                  <select class="ptp_${_}{ptpObj.cid}">
-                    <!--$for(var i=0; i < ptpObj['_pvobjs'].length; i++){ -->
-                    <!--$var ptpvObj = ptpObj['_pvobjs'][i]; -->
-                    <!--$if(ptpvObj['_selected']){ -->
-                    <option value="${_}{ptpvObj.cid}" selected="selected">${_}{ptpvObj.value}</option>
-                    <!--$}else{ -->
-                    <option value="${_}{ptpvObj.cid}">${_}{ptpvObj.value}</option>
-                    <!--$} -->
-                    <!--$} -->
-                  </select>
+              <div class="commmon_property">
+                <!--$for(var pid in data.ptpMap){ -->
+                <!--$var ptpObj = data.ptpMap[pid]; -->
+                <div class="control-group J_commmon_property ">
+                  <label class="control-label">${_}{ptpObj.property_name}：</label>
+                  <div class="controls">
+                    <select class="ptp_${_}{ptpObj.cid}">
+                      <!--$for(var i=0; i < ptpObj['_pvobjs'].length; i++){ -->
+                      <!--$var ptpvObj = ptpObj['_pvobjs'][i]; -->
+                      <!--$if(ptpvObj['_selected']){ -->
+                      <option value="${_}{ptpvObj.cid}" selected="selected">${_}{ptpvObj.value}</option>
+                      <!--$}else{ -->
+                      <option value="${_}{ptpvObj.cid}">${_}{ptpvObj.value}</option>
+                      <!--$} -->
+                      <!--$} -->
+                    </select>
+                  </div>
                 </div>
+                <!--$} -->
               </div>
               <!--$} -->
-              <hr>
-              <!--$} -->
-              <div class="control-group">
+
+              <!--$if(Object.keys(data.pMap).length){ -->
+              <div class="control-group sku_property">
                 <label for="huohao" class="control-label">宝贝规格：</label>
                 <div class="controls">
                   <div class="profile-contact-links">
-                    <!--$if(Object.keys(data.pMap).length){ -->
+
                     <!--$for(var pid in data.pMap){ -->
                     <!--$var pObj = data.pMap[pid]; -->
                     <div class="control-group control-group-sm">
@@ -159,12 +194,15 @@
                       </div>
                     </div>
                     <!--$} -->
-                    <!--$}else{ -->
-                    <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd&norole=true">点击添加类目属性</a></div>
-                    <!--$} -->
+
+                    <!--}else{ -->
+                    <!-- <div class="nodata">该类目下无类目属性</div> -->
+                    <!-- <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd&norole=true">点击添加类目属性</a></div> -->
+
                   </div>
                 </div>
               </div>
+
               <div class="control-group">
                 <label for="" class="control-label">&nbsp;</label>
                 <div class="controls">
@@ -200,7 +238,7 @@
                       </tr>
                       <!--$} -->
                       <!--$}else{ -->
-                      <tr><td colspan="1000" class="nodata">该商品暂无任何库存，请勾选宝贝规格进行添加</td></tr>
+                      <tr><td colspan="1000" class="nodata">该商品暂无规格数据，请勾选宝贝规格进行添加</td></tr>
                       <!--$} -->
                     </tbody>
                   </table>
@@ -208,6 +246,7 @@
                   </form>
                 </div>
               </div>
+              <!--$} -->
             </div>
           </div>
         </div>

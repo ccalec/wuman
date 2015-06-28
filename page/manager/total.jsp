@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>${title}</title>
+  <title>${title}-数据总览</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- cssAssets -->
   <jsp:include page="cssAssets.jsp"/>
@@ -36,7 +36,11 @@
     margin: 0 5px;
   }
 </style>
-<div class="main-container container-fluid">
+<div class="main-container container-fluid FWApp" id="totalGadget">
+  <!--@totalGadget@{
+
+  }-->
+  <div id="viewTotalGadget">
     <div class="page-content clearfix">
       <div class="page-header position-relative">
         <h1 id="pageH1" class="blue">
@@ -47,12 +51,12 @@
       <div class="page-bodyer">
         <ul>
           <li>
-            <span class="label label-info arrowed-right arrowed-in">仓库存货数</span>
-            <em>23456</em>件
+            <span class="label label-info arrowed-right arrowed-in">宝贝总数</span>
+            <em>${_}{data.allGoods}</em>件
           </li>
           <li>
             <span class="label label-info arrowed-right arrowed-in">上架宝贝数</span>
-            <em>12345</em>件
+            <em>${_}{data.shangGoods}</em>件
           </li>
         </ul>
       </div>
@@ -61,26 +65,30 @@
       <div class="page-header position-relative">
         <h1 id="pageH1" class="blue">
           <i class="icon-bar-chart"></i>
-          <span id="aliasTitle">今日销售状况</span>
+          <span id="aliasTitle">销售状况</span>
         </h1>
       </div>
       <div class="page-bodyer">
         <ul>
           <li>
-            <span class="label label-success arrowed-right arrowed-in">今日总销量</span>
-            <em>4321</em>元
+            <span class="label label-success arrowed-right arrowed-in">历史总销量</span>
+            <em>${_}{data.allmoney}</em>元
+          </li>
+          <li>
+            <span class="label label-success arrowed-right arrowed-in">今日销量</span>
+            <em>${_}{data.todaymoney}</em>元
           </li>
           <li>
             <span class="label label-success arrowed-right arrowed-in">待付款</span>
-            <em>123</em>笔订单
+            <em>${_}{data.dfk}</em>笔订单
           </li>
           <li>
             <span class="label label-success arrowed-right arrowed-in">待发货</span>
-            <em>234</em>笔订单
+            <em>${_}{data.dfh}</em>笔订单
           </li>
           <li>
             <span class="label label-success arrowed-right arrowed-in">已发货</span>
-            <em>567</em>笔订单
+            <em>${_}{data.yfh}</em>笔订单
           </li>
         </ul>
       </div>
@@ -95,12 +103,17 @@
       <div class="page-bodyer">
         <ul>
           <li>
-            <span class="label label-warning arrowed-right arrowed-in">今日总反馈量</span>
-            <em>252</em>个
+            <span class="label label-warning arrowed-right arrowed-in">总反馈量</span>
+            <em>${_}{data.allFeedback}</em>个
+          </li>
+          <li>
+            <span class="label label-warning arrowed-right arrowed-in">今日反馈量</span>
+            <em>${_}{data.todayFeedback}</em>个
           </li>
         </ul>
       </div>
     </div>
+  </div>
 </div>
 <!--/.main-container-->
 
@@ -111,7 +124,7 @@
 <!-- wgfly breeze -->
 <script>
   seajs.config({base:"${B}"});
-  seajs.use( ['gadget/cmsMgrNodeTreeGadget','privategadget/cmsMgrExtGadget'],function(a) {
+  seajs.use( ['privategadget/totalGadget'],function(a) {
     a.go("${S}");
     window.FW = a;
   });

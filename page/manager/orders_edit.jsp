@@ -16,6 +16,12 @@
     select{
       width: 100px;
     }
+    textArea{
+      max-width: 800px;
+    }
+    .help-inline{
+      padding-top: 5px;
+    }
     ._buyer_nick_inp,._buyer_full_name_inp{
       width: 120px;
     }
@@ -32,7 +38,9 @@
       width: 500px;
     }
     .inp_file_val,.thumbBtn,._item_good_img_file,._item_sku_inp,._feature_inp,
-    .f_add_time .add-on,.f_pay_time .add-on{
+    .f_add_time .add-on,.f_pay_time .add-on,
+    ._voucherinfo_inp,._actinfo_inp
+    {
       display: none!important;
     }
     .f_buyer_full_name,.f_refund_type,.f_sender_address{
@@ -61,7 +69,9 @@
     .f_sender_address:after{
       content: "发货信息"!important;
     }
-
+    .orders_conEdit .form-wrap{
+      float: none!important;
+    }
     /*.f_orderno,.f_status,.f_pay_price,.f_ori_price,.f_buy_num,.f_attributes{
       float: left;
     }*/

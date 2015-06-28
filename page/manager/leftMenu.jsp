@@ -104,7 +104,7 @@
 			</ul>
 		</li>
 
-		<li actionNamea="查询订单管理@cms.queryContent" style="display:none~;">
+		<!-- <li actionNamea="查询订单管理@cms.queryContent" style="display:none~;">
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-gift"></i>
 				<span class="menu-text">订单管理</span>
@@ -124,17 +124,17 @@
 					</a>
 				</li>
 			</ul>
-		</li>
+		</li> -->
 
-		<!-- <li>
-			<a href="${B}page/manager/CMSMgr.jsp?alias=order&norole=true">
-				<i class="icon-edit"></i>
+		<li>
+			<a href="${B}page/manager/orders_list.jsp?norole=true">
+				<i class="icon-gift"></i>
 				<span class="menu-text">
 					订单管理
 				</span>
 			</a>
 		</li>
- -->		<li>
+		<li>
 			<a href="${B}page/manager/CMSMgr.jsp?alias=feedback&norole=true">
 				<i class="icon-comments"></i>
 				<span class="menu-text">

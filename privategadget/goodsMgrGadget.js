@@ -126,7 +126,7 @@ define(function(require, exports, module) {
           };
           _this.API.doServer("queryNode", "cms", param, function(code,data){
             if(code!==0 || !data || !data.cmsdata){
-              alert('类目查询失败！');
+              FW.use('Widget').alert('类目查询失败！');
               return;
             }
             callback && callback(data.cmsdata);
@@ -143,8 +143,14 @@ define(function(require, exports, module) {
             var feature = [];
             $('.J_commmon_property select').each(function(){
               feature.push($(this).val());
-            })
+            });
             _data.feature = feature.join(',');
+            //库存 quantity， 如果存在sku库存，则替换为sku库存总和
+            var totalQuantity = 0;
+            $("#J_skuform input[name='quantity']").each(function(){
+              totalQuantity +=  parseInt($(this).val());
+            })
+            if(totalQuantity) _data.quantity = totalQuantity.toString();
             for(var v_prop in _desc){
               if($.inArray(_desc[v_prop].type, ['List','Pics']) != -1){
                 if(!_data[v_prop]) continue;
@@ -172,6 +178,7 @@ define(function(require, exports, module) {
           //内容添加
           if(_this.MY.action == _this.MY.act.conAdd){
             _this.API.private("privateSubmitConAdd",function(data){
+              _this.MY.cid = data[1];
               FW.trigerEvent('triggerSkuSubmit',data[1]);
             });
           }
@@ -184,14 +191,21 @@ define(function(require, exports, module) {
         },
         trigerStep3: function(){
           this.API.private('privateSetNavbar',3);
-          var htmlstr = this.API.getHtml('viewGoodsMgrStep3');
-          FW.use('Widget').prompt(htmlstr,'宝贝入库',function(){
-            this.API.private('privateStep2');
-          });
+          $('#skuMgrGadget').hide();
+          $('#submitBtn').hide();
+          this.API.show('viewGoodsMgrStep3', {action: this.MY.action});
         },
         trigerReset: function(){
-          $.unblockUI();
           this.API.private('privateStep2');
+        },
+        trigerAdd: function(){
+          this.MY.cid = '';
+          this.API.private('privateStep2');
+        },
+        trigerStep1: function(){
+          this.MY.cid = '';
+          this.MY.nodeid = '';
+          this.API.private('privateStep1');
         }
       }
     }

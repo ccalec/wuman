@@ -12,6 +12,11 @@
 	<jsp:include page="cssAssets.jsp"/>
 	<base target="_self"></base>
 	<!-- /cssAssets -->
+	<style>
+		.category_property_values_conAdd .f_add_time{
+			display: none;
+		}
+	</style>
 </head>
 <body class="skin-1">
 

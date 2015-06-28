@@ -46,6 +46,7 @@ define(function(require, exports, module) {
 					return;
 				}
 				var pObj = {};
+
 				for (var i =0;i<_postData.length;i++){
 					//保留回调函数以及序号
 					pObj[i] = _postData[i].callBack;
@@ -66,7 +67,7 @@ define(function(require, exports, module) {
 				if (threadSignal){
 					postUrl = _doserverUrl + "?threadSignal="+threadSignal;
 				}
-
+				// alert(3);
 				$.post(postUrl,{data:dataStr},
 				function(__returndata){
 					for (var key in __returndata){
