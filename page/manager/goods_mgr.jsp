@@ -51,7 +51,7 @@
           <div class="pull-right" id="btnAction">
             <div class="btn-toolbar">
               <div class="btn-group">
-                <a class="btn btn-small btn-default" href="${B}page/manager/goods_list.jsp?norole=true">
+                <a class="btn btn-small btn-default" href="${B}page/manager/goods_list.jsp">
                   <i class="icon-app"></i>
                   返回宝贝列表
                 </a>
@@ -126,12 +126,12 @@
             <a class="btn btn-small btn-success" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
             <a class="btn btn-small btn-info" onclick="FW.trigerEvent('trigerAdd')" href="javascript:void(0)">改类目下继续添加</a>
             <a class="btn btn-small btn-warning" onclick="FW.trigerEvent('trigerStep1')" href="javascript:void(0)">返回重新选择类目</a>
-            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp?norole=true">查看宝贝列表</a>
+            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp">查看宝贝列表</a>
             <!--$}else{-->
             <h4 class="green smaller lighter"><strong><i class="icon-ok"></i>宝贝编辑成功</strong></h4>
             <a class="btn btn-small btn-success" onclick="FW.trigerEvent('trigerReset')" href="javascript:void(0)">查看更改</a>
             <a class="btn btn-small btn-warning" onclick="FW.trigerEvent('trigerStep1')" href="javascript:void(0)">宝贝入库</a>
-            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp?norole=true">查看宝贝列表</a>
+            <a class="btn btn-small btn-danger" href="${B}page/manager/goods_list.jsp">查看宝贝列表</a>
             <!--$} -->
           </div>
         </div>
@@ -197,7 +197,7 @@
 
                     <!--}else{ -->
                     <!-- <div class="nodata">该类目下无类目属性</div> -->
-                    <!-- <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd&norole=true">点击添加类目属性</a></div> -->
+                    <!-- <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd">点击添加类目属性</a></div> -->
 
                   </div>
                 </div>

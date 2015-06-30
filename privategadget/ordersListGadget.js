@@ -47,9 +47,9 @@ define(function(require, exports, module) {
             item.add_time = FW.use('DateTime').format(new Date(parseInt(item.add_time)), 'yyyy-MM-dd hh:mm');
             item.ori_price = FW.use().fixedNum(item.ori_price/100,2);
             item.pay_price = FW.use().fixedNum(item.pay_price/100,2);
-            item.descurl = Cfg.baseUrl+'/page/manager/orders_edit.jsp?alias=orders&action=conEdit&cid='+item.cid+'&norole=true';
-            item.titcon = '<img class="img_file" style="height:40px; max-width:100px;" src="'+Cfg.baseUrl+'/'+item.item_good_img+'"> '+item.item_title+'<a style="margin-left: 5px;" target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/goods_mgr.jsp?nodeid='+item.category_id+'&cid='+item.item_id+'&action=conEdit&norole=true">查看商品详情</a>';
-            item.buyer_nick = '<a target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/CMSMgr.jsp?alias=user&action=conEdit&cid='+item.buyer_id+'&norole=true">'+item.buyer_nick+'</a>';
+            item.descurl = Cfg.baseUrl+'/page/manager/orders_edit.jsp?alias=orders&action=conEdit&cid='+item.cid;
+            item.titcon = '<img class="img_file" style="height:40px; max-width:100px;" src="'+Cfg.baseUrl+'/'+item.item_good_img+'"> '+item.item_title+'<a style="margin-left: 5px;" target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/goods_mgr.jsp?nodeid='+item.category_id+'&cid='+item.item_id+'&action=conEdit">查看商品详情</a>';
+            item.buyer_nick = '<a target="_blank" href="'+Cfg.baseUrl+'/page/manager/index.jsp#'+Cfg.baseUrl+'/page/manager/CMSMgr.jsp?alias=user&action=conEdit&cid='+item.buyer_id+'">'+item.buyer_nick+'</a>';
             $.each(statusArr[0],function(name,val){
               if(val==item.status){
                 item.status = '<span style="color:'+statusColor[val]+';">'+name+'</span>';

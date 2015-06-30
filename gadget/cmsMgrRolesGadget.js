@@ -177,7 +177,7 @@
 						this.API.doServer(this.serverName.mRoles,this.package.role,param,function(code,data){
 							if(code==0){
 								alert("保存成功！");
-								document.location.href = "CMSMgr.jsp?alias=roles&norole=true";
+								document.location.href = "CMSMgr.jsp?alias=roles";
 							}
 						})
 					}

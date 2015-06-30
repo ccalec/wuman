@@ -144,12 +144,12 @@ define(function(require, exports, module) {
           _this.API.private("privateSubmitConEdit",function(){
             FW.use('Widget').alert("修改完成!");
             setTimeout(function(){
-              location.href = Cfg.baseUrl+'/page/manager/orders_list.jsp?norole=true';
+              location.href = Cfg.baseUrl+'/page/manager/orders_list.jsp';
             },2000);
           });
         },
         trigerGoBack: function(){
-          location.href = Cfg.baseUrl+'/page/manager/orders_list.jsp?norole=true';
+          location.href = Cfg.baseUrl+'/page/manager/orders_list.jsp';
         }
       }
     }
