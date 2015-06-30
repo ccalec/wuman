@@ -112,6 +112,21 @@ define(function(require, exports, module) {
 				privateSetRoles:function(_dom,_data){
 					document.location.href = "rolesAction.jsp?nodeid="+_data.cid;
 				},
+				privateSetListParam: function(_param){
+					var _this = this;
+					if(_this.MY.alias==='category'){
+						_param.spes = {
+							orderby:[{
+								name:"sort_order",
+								desc:"true"
+							},{
+								name:"cid",
+								desc:"true"
+							}]
+						}
+					}
+					return _param;
+				},
 				privateSetDescAndData: function(_alias,_data,_callback){
 					var _this = this;
 					if(_alias === 'category_property_values' && this.MY.sonAlias === 'category_property_values' && (this.MY.action==='conAdd'||this.MY.action==='conPLAdd')){

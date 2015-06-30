@@ -81,10 +81,13 @@ define(function(require, exports, module) {
             param: {
               nodeid: nodeid
             },
-            spes:{
+            spes: {
               orderby:[{
-                name: "cid",
-                desc: "false"
+                name:"sort_order",
+                desc:"true"
+              },{
+                name:"cid",
+                desc:"true"
               }]
             }
           };

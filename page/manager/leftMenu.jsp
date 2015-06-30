@@ -134,27 +134,27 @@
 				</span>
 			</a>
 		</li>
-		<li>
-			<a href="${B}page/manager/CMSMgr.jsp?alias=feedback&norole=true">
-				<i class="icon-comments"></i>
-				<span class="menu-text">
-					用户反馈管理
-				</span>
-			</a>
-		</li>
-		<li>
+		<!-- <li>
 			<a href="${B}page/manager/activities_mgr.jsp?norole=true">
 				<i class="icon-flag"></i>
 				<span class="menu-text">
 					活动管理
 				</span>
 			</a>
-		</li>
+		</li> -->
 		<li>
 			<a href="${B}page/manager/CMSMgr.jsp?alias=activities&norole=true">
 				<i class="icon-flag"></i>
 				<span class="menu-text">
 					活动列表
+				</span>
+			</a>
+		</li>
+		<li>
+			<a href="${B}page/manager/CMSMgr.jsp?alias=feedback&norole=true">
+				<i class="icon-comments"></i>
+				<span class="menu-text">
+					用户反馈管理
 				</span>
 			</a>
 		</li>
