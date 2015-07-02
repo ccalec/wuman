@@ -20,29 +20,33 @@
 	</div>
 	<!--#sidebar-shortcuts-->
 	<ul class="nav nav-list">
+		<li>
+			<a href="${B}page/manager/total.jsp">
+				<i class="icon-dashboard"></i>
+				数据统计
+			</a>
+		</li>
 		<li actionName="查询数据模型@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/channelMgr.jsp?nodeid=3">
-				<i class="icon-bar-chart"></i>
-				<span class="menu-text">数据模型管理</span>
+				<i class="icon-inbox"></i>
+				<span class="menu-text">模型管理</span>
 			</a>
 		</li>
 		<li actionName="查询管理员管理@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/CMSMgr.jsp?alias=administrator">
-				<i class="icon-user"></i>
-				<span class="menu-text">管理员管理<span class="badge badge-primary">4</span></span>
+				<i class="icon-group"></i>
+				<span class="menu-text">管理员管理<!-- <span class="badge badge-primary">4</span> --></span>
 			</a>
 		</li>
 		<li actionName="查询会员管理@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/CMSMgr.jsp?alias=user">
-				<i class="icon-group"></i>
-				<span class="menu-text">会员管理<span class="badge badge-primary">4</span></span>
+				<i class="icon-user"></i>
+				<span class="menu-text">会员管理<!-- <span class="badge badge-primary">4</span> --></span>
 			</a>
 		</li>
-
-
 		<li actionName="查询商品类目管理@cms.queryContent" style="display:none;">
 			<a href="#" class="dropdown-toggle">
-				<i class="icon-dashboard"></i>
+				<i class="icon-list"></i>
 				<span class="menu-text">类目管理</span>
 				<b class="arrow icon-angle-down"></b>
 			</a>
@@ -85,7 +89,7 @@
 		</li>
 		<li actionName="查询订单管理@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/orders_list.jsp">
-				<i class="icon-gift"></i>
+				<i class="icon-file-alt"></i>
 				<span class="menu-text">
 					订单管理
 				</span>
@@ -95,7 +99,7 @@
 			<a href="${B}page/manager/CMSMgr.jsp?alias=activities">
 				<i class="icon-flag"></i>
 				<span class="menu-text">
-					活动列表
+					活动管理
 				</span>
 			</a>
 		</li>
@@ -103,30 +107,15 @@
 			<a href="${B}page/manager/CMSMgr.jsp?alias=feedback">
 				<i class="icon-comments"></i>
 				<span class="menu-text">
-					用户反馈管理
+					反馈管理
 				</span>
 			</a>
 		</li>
 		<li actionName="查询角色权限@cms.queryContent" style="display:none;">
-			<a href="#" class="dropdown-toggle">
+			<a href="${B}page/manager/CMSMgr.jsp?alias=roles">
 				<i class="icon-puzzle-piece"></i>
-				<span class="menu-text">权限设置管理</span>
-				<b class="arrow icon-angle-down"></b>
+				权限管理
 			</a>
-			<ul class="submenu">
-				<li actionName="查询角色权限@cms.queryContent" style="display:none;">
-					<a href="${B}page/manager/CMSMgr.jsp?alias=roles">
-						<i class="icon-double-angle-right"></i>
-						角色权限管理
-					</a>
-				</li>
-				<li  actionName="查询权限定义@cms.queryContent" style="display:none;">
-					<a href="${B}page/manager/CMSMgr.jsp?alias=action">
-						<i class="icon-double-angle-right"></i>
-						权限定义管理
-					</a>
-				</li>
-			</ul>
 		</li>
 	</ul>
 	<!--/.nav-list-->
