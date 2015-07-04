@@ -57,8 +57,9 @@ define(function(require, exports, module) {
           _this.API.private("privateShowConList");
         },
         privateBtnConEdit: function(_dom,_data){
-          location.href = Cfg.baseUrl+'/page/manager/goods_mgr.jsp?nodeid='+_data.nodeid+'&cid='+_data.cid+'&action=conEdit';
-          window.location.hash = location.href;
+          var hash = '/page/manager/goods_mgr.jsp?nodeid='+_data.nodeid+'&cid='+_data.cid+'&action=conEdit';
+          window.location.href = Cfg.baseUrl+hash;
+          top.location.hash = Cfg.baseUrl+hash;
         },
         privateGetCheckedData: function(){
           var _this = this;

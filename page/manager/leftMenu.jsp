@@ -96,7 +96,7 @@
 			</a>
 		</li>
 		<li actionName="查询活动管理@cms.queryContent" style="display:none;">
-			<a href="${B}page/manager/CMSMgr.jsp?alias=activities">
+			<a href="${B}page/manager/activities_list.jsp">
 				<i class="icon-flag"></i>
 				<span class="menu-text">
 					活动管理

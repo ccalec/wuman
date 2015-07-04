@@ -218,6 +218,7 @@ define(function(require, exports, module) {
 					classAdd: "classAdd",			//添加栏目
 					conEdit: "conEdit"				//编辑内容
 				}
+
 				//定义package
 				_this.MY.package = "cms";
 				//定义各种情况的serverName
@@ -239,8 +240,10 @@ define(function(require, exports, module) {
 					qAllCT: "queryAllCMSType",      //cms模型：查所有
 					qNodeCT: "queryNodeCMSType"     //cms模型：查父表
 				}
+
 				//获取栏目数据描述
 				_this.API.private("privateGetNodeDesc");
+
 				//获取自身数据描述，并展示默认视图
 				_this.API.private("privateContentDesc", _this.MY.alias, function(_cmsmatedata){
 					//判断是否自己挂接自己类型
@@ -965,20 +968,21 @@ define(function(require, exports, module) {
 					formDom.addClass(curAlias+"_"+_this.MY.action).addClass(_this.MY.action);
 					//重新显示列表数据
 					function reShowOutLink(_data){
+
 						//表单生成前，对数据描述和数据的自定义接口
 						_this.API.private("privateSetDescAndData", curAlias, _data, function(){
 							FW.use().createForm(_this.MY.contentDesc[curAlias], formDom, _data, function(fieldName,fieldValue){
 								_this.API.private("privateOutLinkCB",_this.MY.contentDesc[curAlias], formDom, fieldName, fieldValue,function(newdata){
 									reShowOutLink(newdata);
-								})
+								});
 							})
+							//内容添加视图显示完的mess
+							_this.API.private("privateMessConAddOk",_data);
 						})
 					}
 					reShowOutLink({});
 					//显示提交返回按钮
 					$("#submitBtn").show();
-					//内容添加视图显示完的mess
-					_this.API.private("privateMessConAddOk");
 				},
 				/**
 				*@function
@@ -987,7 +991,7 @@ define(function(require, exports, module) {
 				*@description 内容添加视图显示完后发送的内部消息，可根据alias及视图指针判断
 				*@example
 				*/
-				privateMessConAddOk:function(){
+				privateMessConAddOk:function(data){
 				},
 				/**
 				*@function
@@ -1050,13 +1054,13 @@ define(function(require, exports, module) {
 									reShowOutLink(newdata);
 								})
 							},1)
+							//内容批量添加视图显示完的mess
+							_this.API.private("privateMessConPLAddOk",_data);
 						})
 					}
 					reShowOutLink(blankData);
 					//显示提交、返回按钮
 					$("#submitBtn").show();
-					//内容批量添加视图显示完的mess
-					_this.API.private("privateMessConPLAddOk");
 				},
 				/**
 				*@function
@@ -1143,13 +1147,13 @@ define(function(require, exports, module) {
 												reShowOutLink(newdata);
 											})
 										})
-										//显示提交\返回按钮
-										$("#submitBtn").show();
 										//内容编辑视图显示完的mess
 										_this.API.private("privateMessConEditOk",data.cmsdata[0]);
 									})
 								}
 								reShowOutLink(data.cmsdata[0]);
+								//显示提交\返回按钮
+								$("#submitBtn").show();
 							})
 						}
 					})

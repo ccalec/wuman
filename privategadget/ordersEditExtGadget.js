@@ -19,6 +19,7 @@ define(function(require, exports, module) {
   FW.register(
     {
       param:{
+        alias: 'orders'
       },
       name:"ordersEditExtGadget",
       extends:["cmsMgrGadget"],
@@ -126,6 +127,7 @@ define(function(require, exports, module) {
           }
         },
         privateMessConEditOk:function(data){
+          top.location.hash = location.pathname+location.search;
           var _this = this;
           //获得dom
           var formDom = _this.API.find("#"+_this.param.formConEdit);

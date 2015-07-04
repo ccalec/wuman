@@ -49,6 +49,15 @@ define(function(require, exports, module) {
 									}
 									if(data.cmsdata[i].ctalias) var t_ctalias = data.cmsdata[i].ctalias;  //ctalias 多个alias挂接在一个栏目的情况
 
+									var dataDesc = JSON.parse(data.cmsmetadata.dataDesc);
+									if(dataDesc[_this.MY.displayName].type==='Select'){
+										$.each(dataDesc[_this.MY.displayName].valueRange[0], function(k,v){
+											if(v==t_displayName){
+												t_displayName = k;
+												return true;
+											}
+										})
+									}
 									//整理自己
 									var selfData = {
 										name:t_displayName,

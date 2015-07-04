@@ -19,7 +19,7 @@ define(function(require, exports, module) {
       },
       private:{
         privateShowDefaultView: function(){
-          if(this.MY.action == this.MY.act.conEdit && this.MY.cid){
+          if((this.MY.action == this.MY.act.conEdit && this.MY.cid) || (this.MY.action == this.MY.act.conAdd && this.MY.nodeid)){
             this.API.private('privateStep2');
           }else{
             // 显示默认视图
@@ -31,6 +31,8 @@ define(function(require, exports, module) {
           _this.API.private('privateSetNavbar',1);
           _this.API.private('privateGetCateList', 0, function(cateList){
             _this.API.show('viewGoodsMgrStep1');
+            top.location.hash = Cfg.baseUrl+location.pathname;
+
             _this.API.show('viewCateListTPL', {cateList: cateList}, 'parentList', false);
 
             // 绑定点击事件
@@ -63,9 +65,11 @@ define(function(require, exports, module) {
           _this.API.private('privateSetNavbar',2);
           if(this.MY.act.conEdit && this.MY.cid){
             _this.API.private('privateShowConEdit'); //显示编辑视图
+            top.location.hash = location.pathname+'?nodeid='+this.MY.nodeid+'&cid='+this.MY.cid+'&action=conEdit';
           }else{
             _this.API.private('privateShowConAdd'); //显示添加视图
             FW.trigerEvent("triggerShowSkuView", this.MY.cid, this.MY.nodeid);
+            top.location.hash = location.pathname+'?nodeid='+this.MY.nodeid+'&action=conAdd';
           }
           // 货物编号增加同步按钮,绑定同步事件
           _this.API.private('privateUpdateGoods');
@@ -100,6 +104,7 @@ define(function(require, exports, module) {
                 _this.MY.cid = data.cmsdata[0].cid;
                 _this.MY.nodeid = data.cmsdata[0].nodeid;
                 _this.API.private('privateShowConEdit'); //显示编辑视图
+                top.location.hash = location.pathname+'?nodeid='+this.MY.nodeid+'&cid='+this.MY.cid+'&action=conEdit';
               }else{
                 $this.find('i').attr('class','icon-refresh bigger-120');  //去掉loading
                 $this.parents('.controls').removeClass('error');
@@ -209,6 +214,11 @@ define(function(require, exports, module) {
           this.MY.cid = '';
           this.MY.nodeid = '';
           this.API.private('privateStep1');
+        },
+        trigerGoList: function(){
+          var hash = '/page/manager/goods_list.jsp';
+          window.location.href = Cfg.baseUrl+ hash;
+          top.location.hash = Cfg.baseUrl+ hash;
         }
       }
     }

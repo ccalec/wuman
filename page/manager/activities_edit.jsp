@@ -20,26 +20,11 @@
       max-width: 800px;
     }
     .help-inline{
-      padding-top: 5px;
     }
-    ._buyer_nick_inp,._buyer_full_name_inp{
-      width: 120px;
+    ._limit_num_inp{
+      width: 50px;
     }
-    ._memo_tex,._refund_reason_tex{
-      height: 80px;
-    }
-    .date-time-picker input{
-      width: 150px;
-    }
-    ._buy_num_inp,._ori_price_inp,._pay_price_inp,._attributes_inp{
-      width: 60px;
-    }
-    ._item_title_inp,._buyer_address_inp,._sender_address_inp{
-      width: 500px;
-    }
-    .inp_file_val,.thumbBtn,._item_good_img_file,._item_sku_inp,._feature_inp,
-    .f_add_time .add-on,.f_pay_time .add-on,
-    ._voucherinfo_inp,._actinfo_inp
+    .f_add_time .add-on
     {
       display: none!important;
     }
@@ -72,21 +57,6 @@
     .orders_conEdit .form-wrap{
       float: none!important;
     }
-    /*.f_orderno,.f_status,.f_pay_price,.f_ori_price,.f_buy_num,.f_attributes{
-      float: left;
-    }*/
-    /*.form-wrap{
-      position: relative;
-    }*/
-    /*.f_item_good_img label{
-      display: none;
-    }
-    .f_item_good_img{
-      position: absolute;
-      right: 0;
-      top: 100px;
-    }
-*/
   </style>
 </head>
 <body class="skin-1">
@@ -107,14 +77,16 @@
         </small>
       </h1>
     </div>
-    <div class="FWApp " id="ordersEditExtGadget">
-      <!--@ordersEditExtGadget@
+    <div class="FWApp " id="activitiesEditGadget">
+      <!--@activitiesEditGadget@
       {
-        descChannelUrl:"CMSMgr.desc"
       }
       -->
       <div id="viewContentEdit">
-        <form id="formContentEdit" class="form-horizontal clearfix">
+        <form id="formContentEdit" class="form-horizontal clearfix"></form>
+      </div>
+      <div id="viewContentAdd">
+        <form id="formContentAdd" class="form-horizontal clearfix">
         </form>
       </div>
     </div>
@@ -140,7 +112,7 @@
 <!-- wgfly breeze -->
 <script>
   seajs.config({base:"${B}"});
-  seajs.use( ['gadget/cmsMgrNodeTreeGadget','privategadget/ordersEditExtGadget'],function(a) {
+  seajs.use( ['gadget/cmsMgrNodeTreeGadget','privategadget/activitiesEditGadget'],function(a) {
     a.go("${S}");
     window.FW = a;
   });

@@ -51,7 +51,7 @@
           <div class="pull-right" id="btnAction">
             <div class="btn-toolbar">
               <div class="btn-group">
-                <a class="btn btn-small btn-default" href="${B}page/manager/goods_list.jsp">
+                <a class="btn btn-small btn-default" href="javascript:void(0)" onclick="FW.trigerEvent('trigerGoList')">
                   <i class="icon-app"></i>
                   返回宝贝列表
                 </a>
