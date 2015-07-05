@@ -54,7 +54,7 @@
           <div class="catsel J_catesel">
             <span>宝贝类目：</span>
             <select id="parentCateList">
-              <option value="-1">一级类目</option>
+              <option value="-1">全部类目</option>
             </select>
             &gt;&gt;
             <select id="sonCateList">

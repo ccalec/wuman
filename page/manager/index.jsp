@@ -97,7 +97,7 @@
 <script type="text/javascript">
   // 计算页面的实际高度，iframe自适应会用到
   var height = $(window).height();
-  $('#ifr').height(height-127);
+  $('#ifr').height(height-87);
   // hash初始化
   var hash = document.location.hash.replace('#','') || 'total.jsp';
   $('#ifr').attr('src',hash);
@@ -105,7 +105,7 @@
   // 轮训调整iframe高度
   $(window).resize(function() {
     var height = $(window).height();
-    $('#ifr').height(height-127);
+    $('#ifr').height(height-87);
   })
 
   // 点击带hash

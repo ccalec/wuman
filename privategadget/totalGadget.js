@@ -74,7 +74,6 @@ define(function(require, exports, module) {
           }
         });
         _this.API.doPost(function(){
-          console.log(Data);
           _this.API.show('viewTotalGadget', Data);
         });
       },

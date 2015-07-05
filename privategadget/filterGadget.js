@@ -14,19 +14,22 @@ define(function(require, exports, module) {
         // 设置过滤参数对象
         _this.MY.filterData = {};
         //显示默认视图
-        _this.API.show('viewFilter');
-
-        //获取一级类目数据
-        _this.API.private('privateGetCateList', 0, function(cateList){
-          //将数据放入select
-          _this.API.append('viewCateListTPL', {cateList: cateList}, '#parentCateList', false);
-          //绑定按钮事件
-          _this.API.private('privateBindEvent');
-        });
+        if(!_this.param.noShow) _this.API.private('privateShowDefaultView');
       },
       FireEvent:{
       },
       private:{
+        privateShowDefaultView:function(){
+          var _this = this;
+          _this.API.show('viewFilter');
+          //获取一级类目数据
+          _this.API.private('privateGetCateList', 0, function(cateList){
+            //将数据放入select
+            _this.API.append('viewCateListTPL', {cateList: cateList}, '#parentCateList', false);
+            //绑定按钮事件
+            _this.API.private('privateBindEvent');
+          });
+        },
         privateBindEvent: function(){
           var _this = this;
           //绑定时间控件
@@ -101,6 +104,9 @@ define(function(require, exports, module) {
         }
       },
       TrigerEvent:{
+        trigerShowFilter: function(){
+          this.API.private('privateShowDefaultView');
+        }
       }
     }
   );

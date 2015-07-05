@@ -94,7 +94,7 @@ define(function(require, exports, module) {
       htmlArr.push('<div class="widget-header">');
         htmlArr.push('<h5 style="color:gray">'+title+'</h5>');
         htmlArr.push('<span class="widget-toolbar">');
-          htmlArr.push('<a href="javascript:void(0);" onclick="$.unblockUI();">');
+          htmlArr.push('<a href="javascript:void(0);" class="propCancel">');
             htmlArr.push('<i class="icon-remove" style="color:gray"></i>');
           htmlArr.push('</a>');
         htmlArr.push('</span>');
@@ -111,9 +111,9 @@ define(function(require, exports, module) {
               htmlArr.push('</button>');
               }
               if(errCallback){
-              htmlArr.push('<button type="button" class="btn btn-small btn-default" id="propCancel">');
+              htmlArr.push('<button type="button" class="btn btn-small btn-default propCancel">');
                 htmlArr.push('<i class="icon-undo bigger-110"></i>');
-                htmlArr.push('取消');
+                htmlArr.push('返回');
               htmlArr.push('</button>');
               }
             htmlArr.push('</div>');
@@ -132,7 +132,7 @@ define(function(require, exports, module) {
     newdom.find('#propSubmit').on('click',function(){
       succCallback && succCallback();
     });
-    newdom.find('#propCancel').on('click',function(){
+    newdom.find('.propCancel').on('click',function(){
       if(errCallback===true){
         $.unblockUI();
       }else{

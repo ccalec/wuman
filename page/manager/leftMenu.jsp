@@ -44,7 +44,7 @@
 				<span class="menu-text">会员管理<!-- <span class="badge badge-primary">4</span> --></span>
 			</a>
 		</li>
-		<li actionName="查询商品类目管理@cms.queryContent" style="display:none;">
+		<li actionName="修改商品类目管理@cms.modifyContent" style="display:none;">
 			<a href="#" class="dropdown-toggle">
 				<i class="icon-list"></i>
 				<span class="menu-text">类目管理</span>

@@ -771,8 +771,13 @@ define(function(require, exports, module) {
 					var formDom = _this.API.find("#"+_this.param.formConList);
 					//给列表每行的checkbox增加FW.trigerEvent事件
 					formDom.find("table:eq(0)>tbody>tr>td>label>input[type='checkbox']").on("click",function(){
+						if($(this).attr('checked')){
+							var checkStatus = true;
+						}else{
+							var checkStatus = false;
+						}
 						var index = formDom.find("table:eq(0)>tbody>tr>td>label>input[type='checkbox']").index($(this));
-						FW.trigerEvent("trigerCheckBoxClick",_data[index]);
+						FW.trigerEvent("trigerCheckBoxClick",_data[index],checkStatus);
 					})
 					//给当前alias的内容列表操作区域绑定点击事件
 					if( _this.param.btnForList && _this.param.btnForList[curAlias]){
@@ -1904,8 +1909,8 @@ define(function(require, exports, module) {
 				*@param {object} rowData 当前行的data数据
 				*@example
 				*/
-				trigerCheckBoxClick:function(rowData){
-					//FW.use('Widget').alert(FW.use().toJSONString(rowData));
+				trigerCheckBoxClick:function(rowData,checkStatus){
+					//FW.use('Widget').alert(FW.use().toJSONString(rowData),checkStatus);
 				}
 
 			}

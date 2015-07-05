@@ -19,43 +19,47 @@
     textarea{
       max-width: 800px;
     }
+    .f_formList table th:last-child,.f_formList table td:last-child{
+      display: none;
+    }
+    .f_formList table tr.list-none td:last-child{
+      display: table-cell;
+    }
     .help-inline{
     }
     ._limit_num_inp{
       width: 50px;
     }
-    .f_add_time .add-on
+    .f_add_time .add-on,
+    .activities_conAdd .f_add_time
     {
       display: none!important;
     }
-    .f_buyer_full_name,.f_refund_type,.f_sender_address{
-      position: relative;
-      margin-top: 40px;
-      padding-top: 40px;
-      border-top: 1px dashed #d5d5d5;
-    }
-    .f_buyer_full_name:after,.f_refund_type:after,.f_sender_address:after{
-      position: absolute;
-      top: -10px;
-      left: 0;
-      width: 100%;
-      height: 20px;
-      line-height: 20px!important;
-      text-align: center;
-      color: #999;
-      font-size: 12px;
-    }
-    .f_buyer_full_name:after{
-      content: "收货信息"!important;
-    }
-    .f_refund_type:after{
-      content: "退货信息"!important;
-    }
-    .f_sender_address:after{
-      content: "发货信息"!important;
-    }
-    .orders_conEdit .form-wrap{
+    .activities_conEdit .form-wrap{
       float: none!important;
+    }
+    #J_actgoodscon{
+      margin: 0 10px;
+    }
+    #J_actgoodscon table{
+      border: 1px solid #ddd!important;
+    }
+    .th_cid{
+      width: 60px;
+    }
+    .th_File{
+      width: 80px;
+    }
+    .th_dazhe_price,.th_price,.th_quantity{
+      width: 100px;
+    }
+    #myTab li a{
+      padding: 8px 20px;
+      color: #2283c5;
+    }
+    #myTab li.active a{
+      border-top-color: orange;
+      color: orange;
     }
   </style>
 </head>
@@ -69,7 +73,6 @@
   <div class="page-content clearfix">
     <div class="page-header position-relative">
       <h1 id="pageH1" style="display:none;">
-
         <span id="aliasTitle">栏目操作</span>
         <small>
           <i class="icon-double-angle-right"></i>
@@ -86,10 +89,68 @@
         <form id="formContentEdit" class="form-horizontal clearfix"></form>
       </div>
       <div id="viewContentAdd">
-        <form id="formContentAdd" class="form-horizontal clearfix">
-        </form>
+        <form id="formContentAdd" class="form-horizontal clearfix"></form>
       </div>
     </div>
+
+    <div id="J_actgoodscon" style="display:none;">
+      <div class="FWApp " id="filterGadget" style="padding:15px 0;">
+        <!--@filterGadget@
+        {
+          noShow: false
+        }
+        -->
+        <div id="viewFilter">
+          <form id="J_filterForm" class="serarea">
+            <label>宝贝名称：<input name="title" type="text"></label>
+            <label>宝贝货号：<input name="goodsno" type="text"></label>
+            <label>入库日期：
+              <div class="row-fluid input-append J_rksj" style="margin-bottom:0; width:150px">
+                <input class="span10" type="text" name="addtime" data-format="yyyy-MM-dd">
+                <span class="add-on">
+                  <i class="icon-calendar"></i>
+                </span>
+              </div>
+            </label>
+
+            <div class="space10"></div>
+            <label class="label-price">宝贝价格：<input name="price_start" type="text"> <span>到</span> <input name="price_end" type="text"></label>
+            <div class="catsel J_catesel">
+              <span>宝贝类目：</span>
+              <select id="parentCateList">
+                <option value="-1">全部类目</option>
+              </select>
+              &gt;&gt;
+              <select id="sonCateList">
+                <option value="-1">子类目</option>
+              </select>
+              <input type="hidden" name="nodeid" class="J_nodeid">
+            </div>
+            <div class="btndiv">
+              <button type="button" class="btn btn-app btn-primary btn-small J_submitBtn">
+                <i class="icon-search bigger-200"></i> 搜索
+              </button>
+            </div>
+            <button type="submit" style="display:none;"></button>
+          </form>
+        </div>
+        <div id="viewCateListTPL">
+          <!--$for(var i=0; i<data.cateList.length; i++){ -->
+            <option value="${_}{data.cateList[i].cid}">${_}{data.cateList[i].cat_name}</li>
+          <!--$} -->
+        </div>
+      </div>
+      <div class="FWApp " id="activitiesGoodsListGadget">
+        <!--@activitiesGoodsListGadget@
+        {
+        }
+        -->
+        <div id="viewContentList">
+          <form id="formContentList" class="form-horizontal clearfix"></form>
+        </div>
+      </div>
+    </div>
+
     <div id="submitBtn" class="cmssubmitbtn">
       <a href="javascript:void(0)" onclick="FW.trigerEvent('trigerSubmit')" class="btn btn-info">
         <i class="icon-ok bigger-110"></i>
@@ -112,7 +173,7 @@
 <!-- wgfly breeze -->
 <script>
   seajs.config({base:"${B}"});
-  seajs.use( ['gadget/cmsMgrNodeTreeGadget','privategadget/activitiesEditGadget'],function(a) {
+  seajs.use( ['gadget/cmsMgrNodeTreeGadget','privategadget/activitiesEditGadget','privategadget/filterGadget','privategadget/activitiesGoodsListGadget'],function(a) {
     a.go("${S}");
     window.FW = a;
   });

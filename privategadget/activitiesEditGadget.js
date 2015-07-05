@@ -29,6 +29,19 @@ define(function(require, exports, module) {
         privateSetDescAndData: function(_alias,_data,_callback){
           var _this = this;
           var _desc = _this.MY.contentDesc[_alias];
+          //处理add_time
+          _data.add_time = _data.add_time || (new Date().getTime()).toString();
+          //添加参与活动的宝贝
+          if(_this.MY.action===_this.MY.act.conAdd){
+            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'ADD\')"><i class="icon-plus bigger-120"> 点击添加</i></a><span id="idsdesc"></span>';
+          }else{
+            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'MGR\')"><i class="icon-edit bigger-120"> 管理宝贝</i></a><span id="idsdesc"></span>';
+          }
+          _desc.actgoods = {
+            title: '参与活动宝贝',
+            type: '',
+            desc: agdesc
+          };
           //判断类型，分别做不同的处理
           var type = _data.activity_type = _data.activity_type || FW.use().getParameter("type");
           if(type==1){ //123折
@@ -52,14 +65,16 @@ define(function(require, exports, module) {
           var _this = this;
           var type = data.activity_type;
           _this.API.private('privateDoform',type);
-          //禁止修改部分
-          var formDom = _this.API.find("#"+_this.param.formConEdit);
-          formDom.find('input,select,textArea').each(function(){
-            var name = $(this).attr('name');
-            var editField = [];
-            if($.inArray(name, editField) != -1 && data.status==2) return true;
-            $(this).attr('disabled','true');
-          });
+          //类型永远禁止
+          $('._activity_type_sel,input[name="data.add_time"]').attr('disabled','true');
+          //如果活动开始，禁止修改其他字段
+          if(data.start_time < new Date().getTime()){
+            var formDom = _this.API.find("#"+_this.param.formConEdit);
+            formDom.find('input,select,textArea').each(function(){
+              $(this).attr('disabled','true');
+            });
+            $('.date-time-picker .add-on').remove();
+          }
         },
         privateMessConAddOk:function(data){
           var _this = this;
@@ -77,6 +92,80 @@ define(function(require, exports, module) {
           if(type==3){
             this.API.find('._price_inp').width(50).before('参加此活动商品出售价格皆为 ');
           }
+        },
+        privateBtnConPLDel: function(){
+          var _this = this;
+          //获得dom
+          var formDom = _this.API.find("#"+_this.param.formConList);
+          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
+          var curAlias = _this.MY.sonAlias || _this.MY.alias;
+          if(confirm("确认要删除该内容吗？")){
+            //单个循环删除=======
+            //多请求同时发送初始化
+            _this.API.initPost();
+            var arrCheckData = formDom[0].batchEdit();
+            for (var i = 0; i < arrCheckData.length; i++) {
+                _this.API.addPost(_this.MY.serverName.mCon,_this.MY.package,{alias:curAlias,param:{cid:arrCheckData[i].cid, status: '1'}},function(code,data){
+                  if(code!==0){
+                    FW.use('Widget').alert("删除失败！");
+                  }
+                });
+            }
+            _this.API.doPost(function(){
+              _this.API.private("privateShowConList");
+            })
+          }
+        },
+        privateActGoodsSubmit: function(cid){
+          var _this = this;
+          if(_this.MY.ids){
+            _this.API.initPost();
+            if(_this.MY.ids.del.length){
+              $.each(_this.MY.ids.del, function(i,item_id){
+                var _param = {
+                  alias: 'activity_items',
+                  param: {
+                    item_id: item_id,
+                    nodeid: cid
+                  }
+                };
+                _this.API.addPost('deleteContent', 'cms', _param, function(code,data){
+                  if(code!==0){
+                    FW.use('Widget').alert("取消宝贝失败！");
+                  }
+                })
+              });
+            }
+            if(_this.MY.ids.add.length){
+              $.each(_this.MY.ids.add, function(i,item_id){
+                var _param = {
+                  alias: 'activity_items',
+                  param: {
+                    item_id: item_id,
+                    nodeid: cid,
+                    add_time: new Date().getTime()
+                  }
+                };
+                _this.API.addPost('addContent', 'cms', _param, function(code,data){
+                  if(code!==0){
+                    FW.use('Widget').alert("添加宝贝失败！");
+                  }
+                })
+              });
+            }
+            _this.API.doPost(function(){
+              if(_this.MY.action == _this.MY.act.conEdit){
+                FW.use('Widget').alert("编辑成功!");
+              }else{
+                FW.use('Widget').alert("添加成功!");
+              }
+              setTimeout(function(){
+                var hash = '/page/manager/activities_list.jsp';
+                location.href = Cfg.baseUrl+hash;
+                top.location.hash = Cfg.baseUrl+hash;
+              },2000);
+            })
+          }
         }
       },
       TrigerEvent:{
@@ -85,23 +174,14 @@ define(function(require, exports, module) {
           //编辑
           if(_this.MY.action == _this.MY.act.conEdit){
             _this.API.private("privateSubmitConEdit",function(){
-              FW.use('Widget').alert("修改完成!");
-              setTimeout(function(){
-                var hash = '/page/manager/activities_list.jsp';
-                location.href = Cfg.baseUrl+hash;
-                top.location.hash = Cfg.baseUrl+hash;
-              },2000);
+              _this.API.private('privateActGoodsSubmit',_this.MY.cid);
             });
           }
           // 新增
           if(_this.MY.action == _this.MY.act.conAdd){
-            _this.API.private("privateSubmitConAdd",function(){
-              FW.use('Widget').alert("添加完成!");
-              setTimeout(function(){
-                var hash = '/page/manager/activities_list.jsp';
-                location.href = Cfg.baseUrl+hash;
-                top.location.hash = Cfg.baseUrl+hash;
-              },2000);
+            _this.API.private("privateSubmitConAdd",function(data){
+              _this.MY.cid = data[1];
+              _this.API.private('privateActGoodsSubmit',data[1]);
             });
           }
         },
@@ -109,6 +189,35 @@ define(function(require, exports, module) {
           var hash = '/page/manager/activities_list.jsp';
           location.href = Cfg.baseUrl+hash;
           top.location.hash = Cfg.baseUrl+hash;
+        },
+        trigerActGoods: function(type){
+          var _this = this;
+          var w = $(window).width()-100;
+          var h = $(window).height()-120;
+          var htmlstr = '<div style="background:#fff; width:'+w+'px; height:'+h+'px;" id="J_actgmask"></div>';
+          var titlestr = '<div class="pull-left">管理参与活动的宝贝</div><div class="widget-toolbar no-border" style="margin-left: 50px;">'+
+                            '<ul class="nav nav-tabs" id="myTab">'+
+                              '<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'MGR\')"><i class="icon-check"></i> 管理已选宝贝(<b>0</b>)</a></li>'+
+                              '<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'ADD\')"><i class="icon-plus"></i> 添加宝贝(<b>0</b>)</a></li>'+
+                            '</ul>'+
+                          '</div>';
+
+          FW.use('Widget').prompt(htmlstr,titlestr,function(){
+            $('#idsdesc').html($('#searchForList').html());
+            $.unblockUI();
+            $('#J_actgoodscon').hide().appendTo($('body'));
+            $('#submitBtn').show();
+          },function(){
+            $('#idsdesc').html($('#searchForList').html());
+            $.unblockUI();
+            $('#J_actgoodscon').hide().appendTo($('body'));
+            $('#submitBtn').show();
+          });
+          $('#J_actgoodscon').appendTo($('#J_actgmask')).show();
+          FW.trigerEvent('trigerShowAct',type, _this.MY.cid);
+        },
+        trigerActGoodsRes: function(ids){
+          this.MY.ids = ids;
         }
       }
     }
