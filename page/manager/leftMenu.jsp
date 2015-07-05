@@ -103,6 +103,27 @@
 				</span>
 			</a>
 		</li>
+		<li actionName="查询抵用券管理@cms.queryContent" style="display:none;">
+			<a href="#" class="dropdown-toggle">
+				<i class="icon-envelope-alt"></i>
+				<span class="menu-text">红包管理</span>
+				<b class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li  actionName="查询抵用券管理@cms.queryContent" style="display:none;">
+					<a href="${B}page/manager/CMSMgr.jsp?alias=voucher">
+						<i class="icon-double-angle-right"></i>
+						红包列表
+					</a>
+				</li>
+				<li actionName="查询个人红包发放管理@cms.queryContent" style="display:none;">
+					<a href="${B}page/manager/CMSMgr.jsp?alias=voucher_issue_info">
+						<i class="icon-double-angle-right"></i>
+						个人红包发放情况
+					</a>
+				</li>
+			</ul>
+		</li>
 		<li actionName="查询用户反馈管理@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/CMSMgr.jsp?alias=feedback">
 				<i class="icon-comments"></i>

@@ -75,6 +75,12 @@ define(function(require, exports, module) {
           function arr_del(arr,d){
             return arr.slice(0,d).concat(arr.slice(d+1));
           }
+        },
+        trigerSubmit: function(){
+
+        },
+        trigerGoBack: function(){
+
         }
       },
       private:{

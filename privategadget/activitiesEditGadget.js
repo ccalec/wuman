@@ -74,6 +74,7 @@ define(function(require, exports, module) {
               $(this).attr('disabled','true');
             });
             $('.date-time-picker .add-on').remove();
+            $('#submitBtn>a:eq(0)').remove();
           }
         },
         privateMessConAddOk:function(data){
@@ -91,29 +92,6 @@ define(function(require, exports, module) {
           }else
           if(type==3){
             this.API.find('._price_inp').width(50).before('参加此活动商品出售价格皆为 ');
-          }
-        },
-        privateBtnConPLDel: function(){
-          var _this = this;
-          //获得dom
-          var formDom = _this.API.find("#"+_this.param.formConList);
-          //判断当前视图是否存在_this.MY.sonAlias，如果存在则为内容子alias操作
-          var curAlias = _this.MY.sonAlias || _this.MY.alias;
-          if(confirm("确认要删除该内容吗？")){
-            //单个循环删除=======
-            //多请求同时发送初始化
-            _this.API.initPost();
-            var arrCheckData = formDom[0].batchEdit();
-            for (var i = 0; i < arrCheckData.length; i++) {
-                _this.API.addPost(_this.MY.serverName.mCon,_this.MY.package,{alias:curAlias,param:{cid:arrCheckData[i].cid, status: '1'}},function(code,data){
-                  if(code!==0){
-                    FW.use('Widget').alert("删除失败！");
-                  }
-                });
-            }
-            _this.API.doPost(function(){
-              _this.API.private("privateShowConList");
-            })
           }
         },
         privateActGoodsSubmit: function(cid){
@@ -154,17 +132,22 @@ define(function(require, exports, module) {
               });
             }
             _this.API.doPost(function(){
-              if(_this.MY.action == _this.MY.act.conEdit){
-                FW.use('Widget').alert("编辑成功!");
-              }else{
-                FW.use('Widget').alert("添加成功!");
-              }
-              setTimeout(function(){
-                var hash = '/page/manager/activities_list.jsp';
-                location.href = Cfg.baseUrl+hash;
-                top.location.hash = Cfg.baseUrl+hash;
-              },2000);
+              callback();
             })
+          }else{
+            callback();
+          }
+          function callback(){
+            if(_this.MY.action == _this.MY.act.conEdit){
+              FW.use('Widget').alert("编辑成功!");
+            }else{
+              FW.use('Widget').alert("添加成功!");
+            }
+            setTimeout(function(){
+              var hash = '/page/manager/activities_list.jsp';
+              location.href = Cfg.baseUrl+hash;
+              top.location.hash = Cfg.baseUrl+hash;
+            },2000);
           }
         }
       },

@@ -24,6 +24,9 @@ define(function(require, exports, module) {
       name: "activitiesListGadget",
       extends: ["cmsMgrGadget"],
       private:{
+        privateMessConListOk:function(_data){
+
+        },
         privateBtnConEdit: function(_dom,_data){
           var hash = '/page/manager/activities_edit.jsp?cid='+_data.cid+'&action=conEdit';
           window.location.href = Cfg.baseUrl+hash;
