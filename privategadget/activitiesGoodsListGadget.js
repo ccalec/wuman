@@ -62,7 +62,11 @@ define(function(require, exports, module) {
           if(absStatus){
             $.each(ids,function(i,itemid){
               if(itemid==rowData.cid){
-                ids = arr_del(ids,i);
+                if(_this.MY.type=='MGR'){
+                  _this.MY.ids.del = arr_del(ids,i);
+                }else{
+                  _this.MY.ids.add = arr_del(ids,i);
+                }
                 return false;
               }
             });
@@ -77,10 +81,8 @@ define(function(require, exports, module) {
           }
         },
         trigerSubmit: function(){
-
         },
         trigerGoBack: function(){
-
         }
       },
       private:{
