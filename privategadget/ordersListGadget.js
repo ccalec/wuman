@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         },
         privateFormatData: function(data){
           var _this = this;
-          var statusArr = [{"待付款":1,"待发货":2,"已发货":3,"已收货":4,"申请退款":5,"退款成功":6,"已失效":0}];
+          var statusArr = [{"待付款":1,"待发货":2,"已发货":3,"已收货":4,"申请退款":5,"退款成功":6,"已取消":7}];
           var statusColor = ['gray','red','orange','green','black','red','purple'];
           $.each(data, function(i,item){
             item.add_time = FW.use('DateTime').format(new Date(parseInt(item.add_time)), 'yyyy-MM-dd hh:mm');
@@ -90,7 +90,7 @@ define(function(require, exports, module) {
               FW.use('Widget').alert('请先勾选订单！');
               return;
             }
-            if(!confirm('确定要将这'+ckdIds.length+'笔订单设置为失效吗？')) return;
+            if(!confirm('确定要将这'+ckdIds.length+'笔订单取消吗？')) return;
             //单个循环删除=======
             //多请求同时发送初始化
             var err = [];
@@ -98,7 +98,7 @@ define(function(require, exports, module) {
             $.each(ckdIds,function(i,cid){
               _this.API.addPost('updateOrdersStatus','orders',{
                 cid: cid,
-                status: '0'
+                status: '7'
               },function(code,data){
                 if(code!==0){
                   err.push(cid);
@@ -107,9 +107,9 @@ define(function(require, exports, module) {
             })
             _this.API.doPost(function(){
               if(err.length){
-                FW.use('Widget').alert('['+err.join(',')+']删除失败！', 'danger', 100000);
+                FW.use('Widget').alert('['+err.join(',')+']取消失败！', 'danger', 100000);
               }else{
-                FW.use('Widget').alert('处理成功！');
+                FW.use('Widget').alert('取消成功！');
               }
               _this.API.private("privateShowConList");
             });
@@ -179,7 +179,7 @@ define(function(require, exports, module) {
           var whereSql = [];
           var filterParam = this.MY.param || {};
           if(!filterParam.status){
-            whereSql.push("and status != 0");
+            whereSql.push("and status != 7");
           }
           for(var prop in filterParam){
             if(!filterParam[prop]) continue;

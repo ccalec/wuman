@@ -87,7 +87,7 @@
               <li data-value="4">已收货</li>
               <li data-value="5">申请退款</li>
               <li data-value="6">退款成功</li>
-              <li data-value="0">已关闭</li>
+              <li data-value="7">已取消</li>
             </ul>
           </div>
         </div>
@@ -160,7 +160,7 @@
             <div style="width:220px;" class="hidden-phone visible-desktop btn-group pull-left">
               <button type="button" class="btn btn-mini btn-info btn-sel-all"><i class="icon-ok bigger-120"> 全选</i></button>
               <button type="button" class="btn btn-mini btn-warning btn-sel-oppo"><i class="icon-remove bigger-120"> 反选</i></button>
-              <button type="button" class="btn btn-mini btn-danger btn-del btn-del-list"><i class="icon-trash bigger-120"> 批量关闭</i></button>
+              <button type="button" class="btn btn-mini btn-danger btn-del btn-del-list"><i class="icon-trash bigger-120"> 批量取消</i></button>
               <span class="mlr10"></span>
             </div>
             <div id="pagination" class="pull-right"></div>
