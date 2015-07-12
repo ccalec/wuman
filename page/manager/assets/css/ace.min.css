@@ -404,7 +404,9 @@ input[readonly],input[readonly]:focus,input[readonly]:active{
 
 
 
-
+input[disabled][type=checkbox]+.lbl::before, input[disabled][type=radio]+.lbl::before{
+  background-color: #aaa;
+}
 
 
 

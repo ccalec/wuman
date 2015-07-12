@@ -111,7 +111,7 @@
 			</a>
 			<ul class="submenu">
 				<li  actionName="查询抵用券管理@cms.queryContent" style="display:none;">
-					<a href="${B}page/manager/CMSMgr.jsp?alias=voucher">
+					<a href="${B}page/manager/voucher_list.jsp">
 						<i class="icon-double-angle-right"></i>
 						红包列表
 					</a>

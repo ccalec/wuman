@@ -704,6 +704,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.conList;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+curAlias+"&nodeid="+curNodeid+"&action="+_this.MY.action;
 					//替换操作标题
 					$("#actionName").text("列表");
 					//显示列表视图
@@ -963,6 +965,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.conAdd;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+curAlias+"&nodeid="+curNodeid+"&action="+_this.MY.action;
 					//替换操作标题
 					$("#actionName").text("内容添加");
 					//显示内容添加视图
@@ -1032,6 +1036,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.conPLAdd;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+curAlias+"&nodeid="+curNodeid+"&action="+_this.MY.action;
 					//替换操作标题
 					$("#actionName").text("内容批量添加");
 					//显示批量添加视图
@@ -1111,6 +1117,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针 包含list,edit,add
 					_this.MY.action = _this.MY.act.conEdit;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+curAlias+"&cid="+curCid+"&action="+_this.MY.action;
 					//替换操作标题
 					$("#actionName").text("内容修改");
 					//显示内容编辑视图
@@ -1198,6 +1206,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针 包含list,edit,add
 					_this.MY.action = _this.MY.act.classEdit;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+_this.param.alias+"&nodeid="+_this.MY.nodeid+"&action="+_this.MY.action;
 					//替换操作标题
 					$("#actionName").text("栏目修改");
 					//显示视图
@@ -1268,6 +1278,8 @@ define(function(require, exports, module) {
 					}
 					//定义当前状态指针
 					_this.MY.action = _this.MY.act.classAdd;
+					// 增加hash
+					// top.location.hash = Cfg.baseUrl+"/page/manager/CMSMgr.jsp?alias="+_this.param.alias+"&nodeid="+_this.MY.nodeid+"&action="+_this.MY.action;
 					//判断是否添加顶级栏目
 					if(_this.MY.isding){
 						$("#actionName").text("添加顶栏目");

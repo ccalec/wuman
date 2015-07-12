@@ -29,6 +29,10 @@ define(function(require, exports, module) {
         privateSetDescAndData: function(_alias,_data,_callback){
           var _this = this;
           var _desc = _this.MY.contentDesc[_alias];
+          //判断是否活动开始，显示提示文案
+          if(_data.start_time < new Date().getTime()){
+            _desc.activity_type.desc = '<span style="color:red">活动已经开始，禁止任何修改</span>';
+          }
           //处理add_time
           _data.add_time = _data.add_time || (new Date().getTime()).toString();
           //添加参与活动的宝贝

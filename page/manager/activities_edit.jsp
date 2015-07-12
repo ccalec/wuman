@@ -73,10 +73,10 @@
   <div class="page-content clearfix">
     <div class="page-header position-relative">
       <h1 id="pageH1" style="display:none;">
-        <span id="aliasTitle">栏目操作</span>
+        <span id="">活动详情</span>
         <small>
           <i class="icon-double-angle-right"></i>
-          <span id="actionName">列表</span>
+          <span id="">编辑</span>
         </small>
       </h1>
     </div>
