@@ -54,10 +54,11 @@
       width: 80px!important;
     }
     .form-horizontal .control-group.f_rule_type,
-    .form-horizontal .control-group.f_total_money{
+    .form-horizontal .control-group.f_total_num,
+    .form-horizontal .control-group.f_end_time{
       margin-bottom: 25px!important;
     }
-    .f_total_num{
+    .f_total_money{
       padding-top: 15px;
     }
     .f_use_range{
@@ -83,7 +84,7 @@
     .f_money3_num .controls{
       margin-left: 110px!important;
     }
-    .f_money1,.f_money2,.f_money3,.f_use_range{
+    .f_money1,.f_money2,.f_money3,.f_use_range,.f_total_money{
       clear: both;
     }
     ._total_send_num_inp,
@@ -118,6 +119,8 @@
     .voucher_conAdd .f_money1_send_num,
     .voucher_conAdd .f_money2_send_num,
     .voucher_conAdd .f_money3_send_num,
+    /*.voucher_conAdd .f_total_num,*/
+    /*.voucher_conAdd .f_total_money,*/
     .voucher_conAdd .f_add_time{
       display: none!important;
     }

@@ -123,6 +123,10 @@ define(function(require, exports, module) {
         },
         privateBindEvent: function(){
           var _this = this;
+          // 红包总金额，总个数计算
+          _this.API.find("._money1_inp,._money1_num_inp,._money2_inp,._money2_num_inp,._money3_inp,._money3_num_inp").on('blur',function(){
+            _this.API.private('privateUpdateTotal');
+          });
           // 绑定 use_range勾选
           _this.API.find("#userRageForm input[type='checkbox']").on('click',function(){
             var use_range = [];
@@ -163,6 +167,25 @@ define(function(require, exports, module) {
             //更新
             _this.API.find('input[name="data.use_range"]').val(use_range.join(''));
           });
+        },
+        privateUpdateTotal: function(){
+          var _this = this;
+          //获取表单值；
+          var m1 = parseInt(_this.API.find("._money1_inp").val()) || 0;
+          _this.API.find("._money1_inp").val(m1);
+          var m2 = parseInt(_this.API.find("._money2_inp").val()) || 0;
+          _this.API.find("._money2_inp").val(m2);
+          var m3 = parseInt(_this.API.find("._money3_inp").val()) || 0;
+          _this.API.find("._money3_inp").val(m3);
+          var n1 = parseInt(_this.API.find("._money1_num_inp").val()) || 0;
+          _this.API.find("._money1_num_inp").val(n1);
+          var n2 = parseInt(_this.API.find("._money2_num_inp").val()) || 0;
+          _this.API.find("._money2_num_inp").val(n2);
+          var n3 = parseInt(_this.API.find("._money3_num_inp").val()) || 0;
+          _this.API.find("._money3_num_inp").val(n3);
+          //计算
+          _this.API.find("._total_num_inp").val(n1+n2+n3);
+          _this.API.find("._total_money_inp").val(n1*m1+n2*m2+n3*m3);
         }
       },
       TrigerEvent:{

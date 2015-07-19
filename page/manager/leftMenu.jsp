@@ -117,9 +117,9 @@
 					</a>
 				</li>
 				<li actionName="查询个人红包发放管理@cms.queryContent" style="display:none;">
-					<a href="${B}page/manager/CMSMgr.jsp?alias=voucher_issue_info">
+					<a href="${B}page/manager/voucherIssueInfo_list.jsp">
 						<i class="icon-double-angle-right"></i>
-						个人红包发放情况
+						红包发放管理
 					</a>
 				</li>
 			</ul>
