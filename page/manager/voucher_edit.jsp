@@ -20,8 +20,11 @@
       max-width: 800px!important;
       min-height: 80px!important;
     }
-    ._total_num_inp{
+    ._total_num_inp,._rule_money_inp{
       width: 50px;
+    }
+    .f_rule_money{
+      display: none;
     }
     .f_start_time,.f_valid_start_time,.f_total_num{
       clear: both;
@@ -53,10 +56,13 @@
     ._total_money_inp{
       width: 80px!important;
     }
-    .form-horizontal .control-group.f_rule_type,
     .form-horizontal .control-group.f_total_num,
     .form-horizontal .control-group.f_end_time{
       margin-bottom: 25px!important;
+    }
+    .form-horizontal .control-group.f_valid_start_time,
+    .form-horizontal .control-group.f_valid_end_time{
+      margin-top: 25px!important;
     }
     .f_total_money{
       padding-top: 15px;

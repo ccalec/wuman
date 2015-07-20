@@ -123,6 +123,18 @@ define(function(require, exports, module) {
         },
         privateBindEvent: function(){
           var _this = this;
+          //选择规则三，显示规定价格
+          if(_this.API.find("input[name='data.rule_type']").val()==3){
+            _this.API.find('.f_rule_money').show();
+          }
+          _this.API.find("input[name='data.rule_type']").change(function(){
+            var curval = $(this).val();
+            if(curval==3){
+              _this.API.find('.f_rule_money').show();
+            }else{
+              _this.API.find('.f_rule_money').hide();
+            }
+          });
           // 红包总金额，总个数计算
           _this.API.find("._money1_inp,._money1_num_inp,._money2_inp,._money2_num_inp,._money3_inp,._money3_num_inp").on('blur',function(){
             _this.API.private('privateUpdateTotal');

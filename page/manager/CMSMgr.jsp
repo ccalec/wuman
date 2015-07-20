@@ -16,6 +16,16 @@
 		.category_property_values_conAdd .f_add_time{
 			display: none;
 		}
+		.feedback_conEdit .f_user_id{
+			display: none;
+		}
+		.feedback_conEdit textarea{
+			height: 80px;
+		}
+		.feedback_conList .th_user_name,
+		.feedback_conList .th_user_phone{
+			width: 150px;
+		}
 	</style>
 </head>
 <body class="skin-1">
