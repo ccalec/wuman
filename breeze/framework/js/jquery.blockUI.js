@@ -129,7 +129,7 @@ return function(juery){
 				color:		'#000',
 				border:		'3px solid #aaa',
 				backgroundColor:'#fff',
-				cursor:		'wait'
+				cursor:		'default'
 			},
 
 			// minimal style set used when themes are used
@@ -143,7 +143,7 @@ return function(juery){
 			overlayCSS:  {
 				backgroundColor:	'#000',
 				opacity:			0.6,
-				cursor:				'wait'
+				cursor:				'default'
 			},
 
 			// style to replace wait cursor before unblocking to correct issue

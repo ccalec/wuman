@@ -31,16 +31,18 @@ define(function(require, exports, module) {
           var _desc = _this.MY.contentDesc[_alias];
           //判断是否活动开始，显示提示文案
           if(_data.start_time < new Date().getTime()){
-            _desc.activity_type.desc = '<span style="color:red">活动已经开始，禁止任何修改</span>';
+            _this.MY.actBegin = true;
+            _desc.activity_type.desc = '<span style="color:red">活动已经开始，不允许任何修改</span>';
           }
           //处理add_time
           _data.add_time = _data.add_time || (new Date().getTime()).toString();
           //添加参与活动的宝贝
           if(_this.MY.action===_this.MY.act.conAdd){
-            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'ADD\')"><i class="icon-plus bigger-120"> 点击添加</i></a><span id="idsdesc"></span>';
+            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'ADD\')"><i class="icon-plus bigger-120"> 点击添加</i></a>';
           }else{
-            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'MGR\')"><i class="icon-edit bigger-120"> 管理宝贝</i></a><span id="idsdesc"></span>';
+            var agdesc = '<a style="margin-left:-5px;" class="btn btn-mini btn-info" href="javascript:void(0);" onclick="FW.trigerEvent(\'trigerActGoods\',\'MGR\')"><i class="icon-edit bigger-120"> 管理宝贝</i></a>';
           }
+          if(!_this.MY.actBegin) agdesc+='<span id="idsdesc"></span>';
           _desc.actgoods = {
             title: '参与活动宝贝',
             type: '',
@@ -182,12 +184,14 @@ define(function(require, exports, module) {
           var w = $(window).width()-100;
           var h = $(window).height()-120;
           var htmlstr = '<div style="background:#fff; width:'+w+'px; height:'+h+'px;" id="J_actgmask"></div>';
-          var titlestr = '<div class="pull-left">管理参与活动的宝贝</div><div class="widget-toolbar no-border" style="margin-left: 50px;">'+
-                            '<ul class="nav nav-tabs" id="myTab">'+
-                              '<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'MGR\')"><i class="icon-check"></i> 管理已选宝贝(<b>0</b>)</a></li>'+
-                              '<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'ADD\')"><i class="icon-plus"></i> 添加宝贝(<b>0</b>)</a></li>'+
-                            '</ul>'+
-                          '</div>';
+          var titleArr = [];
+            titleArr.push('<div class="pull-left">管理参与活动的宝贝</div><div class="widget-toolbar no-border" style="margin-left: 50px;">');
+            titleArr.push('<ul class="nav nav-tabs" id="myTab">');
+            titleArr.push('<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'MGR\')"><i class="icon-check"></i> 管理已选宝贝(<b>0</b>)</a></li>');
+            if(!_this.MY.actBegin) titleArr.push('<li><a data-toggle="tab" href="javascript:void(0)" onclick="FW.trigerEvent(\'trigerShowAct\',\'ADD\')"><i class="icon-plus"></i> 添加宝贝(<b>0</b>)</a></li>');
+            titleArr.push('</ul>');
+            titleArr.push('</div>');
+          var titlestr = titleArr.join('');
 
           FW.use('Widget').prompt(htmlstr,titlestr,function(){
             $('#idsdesc').html($('#searchForList').html());

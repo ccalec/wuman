@@ -134,8 +134,21 @@ define(function(require, exports, module) {
             if(prop=='nodeid'){
               whereSql.push("and nodeid = "+ filterParam[prop]);
             }
-            //已经上架
-            // whereSql.push("and start_time < UNIX_TIMESTAMP()*1000 and (UNIX_TIMESTAMP()*1000 < end_time or end_time is null)");
+            if(prop=='status'){  //默认上下架时间都为空
+              if(filterParam[prop]==1){ //预设上架
+                whereSql.push("and start_time > UNIX_TIMESTAMP()*1000 and (UNIX_TIMESTAMP()*1000 < end_time or end_time is null)");
+              }else if(filterParam[prop]==2){ //已经上架
+                whereSql.push("and start_time < UNIX_TIMESTAMP()*1000 and (UNIX_TIMESTAMP()*1000 < end_time or end_time is null)");
+              }else if(filterParam[prop]==3){ //预设下架
+                whereSql.push("and UNIX_TIMESTAMP()*1000 < end_time");
+              }else if(filterParam[prop]==4){ //已下架
+                whereSql.push("and end_time < UNIX_TIMESTAMP()*1000");
+              }else if(filterParam[prop]==5){ //从未上架
+                whereSql.push("and start_time is null && end_time is null");
+              }else if(filterParam[prop]==6){ //新品优先
+                whereSql.push("and cid in (select item_id from (select item_id from wm_new_item where start_time < UNIX_TIMESTAMP()*1000 and UNIX_TIMESTAMP()*1000 < end_time order by cid desc limit 1000) a)");
+              }
+            }
           }
           //根据type判断
           if(this.MY.type=='MGR'){
@@ -180,6 +193,7 @@ define(function(require, exports, module) {
                 if(curPageNum > Math.ceil(dataCount/pageSize)){
                   curPageNum = Math.ceil(dataCount/pageSize);
                 }
+                if(curPageNum<=0) curPageNum = 1;
                 function reShowConList(_prePageNum){
                   //存入本地存储
                   FW.use().save(lsPageNum,_prePageNum);

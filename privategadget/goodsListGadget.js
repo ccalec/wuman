@@ -292,6 +292,7 @@ define(function(require, exports, module) {
                 if(curPageNum > Math.ceil(dataCount/pageSize)){
                   curPageNum = Math.ceil(dataCount/pageSize);
                 }
+                if(curPageNum<=0) curPageNum = 1;
                 function reShowConList(_prePageNum){
                   //存入本地存储
                   FW.use().save(lsPageNum,_prePageNum);

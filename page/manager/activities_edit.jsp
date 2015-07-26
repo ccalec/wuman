@@ -126,6 +126,18 @@
               </select>
               <input type="hidden" name="nodeid" class="J_nodeid">
             </div>
+            <label>
+              宝贝状态：
+              <select name="status">
+                <option value="0">全部</option>
+                <option value="1">预设上架</option>
+                <option value="2">已上架</option>
+                <option value="3">预设下架</option>
+                <option value="4">已下架</option>
+                <option value="5">从未上架</option>
+                <option value="6">优先上新</option>
+              </select>
+            </label>
             <div class="btndiv">
               <button type="button" class="btn btn-app btn-primary btn-small J_submitBtn">
                 <i class="icon-search bigger-200"></i> 搜索
