@@ -166,6 +166,16 @@ define(function(require, exports, module) {
               }
             }
           }
+        },
+        privateSetDescAndData: function(_alias,_data,_callback){
+          var _this = this;
+          var _desc = _this.MY.contentDesc[_alias];
+          _this.API.doServer('searchCategoryByCid', 'goods', {cid: _data.nodeid}, function(code,data){
+            if(code==0&&data){
+              _desc.nodeid.desc = data[0].root_catname+" - "+data[0].parent_catname;
+            }
+            _callback && _callback();
+          });
         }
       },
       TrigerEvent:{

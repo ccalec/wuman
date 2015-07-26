@@ -36,6 +36,13 @@
     .sku_property:after{
       content: "SKU属性"!important;
     }
+    .goods_conAdd .f_nodeid,
+    .goods_conEdit ._nodeid_inp{
+      display: none;
+    }
+    .help-inline{
+      padding-top: 5px;
+    }
   </style>
 </head>
 <body class="skin-1">

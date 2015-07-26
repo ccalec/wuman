@@ -396,7 +396,7 @@ input[readonly],input[readonly]:focus,input[readonly]:active{
     color: #d19d59
 }
 
-.control-group textArea[disabled], .control-group textArea:disabled,
+.control-group textarea[disabled], .control-group textarea:disabled,
 .control-group select[disabled], .control-group select:disabled  {
   color: #848484!important;
   background-color: #eee!important;

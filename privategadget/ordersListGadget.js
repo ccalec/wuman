@@ -19,7 +19,6 @@ define(function(require, exports, module) {
       private:{
         privateShowConList: function(){
           var _this = this;
-
           //获得List的dom
           var formDom = _this.API.find("#formContentList");
           //定义获取param,用于获取总数

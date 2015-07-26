@@ -61,6 +61,9 @@
       border-top-color: orange;
       color: orange;
     }
+    .th_nodeid{
+      width: 120px;
+    }
   </style>
 </head>
 <body class="skin-1">

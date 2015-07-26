@@ -111,14 +111,16 @@ define(function(require, exports, module) {
           //永远禁止
           $('input[name="data.rule_type"],input[name="data.add_time"],input[name="data.total_send_num"],input[name="data.money1_send_num"],input[name="data.money2_send_num"],input[name="data.money3_send_num"]').attr('disabled','true');
           //如果活动开始，禁止修改其他字段
-          if(data.start_time > new Date().getTime()){
+          if(data.start_time < new Date().getTime()){
             var formDom = _this.API.find("#"+_this.param.formConEdit);
-            formDom.find('input,select,textArea').each(function(){
+            formDom.find('input,select,textarea').each(function(){
               $(this).attr('disabled','true');
             });
             $('.date-time-picker .add-on').remove();
             $('#submitBtn>a:eq(0)').remove();
           }
+          //如果是规则三，显示规则价格
+          if(data.rule_type==3) _this.API.find('.f_rule_money').show();
           _this.API.private('privateBindEvent');
         },
         privateBindEvent: function(){

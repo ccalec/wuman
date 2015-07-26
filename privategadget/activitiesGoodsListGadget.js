@@ -98,6 +98,27 @@ define(function(require, exports, module) {
             cur: []
           };
         },
+        privateSetDescAndData: function(_alias,_data,_callback){
+          var _this = this;
+          var _desc = _this.MY.contentDesc[_alias];
+          //多请求同时发送初始化
+          _this.API.initPost();
+          if(_data && _data.length){
+            $.each(_data,function(i,k){
+              _this.API.addPost('searchCategoryByCid', 'goods', {cid: k.nodeid}, function(code,data){
+                if(code==0&&data){
+                  _desc.nodeid.type = 'Text';
+                  k.nodeid = data[0].root_catname+" - "+data[0].parent_catname;
+                }
+              });
+            })
+            _this.API.doPost(function(){
+              _callback && _callback();
+            });
+          }else{
+            _callback && _callback();
+          }
+        },
         privateMessConListOk:function(_data){
           var _this = this;
           $.each(_data, function(i,item){

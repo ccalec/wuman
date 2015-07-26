@@ -262,9 +262,51 @@ define(function(require, exports, module) {
             },2000);
           });
         },
+        privateSetDescAndData: function(_alias,_data,_callback){
+          var _this = this;
+          var _desc = _this.MY.contentDesc[_alias];
+          //多请求同时发送初始化
+          _this.API.initPost();
+          if(_data && _data.length){
+            $.each(_data,function(i,k){
+              //判断是否是 优先上新
+              if(_this.MY.param && _this.MY.param.status==6){
+                _this.API.addPost('searchYxsxByCid', 'goods', {item_id: k.cid}, function(code,data){
+                  if(code==0&&data){
+                    _desc.sn = {
+                      type: 'Text',
+                      title: '上新时间',
+                      islist: '1'
+                    };
+                    k.sn = FW.use('DateTime').format(new Date(parseInt(data[0].start_time)),'yyyy-MM-dd hh:ss')+
+                          " 至 "+
+                          FW.use('DateTime').format(new Date(parseInt(data[0].end_time)),'yyyy-MM-dd hh:ss');
+                  }
+                });
+              }
+              _this.API.addPost('searchCategoryByCid', 'goods', {cid: k.nodeid}, function(code,data){
+                if(code==0&&data){
+                  _desc.nodeid.type = 'Text';
+                  k.nodeid = data[0].root_catname+" - "+data[0].parent_catname;
+                }
+              });
+            })
+            _this.API.doPost(function(){
+              if(!_this.MY.param || _this.MY.param.status!=6){
+                delete _desc.sn;
+              }
+              _callback && _callback();
+            });
+          }else{
+            if(!_this.MY.param || _this.MY.param.status!=6){
+              delete _desc.sn;
+            }
+            _callback && _callback();
+          }
+
+        },
         privateBindFormListPage: function(_dom,_param,_type,_callback){
           var _this = this;
-
           //生成列表前param的参数对外自定义接口
           _this.API.private("privateSetListParam",_param);
           //查询总数条件

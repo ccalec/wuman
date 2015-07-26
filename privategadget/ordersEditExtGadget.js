@@ -33,7 +33,7 @@ define(function(require, exports, module) {
           var statusMap = {
             "1": [1,2],
             "2": [2,3],
-            "3": [3,4],
+            "3": [3],
             "4": [4],
             "5": [5,6],
             "6": [6],
@@ -131,7 +131,7 @@ define(function(require, exports, module) {
           var _this = this;
           //获得dom
           var formDom = _this.API.find("#"+_this.param.formConEdit);
-          formDom.find('input,select,textArea').each(function(){
+          formDom.find('input,select,textarea').each(function(){
             var name = $(this).attr('name');
             var editField = ['data.sender_address','data.send_type','data.send_id','data.send_time'];
             if($.inArray(name, editField) != -1 && data.status==2) return true;

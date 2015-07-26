@@ -624,6 +624,22 @@ define(function(require, exports, module) {
 				*@example
 				*/
 				privateSetDescAndData: function(_alias,_data,_callback){
+					var _this = this;
+					var _desc = _this.MY.contentDesc[_alias];
+					if($.isArray(_data)){
+						$.each(_desc, function(fieldName, fd){
+							if(fd.islist==0 || fd.type!='Select') return true;
+							valueRange = fd.valueRange[0];
+							$.each(_data,function(i,itemData){
+								$.each(valueRange,function(name,value){
+									if(itemData[fieldName]==value){
+										_desc[fieldName].type='Text';
+										itemData[fieldName] = name;
+									}
+								})
+							})
+						})
+					};
 					_callback && _callback();
 				},
 				/**
