@@ -8,7 +8,7 @@ define(function(require, exports, module) {
     {
       param:{
         alias:'goods',
-        pagesize: 15
+        pagesize: 10
       },
       name:'goodsListGadget',
       extends:["cmsMgrGadget"],
@@ -221,20 +221,26 @@ define(function(require, exports, module) {
               // 如果是下架或预设下架，不需要变动上架时间
               if(_this.MY.maskType==0){ //上架
                 var start_time = timeValue;
-                if(parseInt(_onedata.end_time) > timeStamp){
-                  var end_time = 'end_time';
-                }else{
-                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，上架时间必须小于下架时间！', 'danger', 5000);
-                  return;
+                if(type==0){ //立即上架
+                  var end_time = 'null';
+                }else{ //预设上架
+                  if(parseInt(_onedata.end_time) > timeStamp){
+                    var end_time = 'end_time';
+                  }else{
+                    FW.use('Widget').alert('商品ID:['+_onedata.cid+']，上架时间必须小于下架时间！', 'danger', 5000);
+                    return;
+                  }
                 }
               }else{
                 var start_time = 'start_time';
                 var end_time = timeValue;
-                if(parseInt(_onedata.start_time) < timeStamp){
-                  var start_time = 'start_time';
-                }else{
-                  FW.use('Widget').alert('商品ID:['+_onedata.cid+']，下架时间必须大于上架时间！', 'danger', 5000);
-                  return;
+                if(type==1){
+                  if(parseInt(_onedata.start_time) < timeStamp){
+                    var start_time = 'start_time';
+                  }else{
+                    FW.use('Widget').alert('商品ID:['+_onedata.cid+']，下架时间必须大于上架时间！', 'danger', 5000);
+                    return;
+                  }
                 }
               }
               //设置请求参数
