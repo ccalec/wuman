@@ -988,15 +988,19 @@ define(function(require, exports, module) {
 					post_params: {"PHPSESSID": "session_id()"},
 
 					// File Upload Settings
-					file_size_limit : "2 MB",	// 2MB
+					file_size_limit : "200 KB",	// 2MB
 					file_types : "*.jpg; *.gif; *.png",
 					file_types_description : "选择 JPEG/GIF/PNG 格式图片",
-					file_upload_limit : "0",
+					file_upload_limit : "5",
 
 					// Event Handler Settings - these functions as defined in Handlers.js
 					//  The handlers are not part of SWFUpload but are part of my website and control how
 					//  my website reacts to the SWFUpload events.
-					file_queue_error_handler : fileQueueError,
+					file_queue_error_handler : function(file, errorCode, message){
+						if(errorCode==-100){
+							alert("上传数量超出，请重新选择，您还可以上传"+message+"张");
+						}
+					},
 					file_dialog_complete_handler : fileDialogComplete,
 					upload_progress_handler : uploadProgress,
 					upload_error_handler : uploadError,
@@ -1004,7 +1008,7 @@ define(function(require, exports, module) {
 					// upload_complete_handler : uploadComplete,
 
 					//上传成功回调函数
-			        upload_success_handler : function(file,result){
+	        upload_success_handler : function(file,result){
 						 var ImgArr = [];
 						 var picUrl = API.JsonAPI.evalJSON(result).succUrl;
 						 ImgArr[0] = {picUrl:picUrl, alt:""};
@@ -1018,12 +1022,17 @@ define(function(require, exports, module) {
 				 		dom.find('#progressName').html('');
 						this.startUpload();
 					},
+					swfupload_loaded_handler: function(){
+						var curstats = swfu.getStats();
+						curstats.successful_uploads = $('#PicsField .PicItem').length;
+						swfu.setStats(curstats);
+					},
 
 					// Button Settings,
 					button_placeholder_id : "spanButtonPlaceholder",
-					button_width: 230,
+					button_width: 280,
 					button_height: 18,
-					button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 2 MB，支持多选)</span></span>',
+					button_text : '<span class="button">选择本地图片 <span class="buttonSmall">(单图最大为 300 KB，最多只能支持5张！)</span></span>',
 					button_text_style : '.button {color:#ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 12pt; } .buttonSmall { font-size: 10pt; }',
 					button_text_top_padding: 0,
 					button_text_left_padding: 0,
@@ -1041,11 +1050,17 @@ define(function(require, exports, module) {
 					debug: false
 				});
 
+
+
+
+
 				//banding删除按钮
 				dom.find("#PicsField").delegate(".delpic","click",function(){
 					$(this).parent().remove();
+					var curstats = swfu.getStats();
+					curstats.successful_uploads--;
+					swfu.setStats(curstats);
 				})
-
 			}
 			//给list列表页增加搜索框和分页按钮
 			if(islist){

@@ -35,8 +35,9 @@ define(function(require, exports, module) {
             "2": [2,3],
             "3": [3],
             "4": [4],
-            "5": [5,6],
+            "5": [5,6,8],
             "6": [6],
+            "8": [8],
             "7": [7]
           };
           var c_status_data = _data.status || 0;
