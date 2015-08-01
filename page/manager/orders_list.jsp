@@ -87,8 +87,8 @@
               <li data-value="4">已收货</li>
               <li data-value="5">申请退款</li>
               <li data-value="6">退款成功</li>
-              <li data-value="8">取消退款</li>
-              <li data-value="7">已删除</li>
+              <li data-value="7">取消退款</li>
+              <li data-value="8">已删除</li>
             </ul>
           </div>
         </div>

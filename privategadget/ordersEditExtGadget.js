@@ -35,10 +35,10 @@ define(function(require, exports, module) {
             "2": [2,3],
             "3": [3],
             "4": [4],
-            "5": [5,6,8],
+            "5": [5,6,7],
             "6": [6],
-            "8": [8],
-            "7": [7]
+            "7": [7],
+            "8": [8]
           };
           var c_status_data = _data.status || 0;
           var c_status_desc = _desc.status.valueRange[0];
