@@ -174,6 +174,12 @@ define(function(require, exports, module) {
             if(code==0&&data){
               _desc.nodeid.desc = data[0].root_catname+" - "+data[0].parent_catname;
             }
+            //给上下架默认时间
+            if(_this.MY.action === 'conAdd'){
+              console.log(_data);
+              _data.start_time  = (new Date().getTime()).toString();
+              _data.end_time  = (new Date().getTime()).toString();
+            };
             _callback && _callback();
           });
         }

@@ -43,6 +43,9 @@
     .help-inline{
       padding-top: 5px;
     }
+    .f_goodsno .help-inline{
+      padding-top: 0!important;
+    }
   </style>
 </head>
 <body class="skin-1">

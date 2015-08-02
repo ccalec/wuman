@@ -343,8 +343,9 @@ define(function(require, exports, module) {
               var _param = {
                 category_id: _this.MY.cateid,
                 property_id: pid,
+                nodeid: pid,
                 value: value,
-                addtime: new Date().getTime()
+                add_time: (new Date().getTime()).toString()
               };
               var param = {
                 alias: 'category_property_values',
@@ -358,7 +359,7 @@ define(function(require, exports, module) {
                   },1500);
                 }
               });
-            });
+            },true);
           });
         },
         privateBindEditSku: function(){
