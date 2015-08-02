@@ -178,12 +178,12 @@
               </div>
               <!--$} -->
 
-              <!--$if(Object.keys(data.pMap).length){ -->
+
               <div class="control-group sku_property">
                 <label for="huohao" class="control-label">宝贝规格：</label>
                 <div class="controls">
                   <div class="profile-contact-links">
-
+                    <!--$if(Object.keys(data.pMap).length){ -->
                     <!--$for(var pid in data.pMap){ -->
                     <!--$var pObj = data.pMap[pid]; -->
                     <div class="control-group control-group-sm">
@@ -204,14 +204,14 @@
                       </div>
                     </div>
                     <!--$} -->
+                    <!--$}else{ -->
+                    <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd">点击添加类目属性</a></div>
 
-                    <!--}else{ -->
-                    <!-- <div class="nodata">该类目下无类目属性</div> -->
-                    <!-- <div class="nodata">该类目下无类目属性，<a href="${B}page/manager/CMSMgr.jsp?alias=category_properties&nodeid=${_}{data.cateid}&action=conPLAdd">点击添加类目属性</a></div> -->
-
+                    <!--$} -->
                   </div>
                 </div>
               </div>
+
 
               <div class="control-group">
                 <label for="" class="control-label">&nbsp;</label>
@@ -256,7 +256,7 @@
                   </form>
                 </div>
               </div>
-              <!--$} -->
+
             </div>
           </div>
         </div>

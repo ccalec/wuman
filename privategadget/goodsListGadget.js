@@ -294,8 +294,13 @@ define(function(require, exports, module) {
               }
               _this.API.addPost('searchCategoryByCid', 'goods', {cid: k.nodeid}, function(code,data){
                 if(code==0&&data){
-                  _desc.nodeid.type = 'Text';
-                  k.nodeid = data[0].root_catname+" - "+data[0].parent_catname;
+                  _desc.nodeid.type = 'Hidden';
+                  _desc.category = {
+                    title: '所属类目',
+                    type: 'Text',
+                    islist: 1
+                  };
+                  k.category = data[0].root_catname+" - "+data[0].parent_catname;
                 }
               });
             })
