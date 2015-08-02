@@ -176,7 +176,6 @@ define(function(require, exports, module) {
             }
             //给上下架默认时间
             if(_this.MY.action === 'conAdd'){
-              console.log(_data);
               _data.start_time  = (new Date().getTime()).toString();
               _data.end_time  = (new Date().getTime()).toString();
             };
