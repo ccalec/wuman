@@ -105,7 +105,7 @@ define(function(require, exports, module) {
               }else if(filterParam[prop]==5){ //从未上架
                 whereSql.push("and start_time = end_time");
               }else if(filterParam[prop]==6){ //新品优先
-                whereSql.push("and cid in (select item_id from (select item_id from wm_new_item where start_time < UNIX_TIMESTAMP()*1000 and UNIX_TIMESTAMP()*1000 < end_time order by cid desc limit 1000) a)");
+                whereSql.push("and cid in (select item_id from (select item_id from wm_new_item where start_time < UNIX_TIMESTAMP()*1000 and UNIX_TIMESTAMP()*1000 < end_time order by cid desc limit 1000) a) and start_time < UNIX_TIMESTAMP()*1000 and (UNIX_TIMESTAMP()*1000 < end_time)");
               }
             }
           }
