@@ -132,6 +132,14 @@
 				</span>
 			</a>
 		</li>
+		<li actionName="查询广告设置@cms.queryContent" style="display:none;">
+			<a href="${B}page/manager/CMSMgr.jsp?alias=advertisement">
+				<i class="icon-comments"></i>
+				<span class="menu-text">
+					广告设置
+				</span>
+			</a>
+		</li>
 		<li actionName="查询角色权限@cms.queryContent" style="display:none;">
 			<a href="${B}page/manager/CMSMgr.jsp?alias=roles">
 				<i class="icon-puzzle-piece"></i>
